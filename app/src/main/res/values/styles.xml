@@ -3,7 +3,24 @@
 
     <!-- Typography -->
     <style name="Headline3">
-        <item name="android:textColor">?attr/colorSecondary</item>
+        <item name="android:fontFamily">@font/playfairdisplay_extrabold</item>
+        <item name="android:textSize">21sp</item>
+        <item name="android:lineSpacingExtra">2sp</item>
+    </style>
+    <style name="Display1">
+        <item name="android:fontFamily">@font/poppins_extrabold</item>
+        <item name="android:textSize">34sp</item>
+        <item name="android:lineSpacingExtra">3sp</item>
+    </style>
+    <style name="Display3">
+        <item name="android:fontFamily">@font/poppins_bold</item>
+        <item name="android:textSize">16sp</item>
+        <item name="android:lineSpacingExtra">3sp</item>
+    </style>
+    <style name="Label">
+        <item name="android:fontFamily">@font/playfairdisplay_regular</item>
+        <item name="android:textSize">14sp</item>
+        <item name="android:lineSpacingExtra">3sp</item>
     </style>
 
 </resources>
