@@ -50,7 +50,7 @@
             app:layout_constraintTop_toTopOf="parent"
             app:layout_constraintEnd_toStartOf="@+id/IbScanBtn"
             app:layout_constraintBottom_toBottomOf="parent"
-            android:src="@drawable/transaction_inactive_ic"
+            android:src="@drawable/ic_transaction_button"
             android:scaleType="fitXY"
             android:contentDescription="@string/transaction_button"
             android:background="@android:color/transparent" />
@@ -62,7 +62,7 @@
             app:layout_constraintTop_toTopOf="parent"
             app:layout_constraintEnd_toStartOf="@+id/IbAddBtn"
             app:layout_constraintBottom_toBottomOf="parent"
-            android:src="@drawable/scan_inactive_ic"
+            android:src="@drawable/ic_scan_button"
             android:scaleType="fitXY"
             android:contentDescription="@string/scan_button"
             android:background="@android:color/transparent" />
@@ -86,7 +86,7 @@
             app:layout_constraintTop_toTopOf="parent"
             app:layout_constraintEnd_toStartOf="@+id/IbSettingsBtn"
             app:layout_constraintBottom_toBottomOf="parent"
-            android:src="@drawable/statistic_inactive_ic"
+            android:src="@drawable/ic_statistics_button"
             android:scaleType="fitXY"
             android:contentDescription="@string/statistics_button"
             android:background="@android:color/transparent" />
@@ -98,7 +98,7 @@
             app:layout_constraintTop_toTopOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintBottom_toBottomOf="parent"
-            android:src="@drawable/setting_inactive_ic"
+            android:src="@drawable/ic_settings_button"
             android:scaleType="fitXY"
             android:contentDescription="@string/settings_button"
             android:background="@android:color/transparent" />
