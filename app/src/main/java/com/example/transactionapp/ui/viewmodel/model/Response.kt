@@ -21,3 +21,8 @@ sealed class TokenResponseSealed {
     data class Loading(val boolean: Boolean) : TokenResponseSealed()
     data class Error(val message: String) : TokenResponseSealed()
 }
+
+
+enum class Status {
+    Available, Unavailable, Losing, Lost
+}
