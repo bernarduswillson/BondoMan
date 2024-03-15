@@ -4,7 +4,6 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@color/N9"
     tools:context=".ui.screen.login.LoginActivity">
 
     <include
@@ -31,12 +30,10 @@
         android:hint="Email"
         app:boxStrokeWidth="0dp"
         app:boxStrokeWidthFocused="0dp"
-        android:paddingHorizontal="-10dp"
-        app:hintTextColor="@color/N1"
-        app:cursorColor="@color/N1"
+        app:hintTextColor="?attr/colorSecondary"
+        app:cursorColor="?attr/colorSecondary"
         android:fontFamily="@font/poppins_regular"
         app:layout_constraintTop_toBottomOf="@id/guideline"
-        android:background="@drawable/bottom_border"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintEnd_toEndOf="parent">
 
@@ -44,9 +41,8 @@
             android:id="@+id/editTextEmail"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:textColor="@color/N1"
+            android:textColor="?attr/colorSecondary"
             android:fontFamily="@font/poppins_regular"
-            android:paddingBottom="8dp"
             android:inputType="textEmailAddress" />
 
     </com.google.android.material.textfield.TextInputLayout>
@@ -57,16 +53,14 @@
         android:layout_height="wrap_content"
         android:hint="Password"
         app:passwordToggleEnabled="true"
-        app:passwordToggleTint="@color/N1"
+        app:passwordToggleTint="?attr/colorSecondary"
         android:scrollbarSize="25dp"
         android:layout_marginTop="20dp"
         app:boxStrokeWidth="0dp"
         app:boxStrokeWidthFocused="0dp"
-        android:paddingHorizontal="-10dp"
-        app:hintTextColor="@color/N1"
-        app:cursorColor="@color/N1"
+        app:hintTextColor="?attr/colorSecondary"
+        app:cursorColor="?attr/colorSecondary"
         android:fontFamily="@font/poppins_regular"
-        android:background="@drawable/bottom_border"
         app:layout_constraintTop_toBottomOf="@id/editLayoutEmail"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintEnd_toEndOf="parent">
@@ -75,9 +69,8 @@
             android:id="@+id/editTextPassword"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:textColor="@color/N1"
+            android:textColor="?attr/colorSecondary"
             android:fontFamily="@font/poppins_regular"
-            android:paddingBottom="8dp"
             android:inputType="textPassword" />
 
     </com.google.android.material.textfield.TextInputLayout>
@@ -88,7 +81,7 @@
         android:layout_height="wrap_content"
         android:backgroundTint="@color/G5"
         android:text="Login"
-        android:textColor="@color/N1"
+        android:textColor="?attr/colorSecondary"
         android:textSize="15sp"
         app:cornerRadius="8dp"
         app:layout_constraintBottom_toBottomOf="parent"
