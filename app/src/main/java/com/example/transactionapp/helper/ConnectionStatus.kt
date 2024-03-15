@@ -24,8 +24,8 @@ class ConnectionStatus(context: Context, view: View) {
                     super.onAvailable(network)
                     _statusConnection.postValue(Status.Available)
                     Snackbar.make(view, "Comeback Online", Snackbar.LENGTH_SHORT)
-                        .setBackgroundTint(context.getColor(R.color.green))
-                        .setTextColor(context.getColor(R.color.white))
+                        .setBackgroundTint(context.getColor(R.color.G3))
+                        .setTextColor(context.getColor(R.color.N1))
                         .show()
                 }
 
