@@ -34,5 +34,75 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 
+    <!-- Navigation Bar -->
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:layout_width="match_parent"
+        android:layout_height="92dp"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        android:background="?attr/colorPrimaryVariant">
+        <ImageButton
+            android:id="@+id/IbTransactionBtn"
+            android:layout_width="36dp"
+            android:layout_height="36dp"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintEnd_toStartOf="@+id/IbScanBtn"
+            app:layout_constraintBottom_toBottomOf="parent"
+            android:src="@drawable/transaction_inactive_ic"
+            android:scaleType="fitXY"
+            android:contentDescription="@string/transaction_button"
+            android:background="@android:color/transparent" />
+        <ImageButton
+            android:id="@+id/IbScanBtn"
+            android:layout_width="36dp"
+            android:layout_height="36dp"
+            app:layout_constraintStart_toEndOf="@id/IbTransactionBtn"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintEnd_toStartOf="@+id/IbAddBtn"
+            app:layout_constraintBottom_toBottomOf="parent"
+            android:src="@drawable/scan_inactive_ic"
+            android:scaleType="fitXY"
+            android:contentDescription="@string/scan_button"
+            android:background="@android:color/transparent" />
+        <ImageButton
+            android:id="@+id/IbAddBtn"
+            android:layout_width="68dp"
+            android:layout_height="68dp"
+            app:layout_constraintStart_toEndOf="@id/IbScanBtn"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintEnd_toStartOf="@+id/IbStatisticsBtn"
+            app:layout_constraintBottom_toBottomOf="parent"
+            android:src="@drawable/add_ic"
+            android:scaleType="fitXY"
+            android:contentDescription="@string/add_transaction_button"
+            android:background="@android:color/transparent" />
+        <ImageButton
+            android:id="@+id/IbStatisticsBtn"
+            android:layout_width="36dp"
+            android:layout_height="36dp"
+            app:layout_constraintStart_toEndOf="@id/IbAddBtn"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintEnd_toStartOf="@+id/IbSettingsBtn"
+            app:layout_constraintBottom_toBottomOf="parent"
+            android:src="@drawable/statistic_inactive_ic"
+            android:scaleType="fitXY"
+            android:contentDescription="@string/statistics_button"
+            android:background="@android:color/transparent" />
+        <ImageButton
+            android:id="@+id/IbSettingsBtn"
+            android:layout_width="36dp"
+            android:layout_height="36dp"
+            app:layout_constraintStart_toEndOf="@id/IbStatisticsBtn"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintBottom_toBottomOf="parent"
+            android:src="@drawable/setting_inactive_ic"
+            android:scaleType="fitXY"
+            android:contentDescription="@string/settings_button"
+            android:background="@android:color/transparent" />
+    </androidx.constraintlayout.widget.ConstraintLayout>
+
 
 </androidx.constraintlayout.widget.ConstraintLayout>

@@ -6,4 +6,9 @@
 
     <!-- Alt -->
     <string name="alt_back_button">Back button</string>
+    <string name="transaction_button">Transaction button</string>
+    <string name="scan_button">Scan button</string>
+    <string name="add_transaction_button">Add transaction button</string>
+    <string name="statistics_button">Statistics button</string>
+    <string name="settings_button">Settings button</string>
 </resources>
