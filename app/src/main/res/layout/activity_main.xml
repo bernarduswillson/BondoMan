@@ -6,13 +6,115 @@
     android:layout_height="match_parent"
     tools:context=".ui.screen.MainActivity">
 
-    <TextView
+    <!-- Toolbar -->
+    <ImageButton
+        android:id="@+id/BtnBack"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="Hello World!"
-        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="@+id/TvToolbarTitle"
+        app:layout_constraintBottom_toBottomOf="@+id/TvToolbarTitle"
+        android:layout_marginStart="14dp"
+        android:src="@drawable/back_dark_ic"
+        android:background="@android:color/transparent"
+        android:contentDescription="@string/alt_back_button"/>
+
+    <TextView
+        android:id="@+id/TvToolbarTitle"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="20dp"
+        android:fontFamily="@font/playfairdisplay_extrabold"
+        android:lineSpacingExtra="3sp"
+        android:text="@string/title_transactions"
+        android:textAlignment="center"
+        android:textColor="?attr/colorSecondary"
+        android:textSize="21sp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
+
+    <!-- Fragment Placeholder -->
+<!--    <fragment-->
+<!--        android:id="@+id/nav_host_fragment"-->
+<!--        android:name="androidx.navigation.fragment.NavHostFragment"-->
+<!--        android:layout_width="match_parent"-->
+<!--        android:layout_height="match_parent"-->
+<!--        android:layout_marginTop="70dp"-->
+<!--        android:layout_marginBottom="92dp"-->
+<!--        app:layout_constraintTop_toBottomOf="@id/TvToolbarTitle"-->
+<!--        app:defaultNavHost="true"-->
+<!--        app:navGraph="@navigation/navigation" />-->
+
+    <!-- Navigation Bar -->
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:layout_width="match_parent"
+        android:layout_height="92dp"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        android:background="?attr/colorPrimaryVariant">
+        <ImageButton
+            android:id="@+id/IbTransactionBtn"
+            android:layout_width="36dp"
+            android:layout_height="36dp"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintEnd_toStartOf="@+id/IbScanBtn"
+            app:layout_constraintBottom_toBottomOf="parent"
+            android:src="@drawable/ic_transaction_button"
+            android:scaleType="fitXY"
+            android:contentDescription="@string/transaction_button"
+            android:background="@android:color/transparent" />
+        <ImageButton
+            android:id="@+id/IbScanBtn"
+            android:layout_width="36dp"
+            android:layout_height="36dp"
+            app:layout_constraintStart_toEndOf="@id/IbTransactionBtn"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintEnd_toStartOf="@+id/IbAddBtn"
+            app:layout_constraintBottom_toBottomOf="parent"
+            android:src="@drawable/ic_scan_button"
+            android:scaleType="fitXY"
+            android:contentDescription="@string/scan_button"
+            android:background="@android:color/transparent" />
+        <ImageButton
+            android:id="@+id/IbAddBtn"
+            android:layout_width="68dp"
+            android:layout_height="68dp"
+            app:layout_constraintStart_toEndOf="@id/IbScanBtn"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintEnd_toStartOf="@+id/IbStatisticsBtn"
+            app:layout_constraintBottom_toBottomOf="parent"
+            android:src="@drawable/add_ic"
+            android:scaleType="fitXY"
+            android:contentDescription="@string/add_transaction_button"
+            android:background="@android:color/transparent" />
+        <ImageButton
+            android:id="@+id/IbStatisticsBtn"
+            android:layout_width="36dp"
+            android:layout_height="36dp"
+            app:layout_constraintStart_toEndOf="@id/IbAddBtn"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintEnd_toStartOf="@+id/IbSettingsBtn"
+            app:layout_constraintBottom_toBottomOf="parent"
+            android:src="@drawable/ic_statistics_button"
+            android:scaleType="fitXY"
+            android:contentDescription="@string/statistics_button"
+            android:background="@android:color/transparent" />
+        <ImageButton
+            android:id="@+id/IbSettingsBtn"
+            android:layout_width="36dp"
+            android:layout_height="36dp"
+            app:layout_constraintStart_toEndOf="@id/IbStatisticsBtn"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintBottom_toBottomOf="parent"
+            android:src="@drawable/ic_settings_button"
+            android:scaleType="fitXY"
+            android:contentDescription="@string/settings_button"
+            android:background="@android:color/transparent" />
+    </androidx.constraintlayout.widget.ConstraintLayout>
+
 
 </androidx.constraintlayout.widget.ConstraintLayout>

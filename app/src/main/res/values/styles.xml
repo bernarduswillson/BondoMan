@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+    <!-- Typography -->
+    <style name="Headline3">
+        <item name="android:textColor">?attr/colorSecondary</item>
+    </style>
+
+</resources>

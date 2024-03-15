@@ -19,6 +19,10 @@ android {
         testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
     }
 
+    dataBinding {
+        enable = true
+    }
+
     buildTypes {
         release {
             isMinifyEnabled = false
@@ -44,16 +48,24 @@ dependencies {
     val room_version = "2.6.1"
 
 
+    // Widgets
     implementation("androidx.core:core-ktx:1.12.0")
+    implementation("androidx.compose.runtime:runtime-livedata:1.6.3")
     implementation("androidx.appcompat:appcompat:1.6.1")
-    implementation("com.google.android.material:material:1.11.0")
     implementation("androidx.constraintlayout:constraintlayout:2.1.4")
+    implementation("com.google.android.material:material:1.11.0")
+    implementation("androidx.navigation:navigation-fragment-ktx:2.7.7")
+
+
+    // Testing
     testImplementation("junit:junit:4.13.2")
     androidTestImplementation("androidx.test.ext:junit:1.1.5")
     androidTestImplementation("androidx.test.espresso:espresso-core:3.5.1")
+
+
+    // Lifecycle
     implementation("androidx.lifecycle:lifecycle-runtime-ktx:2.7.0")
     implementation("androidx.lifecycle:lifecycle-viewmodel-ktx:2.7.0")
-    implementation("androidx.compose.runtime:runtime-livedata:1.6.3")
 
 
     // Dagger - Hilt
