@@ -15,8 +15,5 @@ class MainActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
-
-        // Enable action bar.
-        setSupportActionBar(findViewById(R.id.actionBar))
     }
 }

@@ -1,6 +1,9 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <style name="ActionBar" parent="Base.Theme.TransactionApp">
-        <item name="android:textColor">?attr/textAppearanceHeadline3</item>
+
+    <!-- Typography -->
+    <style name="Headline3">
+        <item name="android:textColor">?attr/colorSecondary</item>
     </style>
+
 </resources>

@@ -6,14 +6,33 @@
     android:layout_height="match_parent"
     tools:context=".ui.screen.MainActivity">
 
-    <androidx.appcompat.widget.Toolbar
-        android:id="@+id/actionBar"
-        android:layout_width="match_parent"
-        android:layout_height="?attr/actionBarSize"
-        app:layout_constraintTop_toTopOf="parent"
-        android:background="?attr/colorPrimary"
-        android:theme="@style/ThemeOverlay.AppCompat.DayNight.ActionBar"
-        app:popupTheme="@style/ThemeOverlay.AppCompat.DayNight">
-    </androidx.appcompat.widget.Toolbar>
+    <!-- Toolbar -->
+    <ImageButton
+        android:id="@+id/BtnBack"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="@+id/TvToolbarTitle"
+        app:layout_constraintBottom_toBottomOf="@+id/TvToolbarTitle"
+        android:layout_marginStart="14dp"
+        android:src="@drawable/back_dark_ic"
+        android:background="@android:color/transparent"
+        android:contentDescription="@string/alt_back_button"/>
+
+    <TextView
+        android:id="@+id/TvToolbarTitle"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="20dp"
+        android:fontFamily="@font/playfairdisplay_extrabold"
+        android:lineSpacingExtra="3sp"
+        android:text="@string/title_transactions"
+        android:textAlignment="center"
+        android:textColor="?attr/colorSecondary"
+        android:textSize="21sp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
 
 </androidx.constraintlayout.widget.ConstraintLayout>

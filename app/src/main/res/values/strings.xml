@@ -1,5 +1,9 @@
 <resources>
     <string name="app_name">BondoMan</string>
-    <string name="menu_about">About</string>
+
+    <!-- Toolbar -->
     <string name="title_transactions">Transactions</string>
+
+    <!-- Alt -->
+    <string name="alt_back_button">Back button</string>
 </resources>

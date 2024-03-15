@@ -5,12 +5,8 @@
         <item name="colorPrimary">@color/N9</item>
         <item name="colorSecondary">@color/N1</item>
         <item name="colorAccent">@color/G5</item>
+
+        <!-- App -->
         <item name="android:windowBackground">?attr/colorPrimary</item>
-
-        <!-- Typography -->
-        <item name="textAppearanceHeadline3">@color/N1</item>
-
-        <!-- Navigation -->
-        <item name="actionBarStyle">@style/ActionBar</item>
     </style>
 </resources>
