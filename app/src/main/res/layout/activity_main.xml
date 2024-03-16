@@ -4,35 +4,35 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".ui.screen.MainActivity">
+    tools:context=".ui.screen.mainmenu.MainActivity">
 
     <!-- Toolbar -->
-    <ImageButton
-        android:id="@+id/BtnBack"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="@+id/TvToolbarTitle"
-        app:layout_constraintBottom_toBottomOf="@+id/TvToolbarTitle"
-        android:layout_marginStart="14dp"
-        android:src="@drawable/back_dark_ic"
-        android:background="@android:color/transparent"
-        android:contentDescription="@string/alt_back_button"/>
+<!--    <ImageButton-->
+<!--        android:id="@+id/BtnBack"-->
+<!--        android:layout_width="wrap_content"-->
+<!--        android:layout_height="wrap_content"-->
+<!--        app:layout_constraintStart_toStartOf="parent"-->
+<!--        app:layout_constraintTop_toTopOf="@+id/TvToolbarTitle"-->
+<!--        app:layout_constraintBottom_toBottomOf="@+id/TvToolbarTitle"-->
+<!--        android:layout_marginStart="14dp"-->
+<!--        android:src="@drawable/back_dark_ic"-->
+<!--        android:background="@android:color/transparent"-->
+<!--        android:contentDescription="@string/alt_back_button"/>-->
 
-    <TextView
-        android:id="@+id/TvToolbarTitle"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="20dp"
-        android:fontFamily="@font/playfairdisplay_extrabold"
-        android:lineSpacingExtra="3sp"
-        android:text="@string/title_transactions"
-        android:textAlignment="center"
-        android:textColor="?attr/colorSecondary"
-        android:textSize="21sp"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
+<!--    <TextView-->
+<!--        android:id="@+id/TvToolbarTitle"-->
+<!--        android:layout_width="wrap_content"-->
+<!--        android:layout_height="wrap_content"-->
+<!--        android:layout_marginTop="20dp"-->
+<!--        android:fontFamily="@font/playfairdisplay_extrabold"-->
+<!--        android:lineSpacingExtra="3sp"-->
+<!--        android:text="@string/title_transactions"-->
+<!--        android:textAlignment="center"-->
+<!--        android:textColor="?attr/colorSecondary"-->
+<!--        android:textSize="21sp"-->
+<!--        app:layout_constraintEnd_toEndOf="parent"-->
+<!--        app:layout_constraintStart_toStartOf="parent"-->
+<!--        app:layout_constraintTop_toTopOf="parent" />-->
 
     <!-- Fragment Placeholder -->
 <!--    <fragment-->
@@ -46,75 +46,135 @@
 <!--        app:defaultNavHost="true"-->
 <!--        app:navGraph="@navigation/navigation" />-->
 
-    <!-- Navigation Bar -->
-    <androidx.constraintlayout.widget.ConstraintLayout
+    <FrameLayout
+        android:id="@+id/navHostFragment"
         android:layout_width="match_parent"
-        android:layout_height="92dp"
+        android:layout_height="0dp"
+        app:layout_constraintBottom_toTopOf="@+id/coordinateLayout"
+        app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <androidx.coordinatorlayout.widget.CoordinatorLayout
+        android:id="@+id/coordinateLayout"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        app:fabCradleMargin="20dp"
+        android:background="@android:color/transparent"
+        app:fabCradleVerticalOffset="10dp"
+        app:fabCradleRoundedCornerRadius="20dp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        android:background="?attr/colorPrimaryVariant">
-        <ImageButton
-            android:id="@+id/IbTransactionBtn"
-            android:layout_width="36dp"
-            android:layout_height="36dp"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent"
-            app:layout_constraintEnd_toStartOf="@+id/IbScanBtn"
-            app:layout_constraintBottom_toBottomOf="parent"
-            android:src="@drawable/ic_transaction_button"
-            android:scaleType="fitXY"
-            android:contentDescription="@string/transaction_button"
-            android:background="@android:color/transparent" />
-        <ImageButton
-            android:id="@+id/IbScanBtn"
-            android:layout_width="36dp"
-            android:layout_height="36dp"
-            app:layout_constraintStart_toEndOf="@id/IbTransactionBtn"
-            app:layout_constraintTop_toTopOf="parent"
-            app:layout_constraintEnd_toStartOf="@+id/IbAddBtn"
-            app:layout_constraintBottom_toBottomOf="parent"
-            android:src="@drawable/ic_scan_button"
-            android:scaleType="fitXY"
-            android:contentDescription="@string/scan_button"
-            android:background="@android:color/transparent" />
-        <ImageButton
-            android:id="@+id/IbAddBtn"
-            android:layout_width="68dp"
-            android:layout_height="68dp"
-            app:layout_constraintStart_toEndOf="@id/IbScanBtn"
-            app:layout_constraintTop_toTopOf="parent"
-            app:layout_constraintEnd_toStartOf="@+id/IbStatisticsBtn"
-            app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintStart_toStartOf="parent">
+        <com.google.android.material.bottomappbar.BottomAppBar
+            android:id="@+id/bottomAppBar"
+            android:layout_width="match_parent"
+            android:background="@android:color/transparent"
+            style="@style/Widget.MaterialComponents.BottomAppBar.Colored"
+            android:layout_height="wrap_content">
+            <com.google.android.material.bottomnavigation.BottomNavigationView
+                android:id="@+id/bottomNavigationView"
+                android:layout_width="match_parent"
+                android:background="@android:color/transparent"
+                android:layout_gravity="center"
+                android:layout_height="60dp"
+                android:layout_marginEnd="15dp"
+                app:itemIconSize="25dp"
+                app:itemIconTint="?attr/colorSecondary"
+                app:itemTextColor="?attr/colorSecondary"
+                app:menu="@menu/button_menu" />
+        </com.google.android.material.bottomappbar.BottomAppBar>
+
+        <com.google.android.material.floatingactionbutton.FloatingActionButton
+            android:id="@+id/fabAddTransaction"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:background="@android:color/transparent"
+            app:layout_anchor="@id/bottomAppBar"
             android:src="@drawable/add_ic"
-            android:scaleType="fitXY"
-            android:contentDescription="@string/add_transaction_button"
-            android:background="@android:color/transparent" />
-        <ImageButton
-            android:id="@+id/IbStatisticsBtn"
-            android:layout_width="36dp"
-            android:layout_height="36dp"
-            app:layout_constraintStart_toEndOf="@id/IbAddBtn"
-            app:layout_constraintTop_toTopOf="parent"
-            app:layout_constraintEnd_toStartOf="@+id/IbSettingsBtn"
-            app:layout_constraintBottom_toBottomOf="parent"
-            android:src="@drawable/ic_statistics_button"
-            android:scaleType="fitXY"
-            android:contentDescription="@string/statistics_button"
-            android:background="@android:color/transparent" />
-        <ImageButton
-            android:id="@+id/IbSettingsBtn"
-            android:layout_width="36dp"
-            android:layout_height="36dp"
-            app:layout_constraintStart_toEndOf="@id/IbStatisticsBtn"
-            app:layout_constraintTop_toTopOf="parent"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintBottom_toBottomOf="parent"
-            android:src="@drawable/ic_settings_button"
-            android:scaleType="fitXY"
-            android:contentDescription="@string/settings_button"
-            android:background="@android:color/transparent" />
-    </androidx.constraintlayout.widget.ConstraintLayout>
+            app:maxImageSize="50dp"
+            app:fabCustomSize="60dp"
+            app:fabSize="auto"
+            />
+    </androidx.coordinatorlayout.widget.CoordinatorLayout>
+
+    <!-- Navigation Bar -->
+
+<!--    <androidx.constraintlayout.widget.ConstraintLayout-->
+<!--        android:id="@+id/constraintLayout2"-->
+<!--        android:layout_width="match_parent"-->
+<!--        android:layout_height="92dp"-->
+<!--        android:background="?attr/colorPrimaryVariant"-->
+<!--        app:layout_constraintBottom_toBottomOf="parent"-->
+<!--        app:layout_constraintEnd_toEndOf="parent"-->
+<!--        app:layout_constraintStart_toStartOf="parent">-->
+
+<!--        <ImageButton-->
+<!--            android:id="@+id/IbTransactionBtn"-->
+<!--            android:layout_width="36dp"-->
+<!--            android:layout_height="36dp"-->
+<!--            android:background="@android:color/transparent"-->
+<!--            android:clickable="true"-->
+<!--            android:contentDescription="@string/transaction_button"-->
+<!--            android:scaleType="fitXY"-->
+<!--            android:src="@drawable/transaction_ic"-->
+<!--            app:layout_constraintBottom_toBottomOf="parent"-->
+<!--            app:layout_constraintEnd_toStartOf="@+id/IbScanBtn"-->
+<!--            app:layout_constraintStart_toStartOf="parent"-->
+<!--            app:layout_constraintTop_toTopOf="parent" />-->
+
+<!--        <ImageButton-->
+<!--            android:id="@+id/IbScanBtn"-->
+<!--            android:layout_width="36dp"-->
+<!--            android:layout_height="36dp"-->
+<!--            android:background="@android:color/transparent"-->
+<!--            android:contentDescription="@string/scan_button"-->
+<!--            android:scaleType="fitXY"-->
+<!--            android:src="@drawable/ic_scan_button"-->
+<!--            app:layout_constraintBottom_toBottomOf="parent"-->
+<!--            app:layout_constraintEnd_toStartOf="@+id/IbAddBtn"-->
+<!--            app:layout_constraintStart_toEndOf="@id/IbTransactionBtn"-->
+<!--            app:layout_constraintTop_toTopOf="parent" />-->
+
+<!--        <ImageButton-->
+<!--            android:id="@+id/IbAddBtn"-->
+<!--            android:layout_width="68dp"-->
+<!--            android:layout_height="68dp"-->
+<!--            android:background="@android:color/transparent"-->
+<!--            android:contentDescription="@string/add_transaction_button"-->
+<!--            android:scaleType="fitXY"-->
+<!--            android:src="@drawable/add_ic"-->
+<!--            app:layout_constraintBottom_toBottomOf="parent"-->
+<!--            app:layout_constraintEnd_toStartOf="@+id/IbStatisticsBtn"-->
+<!--            app:layout_constraintStart_toEndOf="@id/IbScanBtn"-->
+<!--            app:layout_constraintTop_toTopOf="parent" />-->
+
+<!--        <ImageButton-->
+<!--            android:id="@+id/IbStatisticsBtn"-->
+<!--            android:layout_width="36dp"-->
+<!--            android:layout_height="36dp"-->
+<!--            android:background="@android:color/transparent"-->
+<!--            android:contentDescription="@string/statistics_button"-->
+<!--            android:scaleType="fitXY"-->
+<!--            android:src="@drawable/ic_statistics_button"-->
+<!--            app:layout_constraintBottom_toBottomOf="parent"-->
+<!--            app:layout_constraintEnd_toStartOf="@+id/IbSettingsBtn"-->
+<!--            app:layout_constraintStart_toEndOf="@id/IbAddBtn"-->
+<!--            app:layout_constraintTop_toTopOf="parent" />-->
+
+<!--        <ImageButton-->
+<!--            android:id="@+id/IbSettingsBtn"-->
+<!--            android:layout_width="36dp"-->
+<!--            android:layout_height="36dp"-->
+<!--            android:background="@android:color/transparent"-->
+<!--            android:contentDescription="@string/settings_button"-->
+<!--            android:scaleType="fitXY"-->
+<!--            android:src="@drawable/ic_settings_button"-->
+<!--            app:layout_constraintBottom_toBottomOf="parent"-->
+<!--            app:layout_constraintEnd_toEndOf="parent"-->
+<!--            app:layout_constraintStart_toEndOf="@id/IbStatisticsBtn"-->
+<!--            app:layout_constraintTop_toTopOf="parent" />-->
+<!--    </androidx.constraintlayout.widget.ConstraintLayout>-->
 
 
 </androidx.constraintlayout.widget.ConstraintLayout>
