@@ -6,6 +6,7 @@ import androidx.room.Insert
 import androidx.room.Query
 import androidx.room.Update
 import com.example.transactionapp.domain.db.model.Transaction
+import java.util.Date
 
 @Dao
 interface TransactionDao {
@@ -26,4 +27,7 @@ interface TransactionDao {
 
     @Query("SELECT * FROM transactions Order By id ASC")
     suspend fun getAllTransactionsAsc(): List<Transaction>
+
+    @Query("SELECT createdAt FROM transactions")
+    suspend fun getAllFormattedDates(): List<Date>
 }

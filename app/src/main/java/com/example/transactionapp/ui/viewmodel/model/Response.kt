@@ -1,8 +1,11 @@
 package com.example.transactionapp.ui.viewmodel.model
 
+import androidx.room.PrimaryKey
 import com.example.transactionapp.domain.api.model.BillResponse
 import com.example.transactionapp.domain.api.model.LoginResponse
 import com.example.transactionapp.domain.api.model.TokenResponse
+import com.example.transactionapp.domain.db.model.Transaction
+import java.util.Date
 
 sealed class LoginResponseSealed {
     data class Success(val data: LoginResponse): LoginResponseSealed()
@@ -21,6 +24,20 @@ sealed class TokenResponseSealed {
     data class Loading(val boolean: Boolean) : TokenResponseSealed()
     data class Error(val message: String) : TokenResponseSealed()
 }
+
+data class TransactionDateList(
+    val date: String,
+    val listTransaction: MutableList<TransactionDate>
+)
+
+data class TransactionDate(
+    val id: Int? = null,
+    val title: String,
+    val category: String,
+    val nominal: Int,
+    val location: String,
+    val createdAt: String
+)
 
 
 enum class Status {
