@@ -22,7 +22,8 @@
             android:fontFamily="@font/playfairdisplay_extrabold"
             app:layout_constraintTop_toTopOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintEnd_toEndOf="parent" />
+            app:layout_constraintEnd_toEndOf="parent"
+            android:contentDescription="Transantion Text"/>
 
         <androidx.constraintlayout.widget.ConstraintLayout
             android:id="@+id/formLayout"
@@ -51,14 +52,16 @@
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:padding="7dp"
-                android:text="Transaction title"
+                android:hint="Transaction title"
+                android:textColorHint="@color/N6"
                 android:textSize="16sp"
-                android:textColor="@color/N6"
+                android:textColor="@color/N1"
                 android:fontFamily="@font/poppins_regular"
                 app:layout_constraintTop_toBottomOf="@id/titleLabel"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintEnd_toEndOf="parent"
                 android:layout_marginTop="5dp"
+                android:maxLines="1"
                 android:background="@drawable/rounded_input_field"/>
 
             <TextView
@@ -102,21 +105,20 @@
                 app:layout_constraintTop_toBottomOf="@id/dateInput"
                 app:layout_constraintStart_toStartOf="parent" />
 
-            <EditText
+            <Spinner
                 android:id="@+id/categoryInput"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
-                android:padding="7dp"
+                android:paddingVertical="10dp"
+                android:paddingHorizontal="7dp"
                 android:text="Choose category"
                 android:textSize="16sp"
-                android:textColor="@color/N6"
                 android:fontFamily="@font/poppins_regular"
                 app:layout_constraintTop_toBottomOf="@id/categoryLabel"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintEnd_toEndOf="parent"
                 android:layout_marginTop="5dp"
-                android:background="@drawable/rounded_input_field"
-                android:drawableEnd="@drawable/arrow_down"/>
+                android:background="@drawable/spinner_input_field"/>
 
             <TextView
                 android:id="@+id/amountLabel"
@@ -136,14 +138,17 @@
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:padding="7dp"
-                android:text="0"
+                android:hint="0"
+                android:textColorHint="@color/N6"
+                android:inputType="number"
                 android:textSize="16sp"
-                android:textColor="@color/N6"
+                android:textColor="@color/N1"
                 android:fontFamily="@font/poppins_regular"
                 app:layout_constraintTop_toBottomOf="@id/amountLabel"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintEnd_toEndOf="parent"
                 android:layout_marginTop="5dp"
+                android:maxLines="1"
                 android:background="@drawable/rounded_input_field"/>
 
             <TextView
@@ -164,7 +169,7 @@
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:padding="7dp"
-                android:text="Jl. Sayang No. 69"
+                android:text=""
                 android:textSize="16sp"
                 android:textColor="@color/N6"
                 android:fontFamily="@font/poppins_regular"
