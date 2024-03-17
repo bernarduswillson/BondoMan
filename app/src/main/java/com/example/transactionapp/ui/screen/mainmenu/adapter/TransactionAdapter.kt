@@ -13,7 +13,7 @@ import com.example.transactionapp.ui.viewmodel.model.TransactionDateList
 class TransactionAdapter(
     private val listTransactionHistory: List<TransactionDateList>
 ): RecyclerView.Adapter<TransactionAdapter.TransactionHistoryItem>() {
-    inner class TransactionHistoryItem(val itemView: View): RecyclerView.ViewHolder(itemView){
+    inner class TransactionHistoryItem(itemView: View): RecyclerView.ViewHolder(itemView){
         val linearLayout: LinearLayout = itemView.findViewById(R.id.transactionContainer)
         val dateText: TextView = itemView.findViewById(R.id.dateText)
     }
