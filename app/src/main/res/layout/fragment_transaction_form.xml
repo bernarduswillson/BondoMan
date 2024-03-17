@@ -181,7 +181,7 @@
                 android:drawableEnd="@drawable/location_ic"/>
 
             <Button
-                android:id="@+id/loginButton"
+                android:id="@+id/newTransactionButton"
                 android:layout_width="0dp"
                 android:layout_height="40dp"
                 android:background="@drawable/rounded_button"

@@ -1,11 +1,13 @@
 package com.example.transactionapp.ui.screen.mainmenu.adapter
 
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.ImageView
 import android.widget.LinearLayout
 import android.widget.TextView
+import androidx.core.content.ContextCompat
 import androidx.recyclerview.widget.RecyclerView
 import com.example.transactionapp.R
 import com.example.transactionapp.ui.viewmodel.model.TransactionDateList
@@ -34,11 +36,13 @@ class TransactionAdapter(
             val location: TextView = transactionCard.findViewById(R.id.location)
             val nominal: TextView = transactionCard.findViewById(R.id.nominalTransaction)
 
+            Log.d("TransactionAdapter", "onBindViewHolder: ${it.colorText}")
+
             imageTransaction.setImageResource(it.icon)
             transactionObject.text = it.title
             location.text = it.location
             nominal.text = it.nominal
-            nominal.setTextColor(it.colorText)
+            nominal.setTextColor(ContextCompat.getColor(holder.itemView.context, it.colorText))
 
             holder.linearLayout.addView(transactionCard)
         }

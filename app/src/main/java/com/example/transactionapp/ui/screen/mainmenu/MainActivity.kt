@@ -25,8 +25,8 @@ class MainActivity : AppCompatActivity() {
         setContentView(binding.root)
 
         db = ViewModelProvider(this)[TransactionViewModel::class.java]
-        db.getTransactions("all")
         db.getAllDate()
+        db.getTransactions("all")
 
         val frame = R.id.navHostFragment
 
@@ -48,6 +48,8 @@ class MainActivity : AppCompatActivity() {
         binding.bottomNavigationView.setOnItemSelectedListener { item ->
             when(item.itemId){
                 R.id.IbTransactionBtn -> {
+                    db.getAllDate()
+                    db.getTransactions("all")
                     fragment = supportFragmentManager.beginTransaction()
                     fragment.replace(frame, Transaction())
                     fragment.addToBackStack(null)
@@ -80,5 +82,11 @@ class MainActivity : AppCompatActivity() {
                 }
             }
         }
+    }
+
+    override fun onStart() {
+        super.onStart()
+        db = ViewModelProvider(this)[TransactionViewModel::class.java]
+        db.getAllDate()
     }
 }

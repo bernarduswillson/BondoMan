@@ -25,12 +25,16 @@ class TransactionViewModel @Inject constructor(
 ): ViewModel() {
     private val _dateAll: MutableLiveData<List<TransactionDateList>> = MutableLiveData()
     private val _transaction: MutableLiveData<List<Transaction>> = MutableLiveData()
+    private val _balance: MutableLiveData<Long> = MutableLiveData()
 
     val transaction: LiveData<List<Transaction>>
         get() = _transaction
 
     val dateAll: LiveData<List<TransactionDateList>>
         get() = _dateAll
+
+    val balance: LiveData<Long>
+        get() = _balance
 
     fun insertTransaction(transaction: Transaction) {
         viewModelScope.launch {
@@ -51,14 +55,25 @@ class TransactionViewModel @Inject constructor(
     }
 
     fun getTransactions(type: String) {
+        var sum = 0L
         viewModelScope.launch {
-            _transaction.postValue(
+            val response =
                 when (type) {
                     "desc" -> transactionDatabaseRepoImpl.getAllTransactionsDesc()
                     "asc" -> transactionDatabaseRepoImpl.getAllTransactionsAsc()
                     else -> transactionDatabaseRepoImpl.getAllTransactions()
                 }
-            )
+
+            _transaction.postValue(response)
+            response.forEach {
+                if(it.category == "Expense"){
+                    sum -= it.nominal
+                } else {
+                    sum += it.nominal
+                }
+            }
+            Log.d("TransactionViewModel", "getTransactions: $sum")
+            _balance.postValue(sum)
         }
     }
 
@@ -67,7 +82,7 @@ class TransactionViewModel @Inject constructor(
 
             val data = TreeMap<String, MutableList<TransactionDate>>()
             val listData: MutableList<TransactionDateList> = mutableListOf()
-            val response = transactionDatabaseRepoImpl.getAllTransactionsAsc()
+            val response = transactionDatabaseRepoImpl.getAllTransactionsDesc()
             response.forEach {
                 if (!data.containsKey(changeDateTypeToStandardDateLocal(it.createdAt))){
                     data[changeDateTypeToStandardDateLocal(it.createdAt)] = mutableListOf()
