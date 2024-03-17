@@ -14,6 +14,7 @@ import com.example.transactionapp.ui.screen.mainmenu.fragment.Transaction
 import com.example.transactionapp.ui.screen.mainmenu.fragment.TransactionForm
 import com.example.transactionapp.ui.viewmodel.transaction.TransactionViewModel
 import dagger.hilt.android.AndroidEntryPoint
+import java.util.Date
 
 @AndroidEntryPoint
 class MainActivity : AppCompatActivity() {
@@ -27,6 +28,7 @@ class MainActivity : AppCompatActivity() {
         db = ViewModelProvider(this)[TransactionViewModel::class.java]
         db.getAllDate()
         db.getTransactions("all")
+        db.getCashFlowAndGrowthByMonth(Date())
 
         val frame = R.id.navHostFragment
 
@@ -50,6 +52,7 @@ class MainActivity : AppCompatActivity() {
                 R.id.IbTransactionBtn -> {
                     db.getAllDate()
                     db.getTransactions("all")
+                    db.getCashFlowAndGrowthByMonth(Date())
                     fragment = supportFragmentManager.beginTransaction()
                     fragment.replace(frame, Transaction())
                     fragment.addToBackStack(null)

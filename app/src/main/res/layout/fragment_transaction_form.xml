@@ -23,7 +23,7 @@
             app:layout_constraintTop_toTopOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
-            android:contentDescription="Transantion Text"/>
+            android:contentDescription="new transaction" />
 
         <androidx.constraintlayout.widget.ConstraintLayout
             android:id="@+id/formLayout"
@@ -45,7 +45,8 @@
                 android:fontFamily="@font/playfairdisplay_semibold"
                 android:layout_marginTop="15dp"
                 app:layout_constraintTop_toTopOf="@id/formLayout"
-                app:layout_constraintStart_toStartOf="parent" />
+                app:layout_constraintStart_toStartOf="parent"
+                android:contentDescription="transaction title" />
 
             <EditText
                 android:id="@+id/titleInput"
@@ -62,7 +63,8 @@
                 app:layout_constraintEnd_toEndOf="parent"
                 android:layout_marginTop="5dp"
                 android:maxLines="1"
-                android:background="@drawable/rounded_input_field"/>
+                android:background="@drawable/rounded_input_field"
+                android:contentDescription="transaction title input" />
 
             <TextView
                 android:id="@+id/dateLabel"
@@ -75,7 +77,8 @@
                 android:fontFamily="@font/playfairdisplay_semibold"
                 android:layout_marginTop="15dp"
                 app:layout_constraintTop_toBottomOf="@id/titleInput"
-                app:layout_constraintStart_toStartOf="parent" />
+                app:layout_constraintStart_toStartOf="parent"
+                android:contentDescription="current date" />
 
             <TextView
                 android:id="@+id/dateInput"
@@ -90,7 +93,8 @@
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintEnd_toEndOf="parent"
                 android:layout_marginTop="5dp"
-                android:background="@drawable/rounded_input_field"/>
+                android:background="@drawable/rounded_input_field"
+                android:contentDescription="current date input" />
 
             <TextView
                 android:id="@+id/categoryLabel"
@@ -103,7 +107,8 @@
                 android:fontFamily="@font/playfairdisplay_semibold"
                 android:layout_marginTop="15dp"
                 app:layout_constraintTop_toBottomOf="@id/dateInput"
-                app:layout_constraintStart_toStartOf="parent" />
+                app:layout_constraintStart_toStartOf="parent"
+                android:contentDescription="transaction category" />
 
             <Spinner
                 android:id="@+id/categoryInput"
@@ -118,7 +123,8 @@
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintEnd_toEndOf="parent"
                 android:layout_marginTop="5dp"
-                android:background="@drawable/spinner_input_field"/>
+                android:background="@drawable/spinner_input_field"
+                android:contentDescription="transaction category input" />
 
             <TextView
                 android:id="@+id/amountLabel"
@@ -131,7 +137,8 @@
                 android:fontFamily="@font/playfairdisplay_semibold"
                 android:layout_marginTop="15dp"
                 app:layout_constraintTop_toBottomOf="@id/categoryInput"
-                app:layout_constraintStart_toStartOf="parent" />
+                app:layout_constraintStart_toStartOf="parent"
+                android:contentDescription="transaction amount" />
 
             <EditText
                 android:id="@+id/amountInput"
@@ -149,7 +156,8 @@
                 app:layout_constraintEnd_toEndOf="parent"
                 android:layout_marginTop="5dp"
                 android:maxLines="1"
-                android:background="@drawable/rounded_input_field"/>
+                android:background="@drawable/rounded_input_field"
+                android:contentDescription="transaction amount input" />
 
             <TextView
                 android:id="@+id/locationLabel"
@@ -162,7 +170,8 @@
                 android:fontFamily="@font/playfairdisplay_semibold"
                 android:layout_marginTop="15dp"
                 app:layout_constraintTop_toBottomOf="@id/amountInput"
-                app:layout_constraintStart_toStartOf="parent" />
+                app:layout_constraintStart_toStartOf="parent"
+                android:contentDescription="current location" />
 
             <TextView
                 android:id="@+id/locationInput"
@@ -178,7 +187,8 @@
                 app:layout_constraintEnd_toEndOf="parent"
                 android:layout_marginTop="5dp"
                 android:background="@drawable/rounded_input_field"
-                android:drawableEnd="@drawable/location_ic"/>
+                android:drawableEnd="@drawable/location_ic"
+                android:contentDescription="current location input" />
 
             <Button
                 android:id="@+id/newTransactionButton"
@@ -194,7 +204,8 @@
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@+id/locationInput"
-                app:layout_constraintVertical_bias="0.3"/>
+                app:layout_constraintVertical_bias="0.3"
+                android:contentDescription="save transaction" />
 
         </androidx.constraintlayout.widget.ConstraintLayout>
 

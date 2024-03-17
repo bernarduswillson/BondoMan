@@ -38,6 +38,13 @@ class Transaction : Fragment() {
         db.balance.observe(requireActivity()){
             binding.balanceText.text = if (it<0) "- "+changeNominalToIDN(abs(it)) else changeNominalToIDN(it)
         }
+        db.cashFlow.observe(requireActivity()){
+            binding.cashflowText.text = changeNominalToIDN(it)
+        }
+        db.growth.observe(requireActivity()){
+            binding.growthText.text = it.toString()+"%"
+        }
+
         return binding.root
     }
 }

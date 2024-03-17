@@ -66,11 +66,11 @@ class TransactionForm : Fragment() {
                 position: Int,
                 id: Long
             ) {
-                Toast.makeText(requireActivity(), "Selected: " + categories[position], Toast.LENGTH_SHORT).show()
+                Log.d("TransactionForm", "onItemSelected: ${categories[position]}")
             }
 
             override fun onNothingSelected(parent: AdapterView<*>?) {
-                Toast.makeText(requireActivity(), "Nothing Selected", Toast.LENGTH_SHORT).show()
+                Log.d("TransactionForm", "onNothingSelected: ")
             }
         }
 
@@ -82,20 +82,28 @@ class TransactionForm : Fragment() {
 
 
         binding.newTransactionButton.setOnClickListener {
-            if (binding.titleInput.text.equals("")){
+            if (binding.titleInput.text.toString() == ""){
                 Toast.makeText(requireContext(), "Fill the title", Toast.LENGTH_SHORT).show()
                 return@setOnClickListener
             }
+            if (binding.amountInput.text.toString() == ""){
+                Toast.makeText(requireContext(), "Fill the amount", Toast.LENGTH_SHORT).show()
+                return@setOnClickListener
+            }
 
-            db.insertTransaction(Transaction(
-                title = binding.titleInput.text.toString(),
-                category = binding.categoryInput.selectedItem.toString(),
-                nominal = binding.amountInput.text.toString().toLong(),
-                createdAt = Date(),
-                location = binding.locationInput.text.toString()
-            ))
-            db.getAllDate()
-            Toast.makeText(requireContext(), "Transaction Added", Toast.LENGTH_SHORT).show()
+            if (binding.titleInput.text.toString() != "" && binding.amountInput.text.toString() != ""){
+                db.insertTransaction(
+                    Transaction(
+                        title = binding.titleInput.text.toString(),
+                        category = binding.categoryInput.selectedItem.toString(),
+                        nominal = binding.amountInput.text.toString().toLong(),
+                        createdAt = Date(),
+                        location = binding.locationInput.text.toString()
+                    )
+                )
+                db.getAllDate()
+                Toast.makeText(requireContext(), "Transaction Added", Toast.LENGTH_SHORT).show()
+            }
         }
         return binding.root
     }

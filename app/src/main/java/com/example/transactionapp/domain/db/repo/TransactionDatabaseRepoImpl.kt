@@ -38,4 +38,8 @@ class TransactionDatabaseRepoImpl @Inject constructor(
         transactionDao.getAllFormattedDates()
     }
 
+    override suspend fun getTransactionsByMonth(month: String): List<Transaction> = withContext(Dispatchers.Default){
+        transactionDao.getTransactionsByMonth(month)
+    }
+
 }
