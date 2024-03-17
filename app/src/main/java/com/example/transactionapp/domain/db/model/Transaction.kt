@@ -10,7 +10,7 @@ data class Transaction(
     val id: Int? = null,
     val title: String,
     val category: String,
-    val nominal: Int,
+    val nominal: Long,
     val location: String,
     val createdAt: Date
 )

@@ -4,9 +4,13 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.LinearLayout
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.activityViewModels
+import androidx.recyclerview.widget.LinearLayoutManager
+import androidx.recyclerview.widget.RecyclerView
 import com.example.transactionapp.databinding.FragmentTransactionBinding
+import com.example.transactionapp.ui.screen.mainmenu.adapter.TransactionAdapter
 import com.example.transactionapp.ui.viewmodel.transaction.TransactionViewModel
 import dagger.hilt.android.AndroidEntryPoint
 
@@ -19,8 +23,13 @@ class Transaction : Fragment() {
         savedInstanceState: Bundle?
     ): View? {
         val binding = FragmentTransactionBinding.inflate(layoutInflater)
+        val recyclerViewTransaction: RecyclerView = binding.transactionHistoryRecyclerView
+        recyclerViewTransaction.layoutManager = LinearLayoutManager(requireContext(), LinearLayoutManager.VERTICAL, false)
 
-
+        db.dateAll.observe(requireActivity()){
+            val transactionAdapter = TransactionAdapter(it)
+            recyclerViewTransaction.adapter = transactionAdapter
+        }
         return binding.root
     }
 }

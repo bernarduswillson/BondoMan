@@ -34,8 +34,10 @@ data class TransactionDate(
     val id: Int? = null,
     val title: String,
     val category: String,
-    val nominal: Int,
+    val nominal: String,
     val location: String,
+    val icon: Int,
+    val colorText: Int,
     val createdAt: String
 )
 

@@ -5,11 +5,13 @@ import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
+import com.example.transactionapp.R
 import com.example.transactionapp.domain.db.model.Transaction
 import com.example.transactionapp.domain.db.repo.TransactionDatabaseRepoImpl
 import com.example.transactionapp.ui.viewmodel.model.TransactionDate
 import com.example.transactionapp.ui.viewmodel.model.TransactionDateList
 import com.example.transactionapp.utils.changeDateTypeToStandardDateLocal
+import com.example.transactionapp.utils.changeNominalToIDN
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
@@ -74,10 +76,22 @@ class TransactionViewModel @Inject constructor(
                     TransactionDate(
                         id = it.id,
                         category = it.category,
-                        nominal = it.nominal,
+                        nominal = changeNominalToIDN(it.nominal),
                         title = it.title,
                         location = it.location,
-                        createdAt = changeDateTypeToStandardDateLocal(it.createdAt)
+                        createdAt = changeDateTypeToStandardDateLocal(it.createdAt),
+                        icon = when(it.category){
+                            "Expense" -> R.drawable.expense_ic
+                            "Income" -> R.drawable.income_ic
+                            "Saving" -> R.drawable.saving_ic
+                            else -> R.drawable.saving_ic
+                        },
+                        colorText = when(it.category){
+                            "Expense" -> R.color.R3
+                            "Income" -> R.color.G3
+                            "Saving" -> R.color.B4
+                            else -> R.color.B4
+                        },
                     )
                 )
 
@@ -92,9 +106,7 @@ class TransactionViewModel @Inject constructor(
                 )
             }
 
-
             _dateAll.postValue(listData)
-
         }
     }
 }
