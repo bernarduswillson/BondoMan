@@ -4,20 +4,13 @@
     <!-- Toolbar -->
     <string name="title_transactions">Transactions</string>
 
-    <!-- Transactions -->
-    <string name="balance_amount">Rp 12.312.000</string>
-    <string name="your_balance">Your Balance</string>
-    <string name="cashflow_amount">Rp 617.000</string>
-    <string name="cashflow">Cashflow</string>
-    <string name="growth_percentage">+5.01 %</string>
-    <string name="growth">Growth</string>
-
     <!-- Alt -->
     <string name="alt_back_button">Back button</string>
-    <string name="alt_transaction_button">Transaction button</string>
-    <string name="alt_scan_button">Scan button</string>
-    <string name="alt_add_transaction_button">Add transaction button</string>
-    <string name="alt_statistics_button">Statistics button</string>
-    <string name="alt_settings_button">Settings button</string>
-
+    <string name="transaction_button">Transaction button</string>
+    <string name="scan_button">Scan button</string>
+    <string name="add_transaction_button">Add transaction button</string>
+    <string name="statistics_button">Statistics button</string>
+    <string name="settings_button">Settings button</string>
+    <!-- TODO: Remove or change this placeholder text -->
+    <string name="hello_blank_fragment">Hello blank fragment</string>
 </resources>
