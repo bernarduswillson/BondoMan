@@ -17,9 +17,12 @@ import android.widget.ArrayAdapter
 import android.widget.Toast
 import androidx.annotation.RequiresApi
 import androidx.core.app.ActivityCompat
+import androidx.fragment.app.activityViewModels
 import androidx.lifecycle.MutableLiveData
 import com.example.transactionapp.R
 import com.example.transactionapp.databinding.FragmentTransactionFormBinding
+import com.example.transactionapp.domain.db.model.Transaction
+import com.example.transactionapp.ui.viewmodel.transaction.TransactionViewModel
 import com.example.transactionapp.utils.changeDateTypeToStandardDateLocal
 import com.google.android.gms.location.FusedLocationProviderClient
 import com.google.android.gms.location.LocationCallback
@@ -38,7 +41,8 @@ import java.util.Locale
 class TransactionForm : Fragment() {
     lateinit var fusedLocationProviderClient: FusedLocationProviderClient
     private var cityName : MutableLiveData<String> = MutableLiveData()
-    @OptIn(DelicateCoroutinesApi::class)
+    private val db : TransactionViewModel by activityViewModels()
+
     @RequiresApi(Build.VERSION_CODES.S)
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -62,21 +66,46 @@ class TransactionForm : Fragment() {
                 position: Int,
                 id: Long
             ) {
-                Toast.makeText(requireActivity(), "Selected: " + categories[position], Toast.LENGTH_SHORT).show()
+                Log.d("TransactionForm", "onItemSelected: ${categories[position]}")
             }
 
             override fun onNothingSelected(parent: AdapterView<*>?) {
-                Toast.makeText(requireActivity(), "Nothing Selected", Toast.LENGTH_SHORT).show()
+                Log.d("TransactionForm", "onNothingSelected: ")
             }
         }
 
         binding.dateInput.text = changeDateTypeToStandardDateLocal(Date())
 
-        Log.d("Debug:","City Name: $cityName")
-        cityName.observe(viewLifecycleOwner, {
+        cityName.observe(viewLifecycleOwner){
             binding.locationInput.text = it
-        })
+        }
 
+
+        binding.newTransactionButton.setOnClickListener {
+            if (binding.titleInput.text.toString() == ""){
+                Toast.makeText(requireContext(), "Fill the title", Toast.LENGTH_SHORT).show()
+                return@setOnClickListener
+            }
+            if (binding.amountInput.text.toString() == ""){
+                Toast.makeText(requireContext(), "Fill the amount", Toast.LENGTH_SHORT).show()
+                return@setOnClickListener
+            }
+
+            if (binding.titleInput.text.toString() != "" && binding.amountInput.text.toString() != ""){
+                db.insertTransaction(
+                    Transaction(
+                        title = binding.titleInput.text.toString(),
+                        category = binding.categoryInput.selectedItem.toString(),
+                        nominal = binding.amountInput.text.toString().toLong(),
+                        createdAt = Date(),
+                        location = binding.locationInput.text.toString()
+                    )
+                )
+                db.getAllDate()
+                Toast.makeText(requireContext(), "Transaction Added", Toast.LENGTH_SHORT).show()
+                requireActivity().onBackPressed()
+            }
+        }
         return binding.root
     }
 
@@ -97,7 +126,6 @@ class TransactionForm : Fragment() {
         super.onRequestPermissionsResult(requestCode, permissions, grantResults)
         if(requestCode == 1010){
             if(grantResults.isNotEmpty() && grantResults[0] == PackageManager.PERMISSION_GRANTED){
-                Log.d("Debug:","You have the Permission")
                 NewLocationData()
             }
         }
@@ -122,31 +150,19 @@ class TransactionForm : Fragment() {
 
     }
 
-    private val locationCallback = object : LocationCallback(){
+    private val locationCallback = object : LocationCallback() {
         override fun onLocationResult(locationResult: LocationResult) {
             var lastLocation: Location? = locationResult.lastLocation
             if (lastLocation != null) {
                 cityName.postValue(getCityName(lastLocation.latitude, lastLocation.longitude))
             }
-
-//            latidude = lastLocation.latitude
-//            longitude = lastLocation.longitude
-//            cityName = getCityName(latidude,longitude)
-//            weatherViewModel.getWeather(
-//                latidude,
-//                longitude,
-//                "minutely,daily,alerts",
-//                getString(R.string.code),
-//                "metric"
-//            )
         }
     }
 
     private fun getCityName(lat: Double,long: Double):String{
         var cityName = ""
-        var countryName = ""
-        var geoCoder = Geocoder(requireActivity(), Locale.getDefault())
-        var Address = geoCoder.getFromLocation(lat,long,3)
+        val geoCoder = Geocoder(requireActivity(), Locale.getDefault())
+        val Address = geoCoder.getFromLocation(lat,long,3)
 
         cityName = Address!!.get(0).subAdminArea
         return cityName

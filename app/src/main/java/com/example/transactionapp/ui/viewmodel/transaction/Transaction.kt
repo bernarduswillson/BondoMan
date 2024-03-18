@@ -25,12 +25,24 @@ class TransactionViewModel @Inject constructor(
 ): ViewModel() {
     private val _dateAll: MutableLiveData<List<TransactionDateList>> = MutableLiveData()
     private val _transaction: MutableLiveData<List<Transaction>> = MutableLiveData()
+    private val _balance: MutableLiveData<Long> = MutableLiveData()
+    private val _cashFlow: MutableLiveData<Long> = MutableLiveData()
+    private val _growth: MutableLiveData<Long> = MutableLiveData()
 
     val transaction: LiveData<List<Transaction>>
         get() = _transaction
 
     val dateAll: LiveData<List<TransactionDateList>>
         get() = _dateAll
+
+    val balance: LiveData<Long>
+        get() = _balance
+
+    val cashFlow: LiveData<Long>
+        get() = _cashFlow
+
+    val growth: LiveData<Long>
+        get() = _growth
 
     fun insertTransaction(transaction: Transaction) {
         viewModelScope.launch {
@@ -51,14 +63,26 @@ class TransactionViewModel @Inject constructor(
     }
 
     fun getTransactions(type: String) {
+        var sum = 0L
         viewModelScope.launch {
-            _transaction.postValue(
+            val response =
                 when (type) {
                     "desc" -> transactionDatabaseRepoImpl.getAllTransactionsDesc()
                     "asc" -> transactionDatabaseRepoImpl.getAllTransactionsAsc()
                     else -> transactionDatabaseRepoImpl.getAllTransactions()
                 }
-            )
+
+            _transaction.postValue(response)
+            response.forEach {
+                if(it.category == "Expense"){
+                    sum -= it.nominal
+                }
+                if(it.category == "Income"){
+                    sum += it.nominal
+                }
+            }
+            Log.d("TransactionViewModel", "getTransactions: $sum")
+            _balance.postValue(sum)
         }
     }
 
@@ -67,7 +91,7 @@ class TransactionViewModel @Inject constructor(
 
             val data = TreeMap<String, MutableList<TransactionDate>>()
             val listData: MutableList<TransactionDateList> = mutableListOf()
-            val response = transactionDatabaseRepoImpl.getAllTransactionsAsc()
+            val response = transactionDatabaseRepoImpl.getAllTransactionsDesc()
             response.forEach {
                 if (!data.containsKey(changeDateTypeToStandardDateLocal(it.createdAt))){
                     data[changeDateTypeToStandardDateLocal(it.createdAt)] = mutableListOf()
@@ -107,6 +131,55 @@ class TransactionViewModel @Inject constructor(
             }
 
             _dateAll.postValue(listData)
+        }
+    }
+
+    fun getCashFlowAndGrowthByMonth (date: Date) {
+        viewModelScope.launch {
+            val thisMonth = if (date.month + 1 < 10) "0${date.month + 1}" else (date.month + 1).toString()
+            val lastMonth = if (date.month < 10) "0${date.month}" else date.month.toString()
+            val transactionThisMonth = transactionDatabaseRepoImpl.getTransactionsByMonth(thisMonth)
+            val transactionLastMonth = transactionDatabaseRepoImpl.getTransactionsByMonth(lastMonth)
+
+            var incomeThisMonth = 0L
+            var expenseThisMonth = 0L
+            var investmentThisMonth = 0L
+
+            var incomeLastMonth = 0L
+            var expenseLastMonth = 0L
+            var investmentLastMonth = 0L
+
+            var cashFlow = 0L
+            var growth = 0L
+
+            Log.d("TransactionViewModel", "getCashFlowAndGrowthByMonth: $transactionThisMonth")
+            Log.d("TransactionViewModel", "getCashFlowAndGrowthByMonth: $transactionLastMonth")
+
+            transactionThisMonth.forEach {
+                when(it.category){
+                    "Expense" -> expenseThisMonth += it.nominal
+                    "Income" -> incomeThisMonth += it.nominal
+                    "Savings" -> investmentThisMonth += it.nominal
+                }
+            }
+
+            transactionLastMonth.forEach {
+                when(it.category){
+                    "Expense" -> expenseLastMonth += it.nominal
+                    "Income" -> incomeLastMonth += it.nominal
+                    "Savings" -> investmentLastMonth += it.nominal
+                }
+            }
+
+            val balanceLastMonth = incomeLastMonth + investmentLastMonth - expenseLastMonth
+
+            cashFlow = incomeThisMonth - expenseThisMonth - investmentThisMonth
+            if (balanceLastMonth != 0L) {
+                growth = ((incomeThisMonth - expenseThisMonth - investmentThisMonth) / balanceLastMonth) * 100
+            }
+
+            _cashFlow.postValue(cashFlow)
+            _growth.postValue(growth)
         }
     }
 }
