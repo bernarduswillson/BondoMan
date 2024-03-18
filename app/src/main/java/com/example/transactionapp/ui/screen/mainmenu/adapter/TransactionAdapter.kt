@@ -36,8 +36,6 @@ class TransactionAdapter(
             val location: TextView = transactionCard.findViewById(R.id.location)
             val nominal: TextView = transactionCard.findViewById(R.id.nominalTransaction)
 
-            Log.d("TransactionAdapter", "onBindViewHolder: ${it.colorText}")
-
             imageTransaction.setImageResource(it.icon)
             transactionObject.text = it.title
             location.text = it.location

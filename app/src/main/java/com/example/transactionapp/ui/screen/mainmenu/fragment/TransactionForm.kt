@@ -103,6 +103,7 @@ class TransactionForm : Fragment() {
                 )
                 db.getAllDate()
                 Toast.makeText(requireContext(), "Transaction Added", Toast.LENGTH_SHORT).show()
+                requireActivity().onBackPressed()
             }
         }
         return binding.root

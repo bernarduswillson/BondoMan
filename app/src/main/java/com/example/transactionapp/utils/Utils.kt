@@ -14,5 +14,5 @@ fun changeDateTypeToStandardDateLocal(type: Date): String {
 fun changeNominalToIDN(nominal: Long): String{
     val currencyFormat = NumberFormat.getCurrencyInstance(Locale("id", "ID"))
 
-    return currencyFormat.format(nominal)
+    return currencyFormat.format(nominal).split(",")[0]
 }

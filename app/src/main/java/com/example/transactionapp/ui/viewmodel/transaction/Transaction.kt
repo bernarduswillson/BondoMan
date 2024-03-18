@@ -76,7 +76,8 @@ class TransactionViewModel @Inject constructor(
             response.forEach {
                 if(it.category == "Expense"){
                     sum -= it.nominal
-                } else {
+                }
+                if(it.category == "Income"){
                     sum += it.nominal
                 }
             }
