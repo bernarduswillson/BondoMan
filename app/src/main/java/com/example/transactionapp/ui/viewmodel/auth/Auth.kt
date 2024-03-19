@@ -1,5 +1,6 @@
 package com.example.transactionapp.ui.viewmodel.auth
 
+import android.util.Log
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
@@ -13,6 +14,8 @@ import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 import okhttp3.MultipartBody
+import retrofit2.http.Multipart
+import retrofit2.http.Part
 import javax.inject.Inject
 
 @HiltViewModel
