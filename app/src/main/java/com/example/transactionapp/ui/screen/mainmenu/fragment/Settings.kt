@@ -6,6 +6,8 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import com.example.transactionapp.R
+import com.example.transactionapp.databinding.FragmentSettingsBinding
+import com.example.transactionapp.databinding.FragmentTransactionBinding
 
 class Settings : Fragment() {
 
@@ -13,6 +15,14 @@ class Settings : Fragment() {
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
-        return inflater.inflate(R.layout.fragment_settings, container, false)
+        val binding = FragmentSettingsBinding.inflate(layoutInflater)
+        val bottomSheet = BottomSheet()
+
+        binding.saveLayout.setOnClickListener {
+            bottomSheet.show(parentFragmentManager, "bottomSheet")
+        }
+
+
+        return binding.root
     }
 }
