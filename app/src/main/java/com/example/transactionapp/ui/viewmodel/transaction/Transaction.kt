@@ -1,11 +1,13 @@
 package com.example.transactionapp.ui.viewmodel.transaction
 
 import android.util.Log
+import androidx.lifecycle.LifecycleOwner
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.example.transactionapp.R
+import com.example.transactionapp.domain.api.model.Items
 import com.example.transactionapp.domain.db.model.Transaction
 import com.example.transactionapp.domain.db.repo.TransactionDatabaseRepoImpl
 import com.example.transactionapp.ui.viewmodel.model.TransactionDate
@@ -29,6 +31,11 @@ class TransactionViewModel @Inject constructor(
     private val _cashFlow: MutableLiveData<Long> = MutableLiveData()
     private val _growth: MutableLiveData<Long> = MutableLiveData()
 
+    // STATUS
+    private val _addTransactionStatus: MutableLiveData<Boolean> = MutableLiveData()
+    private val _deleteTransactionStatus: MutableLiveData<Boolean> = MutableLiveData()
+    private val _updateTransactionStatus: MutableLiveData<Boolean> = MutableLiveData()
+
     val transaction: LiveData<List<Transaction>>
         get() = _transaction
 
@@ -44,21 +51,48 @@ class TransactionViewModel @Inject constructor(
     val growth: LiveData<Long>
         get() = _growth
 
+    val addTransactionStatus: LiveData<Boolean>
+        get() = _addTransactionStatus
+
+    val deleteTransactionStatus: LiveData<Boolean>
+        get() = _deleteTransactionStatus
+
+    val updateTransactionStatus: LiveData<Boolean>
+        get() = _updateTransactionStatus
+
     fun insertTransaction(transaction: Transaction) {
         viewModelScope.launch {
             transactionDatabaseRepoImpl.insertTransaction(transaction)
         }
     }
 
+    fun insertBillTransaction(items: List<Transaction>){
+        viewModelScope.launch {
+            items.forEach {
+                val transaction = Transaction(
+                    title = it.title,
+                    category = "Expense",
+                    nominal = it.nominal,
+                    location = it.location,
+                    createdAt = Date()
+                )
+                transactionDatabaseRepoImpl.insertTransaction(transaction)
+            }
+            changeAddStatus(true)
+        }
+    }
+
     fun deleteTransaction(transaction: Transaction) {
         viewModelScope.launch {
             transactionDatabaseRepoImpl.deleteTransaction(transaction)
+            _deleteTransactionStatus.postValue(true)
         }
     }
 
     fun updateTransaction(transaction: Transaction) {
         viewModelScope.launch {
             transactionDatabaseRepoImpl.updateTransaction(transaction)
+            _updateTransactionStatus.postValue(true)
         }
     }
 
@@ -92,7 +126,11 @@ class TransactionViewModel @Inject constructor(
             val data = TreeMap<String, MutableList<TransactionDate>>()
             val listData: MutableList<TransactionDateList> = mutableListOf()
             val response = transactionDatabaseRepoImpl.getAllTransactionsDesc()
+            val keySort = mutableListOf<String>()
             response.forEach {
+                if(!keySort.contains(changeDateTypeToStandardDateLocal(it.createdAt))){
+                    keySort.add(changeDateTypeToStandardDateLocal(it.createdAt))
+                }
                 if (!data.containsKey(changeDateTypeToStandardDateLocal(it.createdAt))){
                     data[changeDateTypeToStandardDateLocal(it.createdAt)] = mutableListOf()
                 }
@@ -121,11 +159,11 @@ class TransactionViewModel @Inject constructor(
 
             }
 
-            for((key, value) in data){
+            for(value in keySort){
                 listData.add(
                     TransactionDateList(
-                        date = key,
-                        listTransaction = value
+                        date = value,
+                        listTransaction = data[value] ?: mutableListOf()
                     )
                 )
             }
@@ -182,4 +220,30 @@ class TransactionViewModel @Inject constructor(
             _growth.postValue(growth)
         }
     }
+
+
+    fun resetAddTransactionStatus(){
+        _addTransactionStatus.postValue(false)
+    }
+
+    fun resetDeleteTransactionStatus(){
+        _deleteTransactionStatus.postValue(false)
+    }
+
+    fun resetUpdateTransactionStatus(){
+        _updateTransactionStatus.postValue(false)
+    }
+
+    fun changeAddStatus(status: Boolean){
+        _addTransactionStatus.postValue(status)
+    }
+
+    fun removeObserveAllData(lifecycleOwner: LifecycleOwner){
+        dateAll.removeObservers(lifecycleOwner)
+        transaction.removeObservers(lifecycleOwner)
+        balance.removeObservers(lifecycleOwner)
+        cashFlow.removeObservers(lifecycleOwner)
+        growth.removeObservers(lifecycleOwner)
+    }
+
 }

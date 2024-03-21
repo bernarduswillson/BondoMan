@@ -22,6 +22,7 @@ import androidx.lifecycle.MutableLiveData
 import com.example.transactionapp.R
 import com.example.transactionapp.databinding.FragmentTransactionFormBinding
 import com.example.transactionapp.domain.db.model.Transaction
+import com.example.transactionapp.ui.viewmodel.location.LocationViewModel
 import com.example.transactionapp.ui.viewmodel.transaction.TransactionViewModel
 import com.example.transactionapp.utils.changeDateTypeToStandardDateLocal
 import com.google.android.gms.location.FusedLocationProviderClient
@@ -39,17 +40,15 @@ import java.util.Locale
 
 @AndroidEntryPoint
 class TransactionForm : Fragment() {
-    lateinit var fusedLocationProviderClient: FusedLocationProviderClient
-    private var cityName : MutableLiveData<String> = MutableLiveData()
+    private lateinit var fusedLocationProviderClient: FusedLocationProviderClient
     private val db : TransactionViewModel by activityViewModels()
+    private val locationViewModel: LocationViewModel by activityViewModels()
 
     @RequiresApi(Build.VERSION_CODES.S)
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View {
-        RequestPermission()
-        NewLocationData()
 
         val binding = FragmentTransactionFormBinding.inflate(inflater)
 
@@ -76,7 +75,7 @@ class TransactionForm : Fragment() {
 
         binding.dateInput.text = changeDateTypeToStandardDateLocal(Date())
 
-        cityName.observe(viewLifecycleOwner){
+        locationViewModel.location.observe(viewLifecycleOwner){
             binding.locationInput.text = it
         }
 
@@ -101,12 +100,17 @@ class TransactionForm : Fragment() {
                         location = binding.locationInput.text.toString()
                     )
                 )
-                db.getAllDate()
+                db.changeAddStatus(true)
                 Toast.makeText(requireContext(), "Transaction Added", Toast.LENGTH_SHORT).show()
                 requireActivity().onBackPressed()
             }
         }
         return binding.root
+    }
+
+    override fun onStart() {
+        super.onStart()
+        RequestPermission()
     }
 
     fun RequestPermission(){
@@ -154,7 +158,7 @@ class TransactionForm : Fragment() {
         override fun onLocationResult(locationResult: LocationResult) {
             var lastLocation: Location? = locationResult.lastLocation
             if (lastLocation != null) {
-                cityName.postValue(getCityName(lastLocation.latitude, lastLocation.longitude))
+                locationViewModel.setLocation(getCityName(lastLocation.latitude, lastLocation.longitude))
             }
         }
     }
