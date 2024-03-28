@@ -104,6 +104,9 @@ dependencies {
     implementation("androidx.camera:camera-lifecycle:1.3.2")
     implementation("androidx.camera:camera-view:1.3.2")
 
+    // Graphs
+    implementation("com.github.PhilJay:MPAndroidChart:v3.1.0")
+
     // Others
     implementation("androidx.work:work-runtime-ktx:2.9.0")
     implementation("com.google.android.gms:play-services-location:21.2.0")
