@@ -180,7 +180,7 @@ class Scan : Fragment() {
     private fun sendBillToServer(bitmap: Bitmap) {
         val requestFile = bitmap.toString().toRequestBody("image/jpg".toMediaTypeOrNull())
         val body = MultipartBody.Part.createFormData("file", "image.jpg", requestFile)
-        val token = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJuaW0iOiIxMzUyMTAzMSIsImlhdCI6MTcxMDk5NTU0NywiZXhwIjoxNzEwOTk1ODQ3fQ._qxhoK5LGA6VznXOPxm7CODVr2OucU1ZNjPkGpKtzhs"
+        val token = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJuaW0iOiIxMzUyMTAzMSIsImlhdCI6MTcxMDk5NjAwOCwiZXhwIjoxNzEwOTk2MzA4fQ.hGxTdR92D4iukPp1-Y6mKfky0eS2he2MiIQZx_LLMwk"
 
         auth.postBill("Bearer $token", body)
     }

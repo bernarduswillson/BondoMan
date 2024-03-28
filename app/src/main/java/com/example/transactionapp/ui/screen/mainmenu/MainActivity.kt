@@ -1,19 +1,20 @@
 package com.example.transactionapp.ui.screen.mainmenu
 
+import android.content.Intent
 import android.content.pm.PackageManager
 import android.location.Geocoder
 import android.location.Location
 import android.os.Build
 import android.os.Bundle
 import android.os.Looper
-import android.util.Log
 import androidx.annotation.RequiresApi
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.app.ActivityCompat
-import androidx.lifecycle.ViewModel
 import androidx.lifecycle.ViewModelProvider
 import com.example.transactionapp.R
 import com.example.transactionapp.databinding.ActivityMainBinding
+import com.example.transactionapp.service.ConnectionStatusService
+import com.example.transactionapp.service.TokenService
 import com.example.transactionapp.ui.screen.mainmenu.fragment.Scan
 import com.example.transactionapp.ui.screen.mainmenu.fragment.Settings
 import com.example.transactionapp.ui.screen.mainmenu.fragment.Statistics
@@ -39,6 +40,10 @@ class MainActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         val binding = ActivityMainBinding.inflate(layoutInflater)
         setContentView(binding.root)
+
+        startService(Intent(this, ConnectionStatusService::class.java))
+        //TODO: dont forget to startservice token
+//        startService(Intent(this, TokenService::class.java))
 
         db = ViewModelProvider(this)[TransactionViewModel::class.java]
         locationViewModel = ViewModelProvider(this)[LocationViewModel::class.java]
@@ -117,6 +122,7 @@ class MainActivity : AppCompatActivity() {
                 binding.bottomNavigationView.selectedItemId = R.id.IbTransactionBtn
             }
         }
+
     }
 
     @RequiresApi(Build.VERSION_CODES.S)
