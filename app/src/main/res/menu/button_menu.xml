@@ -9,7 +9,8 @@
         android:id="@+id/IbScanBtn"
         android:enabled="true"
         android:icon="@drawable/ic_scan_button" />
-    <item android:title=""/>
+    <item android:title=""
+        android:id="@+id/empty"/>
     <item android:title="Statistics"
         android:id="@+id/IbStatisticsBtn"
         android:enabled="true"

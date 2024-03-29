@@ -24,13 +24,13 @@ class Auth @Inject constructor(
 ): ViewModel(){
 
     private val _loginResponse = MutableLiveData<LoginResponseSealed>()
-    private val _billResponse = MutableLiveData<BillResponseSealed>()
+    private val _billResponse = MutableLiveData<BillResponseSealed?>()
     private val _tokenResponse = MutableLiveData<TokenResponseSealed>()
 
     val loginResponse: LiveData<LoginResponseSealed>
         get() = _loginResponse
 
-    val billResponse: LiveData<BillResponseSealed>
+    val billResponse: LiveData<BillResponseSealed?>
         get() = _billResponse
 
     val tokenResponse: LiveData<TokenResponseSealed>
@@ -70,5 +70,9 @@ class Auth @Inject constructor(
                 _tokenResponse.postValue(TokenResponseSealed.Error(e.message.toString()))
             }
         }
+    }
+
+    fun resetBillResponse(){
+        _billResponse.postValue(null)
     }
 }

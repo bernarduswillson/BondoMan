@@ -26,12 +26,18 @@ import androidx.camera.lifecycle.ProcessCameraProvider
 import androidx.core.app.ActivityCompat
 import androidx.core.content.ContentProviderCompat.requireContext
 import androidx.core.content.ContextCompat
+import androidx.fragment.app.activityViewModels
+import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
+import androidx.lifecycle.distinctUntilChanged
 import com.example.transactionapp.R
 import com.example.transactionapp.databinding.FragmentScanBinding
 import com.example.transactionapp.databinding.FragmentTransactionBinding
+import com.example.transactionapp.domain.db.model.Transaction
 import com.example.transactionapp.ui.viewmodel.auth.Auth
+import com.example.transactionapp.ui.viewmodel.location.LocationViewModel
 import com.example.transactionapp.ui.viewmodel.model.BillResponseSealed
+import com.example.transactionapp.ui.viewmodel.transaction.TransactionViewModel
 import okhttp3.MediaType
 import okhttp3.MediaType.Companion.toMediaTypeOrNull
 import okhttp3.MultipartBody
@@ -43,12 +49,15 @@ import java.util.concurrent.Executors
 import okhttp3.RequestBody.Companion.asRequestBody
 import okhttp3.RequestBody.Companion.toRequestBody
 import java.io.FileOutputStream
+import java.util.Date
 
 class Scan : Fragment() {
 
     private lateinit var binding: FragmentScanBinding
     private var imageCapture: ImageCapture? = null
     private lateinit var outputDirectory: File
+    private val db: TransactionViewModel by activityViewModels()
+    private val locationViewModel: LocationViewModel by activityViewModels()
 
     private lateinit var cameraExecutor: ExecutorService
 
@@ -60,6 +69,7 @@ class Scan : Fragment() {
     ): View? {
 
         binding = FragmentScanBinding.inflate(layoutInflater)
+        val billList = mutableListOf<Transaction>()
 
         outputDirectory = getOutputDirectory()
         cameraExecutor = Executors.newSingleThreadExecutor()
@@ -99,20 +109,39 @@ class Scan : Fragment() {
             }
         }
 
-        auth.billResponse.observe(requireActivity()) {
-            when (val data = it) {
+        auth.billResponse.observe(requireActivity(), Observer {billValue ->
+            when (val data = billValue) {
                 is BillResponseSealed.Success -> {
-                    Toast.makeText(requireContext(), data.data.toString(), Toast.LENGTH_SHORT).show()
+
+                    var locationValue = ""
+                    locationViewModel.location.observe(requireActivity()){ locationLambda ->
+                        locationValue = locationLambda
+                    }
+
+                    data.data.items.items.forEach {
+                        val transaction = Transaction(
+                            title = it.name,
+                            nominal = it.price.toLong() * 12000L,
+                            category = "Expense",
+                            createdAt = Date(),
+                            location = locationValue
+                        )
+                        if (!billList.contains(transaction)) {
+                            billList.add(transaction)
+                        }
+
+                    }
+
+                    db.insertBillTransaction(billList)
+                    db.changeAddStatus(true)
+                    auth.resetBillResponse()
                 }
                 is BillResponseSealed.Error -> {
                     Toast.makeText(requireContext(), data.message, Toast.LENGTH_SHORT).show()
-                    Log.d("ScanFragment", "onCreateView: ${data.message}")
                 }
-                is BillResponseSealed.Loading -> {
-                    Toast.makeText(requireContext(), "Loading", Toast.LENGTH_SHORT).show()
-                }
+                else -> {}
             }
-        }
+        })
 
         return binding.root
     }
@@ -151,7 +180,7 @@ class Scan : Fragment() {
     private fun sendBillToServer(bitmap: Bitmap) {
         val requestFile = bitmap.toString().toRequestBody("image/jpg".toMediaTypeOrNull())
         val body = MultipartBody.Part.createFormData("file", "image.jpg", requestFile)
-        val token = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJuaW0iOiIxMzUyMTAyMSIsImlhdCI6MTcxMDg1NzA2MiwiZXhwIjoxNzEwODU3MzYyfQ.h-Y8ZStKG3tkrFYjoC-9Qb_fcVAb-DPxLPMCRRFBItk"
+        val token = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJuaW0iOiIxMzUyMTAzMSIsImlhdCI6MTcxMDk5NTU0NywiZXhwIjoxNzEwOTk1ODQ3fQ._qxhoK5LGA6VznXOPxm7CODVr2OucU1ZNjPkGpKtzhs"
 
         auth.postBill("Bearer $token", body)
     }
