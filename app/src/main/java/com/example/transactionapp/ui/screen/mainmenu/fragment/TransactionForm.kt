@@ -1,5 +1,9 @@
 package com.example.transactionapp.ui.screen.mainmenu.fragment
 
+import android.content.BroadcastReceiver
+import android.content.Context
+import android.content.Intent
+import android.content.IntentFilter
 import android.content.pm.PackageManager
 import android.location.Geocoder
 import android.location.Location
@@ -7,6 +11,7 @@ import android.location.LocationRequest
 import android.os.Build
 import android.os.Bundle
 import android.os.Looper
+import android.text.Editable
 import android.util.Log
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
@@ -22,6 +27,7 @@ import androidx.lifecycle.MutableLiveData
 import com.example.transactionapp.R
 import com.example.transactionapp.databinding.FragmentTransactionFormBinding
 import com.example.transactionapp.domain.db.model.Transaction
+import com.example.transactionapp.helper.GetRandomData
 import com.example.transactionapp.ui.viewmodel.location.LocationViewModel
 import com.example.transactionapp.ui.viewmodel.transaction.TransactionViewModel
 import com.example.transactionapp.utils.changeDateTypeToStandardDateLocal
@@ -43,6 +49,8 @@ class TransactionForm : Fragment() {
     private lateinit var fusedLocationProviderClient: FusedLocationProviderClient
     private val db : TransactionViewModel by activityViewModels()
     private val locationViewModel: LocationViewModel by activityViewModels()
+    private lateinit var receiver: BroadcastReceiver
+    private val getRandomData = GetRandomData()
 
     @RequiresApi(Build.VERSION_CODES.S)
     override fun onCreateView(
@@ -105,6 +113,26 @@ class TransactionForm : Fragment() {
                 requireActivity().onBackPressed()
             }
         }
+
+        db.isRandom.observe(viewLifecycleOwner){
+            if (it){
+                binding.titleInput.text = Editable.Factory.getInstance().newEditable(getRandomData.getRandomTitle())
+                binding.amountInput.text = Editable.Factory.getInstance().newEditable(getRandomData.getRandomNominal().toString())
+                binding.categoryInput.setSelection(arrayAdp.getPosition(getRandomData.getRandomCategory()))
+            }
+        }
+
+
+        val filter = IntentFilter("IsRandom")
+        receiver = object : BroadcastReceiver(){
+            override fun onReceive(p0: Context?, p1: Intent?) {
+                db.changeIsRandom(p1?.getBooleanExtra("isRandom", false)!!)
+            }
+        }
+
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.TIRAMISU) {
+            requireActivity().registerReceiver(receiver, filter, Context.RECEIVER_EXPORTED)
+        }
         return binding.root
     }
 
@@ -112,6 +140,13 @@ class TransactionForm : Fragment() {
         super.onStart()
         RequestPermission()
     }
+
+//    override fun onDestroy() {
+//        super.onDestroy()
+//        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.TIRAMISU) {
+//            requireActivity().unregisterReceiver(receiver)
+//        }
+//    }
 
     fun RequestPermission(){
         ActivityCompat.requestPermissions(

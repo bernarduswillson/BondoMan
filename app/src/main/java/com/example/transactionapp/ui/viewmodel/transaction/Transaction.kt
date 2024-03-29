@@ -30,6 +30,7 @@ class TransactionViewModel @Inject constructor(
     private val _balance: MutableLiveData<Long> = MutableLiveData()
     private val _cashFlow: MutableLiveData<Long> = MutableLiveData()
     private val _growth: MutableLiveData<Long> = MutableLiveData()
+    private val _isRandom: MutableLiveData<Boolean> = MutableLiveData()
 
     // STATUS
     private val _addTransactionStatus: MutableLiveData<Boolean> = MutableLiveData()
@@ -59,6 +60,13 @@ class TransactionViewModel @Inject constructor(
 
     val updateTransactionStatus: LiveData<Boolean>
         get() = _updateTransactionStatus
+
+    val isRandom: LiveData<Boolean>
+        get() = _isRandom
+
+    fun changeIsRandom(status: Boolean){
+        _isRandom.postValue(status)
+    }
 
     fun insertTransaction(transaction: Transaction) {
         viewModelScope.launch {
