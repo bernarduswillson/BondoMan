@@ -10,11 +10,11 @@ import androidx.fragment.app.activityViewModels
 import com.example.transactionapp.databinding.FragmentBottomSheetBinding
 import com.example.transactionapp.domain.db.model.Transaction
 import com.example.transactionapp.ui.viewmodel.transaction.TransactionViewModel
-import com.example.transactionapp.utils.createExcelFile
+import com.example.transactionapp.utils.saveExcelFile
 import com.google.android.material.bottomsheet.BottomSheetDialogFragment
 
 
-class BottomSheet : BottomSheetDialogFragment() {
+class BottomSheetExport : BottomSheetDialogFragment() {
     private val db: TransactionViewModel by activityViewModels()
     private lateinit var transactionList: MutableList<Transaction>
     override fun onCreateView(
@@ -28,13 +28,13 @@ class BottomSheet : BottomSheetDialogFragment() {
         }
 
         binding.xlsxButton.setOnClickListener {
-            createExcelFile(transactionList, "xlsx", requireContext())
+            saveExcelFile(transactionList, "xlsx", requireContext())
             Toast.makeText(requireContext(), "File saved to ${requireActivity().getExternalFilesDir(Environment.DIRECTORY_DOCUMENTS).toString()}", Toast.LENGTH_SHORT).show()
             dismiss()
         }
 
         binding.xlsButton.setOnClickListener {
-            createExcelFile(transactionList, "xls", requireContext())
+            saveExcelFile(transactionList, "xls", requireContext())
             Toast.makeText(requireContext(), "File saved to ${requireActivity().getExternalFilesDir(Environment.DIRECTORY_DOCUMENTS).toString()}", Toast.LENGTH_SHORT).show()
             dismiss()
         }

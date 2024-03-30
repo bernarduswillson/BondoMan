@@ -2,17 +2,13 @@ package com.example.transactionapp.ui.screen.mainmenu.fragment
 
 import android.content.Intent
 import android.os.Bundle
-import android.util.Log
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.activityViewModels
-import com.example.transactionapp.R
 import com.example.transactionapp.databinding.FragmentSettingsBinding
-import com.example.transactionapp.databinding.FragmentTransactionBinding
 import com.example.transactionapp.ui.viewmodel.transaction.TransactionViewModel
-import org.apache.poi.hssf.record.DBCellRecord
 
 class Settings : Fragment() {
     private val db: TransactionViewModel by activityViewModels()
@@ -22,10 +18,15 @@ class Settings : Fragment() {
         savedInstanceState: Bundle?
     ): View? {
         val binding = FragmentSettingsBinding.inflate(layoutInflater)
-        val bottomSheet = BottomSheet()
+        val bottomSheetExport = BottomSheetExport()
+        val bottomSheetEmail = BottomSheetEmail()
 
         binding.saveLayout.setOnClickListener {
-            bottomSheet.show(parentFragmentManager, "bottomSheet")
+            bottomSheetExport.show(parentFragmentManager, "bottomSheet")
+        }
+
+        binding.shareLayout.setOnClickListener {
+            bottomSheetEmail.show(parentFragmentManager, "bottomSheet")
         }
 
         binding.switchRandomize.setOnCheckedChangeListener { compoundButton, b ->

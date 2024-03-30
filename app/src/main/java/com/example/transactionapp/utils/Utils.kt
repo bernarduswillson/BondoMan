@@ -1,10 +1,12 @@
 package com.example.transactionapp.utils
 
 import android.content.Context
+import android.content.Intent
 import android.os.Environment
-import android.provider.MediaStore
 import android.util.Log
+import androidx.core.content.FileProvider
 import com.example.transactionapp.domain.db.model.Transaction
+import org.apache.poi.hssf.usermodel.HSSFWorkbook
 import org.apache.poi.xssf.usermodel.XSSFWorkbook
 import java.io.File
 import java.io.FileOutputStream
@@ -12,6 +14,11 @@ import java.text.NumberFormat
 import java.text.SimpleDateFormat
 import java.util.Date
 import java.util.Locale
+
+data class fileLoc(
+    val fileName: String,
+    val filePath: String
+)
 
 fun changeDateTypeToStandardDateLocal(type: Date): String {
     val outputDateFormat = SimpleDateFormat("dd MMMM yyyy", Locale("id", "ID"))
@@ -25,8 +32,12 @@ fun changeNominalToIDN(nominal: Long): String{
     return currencyFormat.format(nominal).split(",")[0]
 }
 
-fun createExcelFile(transactions: List<Transaction>, type: String, context: Context) {
-    val workbook = XSSFWorkbook()
+fun saveExcelFile(transactions: List<Transaction>, type: String, context: Context): fileLoc {
+    val workbook = when (type) {
+        "xlsx" -> XSSFWorkbook()
+        "xls" -> HSSFWorkbook()
+        else -> XSSFWorkbook()
+    }
     val sheet = workbook.createSheet("Transaction History")
 
     val headerRow = sheet.createRow(0)
@@ -57,12 +68,46 @@ fun createExcelFile(transactions: List<Transaction>, type: String, context: Cont
         }
     }
 
-    val fileName = "TransactionHistory_"+Date().toString() + "_."+type
+    val fileName = "TransactionHistory_"+Date().time + "_."+type
+    val filePath = context.getExternalFilesDir(Environment.DIRECTORY_DOCUMENTS).toString()
 
-    val file = File(context.getExternalFilesDir(Environment.DIRECTORY_DOCUMENTS).toString() + "/$fileName")
+    val file = File("$filePath/$fileName")
     Log.d("File", context.getExternalFilesDir(Environment.DIRECTORY_DOCUMENTS).toString())
     val outputStream = FileOutputStream(file)
     workbook.write(outputStream)
     workbook.close()
     outputStream.close()
+
+    return fileLoc(fileName, filePath)
+}
+
+fun sendExcelToEmail(transactions: List<Transaction>, context: Context, typeExcel: String, email: String){
+    try {
+        val fileStore = saveExcelFile(transactions, typeExcel, context)
+        val file = File(fileStore.filePath,fileStore.fileName)
+        val uri = FileProvider.getUriForFile(context, context.packageName+".provider", file)
+
+        val emailIntent = Intent(Intent.ACTION_SEND).apply {
+            type = "message/rfc822"
+            putExtra(Intent.EXTRA_EMAIL, arrayOf(email))
+            putExtra(Intent.EXTRA_SUBJECT, "Transaction History")
+            putExtra(
+                Intent.EXTRA_TEXT,
+                "Ini adalah history transaksi anda selama menggunakan Bondoman\n\nTerimakasih sudah menggunakan aplikasi kami"
+            )
+            putExtra(
+                Intent.EXTRA_STREAM,
+                uri
+            )
+        }
+
+
+
+
+
+
+        context.startActivity(Intent.createChooser(emailIntent, "send email"))
+    } catch (e: Exception) {
+        Log.e("Error", e.message.toString())
+    }
 }
