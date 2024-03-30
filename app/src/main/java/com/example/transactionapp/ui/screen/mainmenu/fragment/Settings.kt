@@ -12,6 +12,7 @@ import com.example.transactionapp.R
 import com.example.transactionapp.databinding.FragmentSettingsBinding
 import com.example.transactionapp.databinding.FragmentTransactionBinding
 import com.example.transactionapp.ui.viewmodel.transaction.TransactionViewModel
+import org.apache.poi.hssf.record.DBCellRecord
 
 class Settings : Fragment() {
     private val db: TransactionViewModel by activityViewModels()
@@ -36,6 +37,8 @@ class Settings : Fragment() {
         db.isRandom.observe(requireActivity()){
             binding.switchRandomize.isChecked = it
         }
+
+
 
 
         return binding.root
