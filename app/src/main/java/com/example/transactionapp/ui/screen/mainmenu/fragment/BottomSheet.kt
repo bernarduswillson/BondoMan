@@ -30,11 +30,13 @@ class BottomSheet : BottomSheetDialogFragment() {
         binding.xlsxButton.setOnClickListener {
             createExcelFile(transactionList, "xlsx", requireContext())
             Toast.makeText(requireContext(), "File saved to ${requireActivity().getExternalFilesDir(Environment.DIRECTORY_DOCUMENTS).toString()}", Toast.LENGTH_SHORT).show()
+            dismiss()
         }
 
         binding.xlsButton.setOnClickListener {
             createExcelFile(transactionList, "xls", requireContext())
             Toast.makeText(requireContext(), "File saved to ${requireActivity().getExternalFilesDir(Environment.DIRECTORY_DOCUMENTS).toString()}", Toast.LENGTH_SHORT).show()
+            dismiss()
         }
 
         return binding.root
