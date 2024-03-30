@@ -65,7 +65,7 @@ class TransactionForm : Fragment() {
         arrayAdp.setDropDownViewResource(R.layout.dropdown_item)
         binding.categoryInput.adapter = arrayAdp
 
-        binding.categoryInput?.onItemSelectedListener = object : AdapterView.OnItemSelectedListener {
+        binding.categoryInput.onItemSelectedListener = object : AdapterView.OnItemSelectedListener {
 
             override fun onItemSelected(
                 parent: AdapterView<*>?,
@@ -110,7 +110,6 @@ class TransactionForm : Fragment() {
                 )
                 db.changeAddStatus(true)
                 Toast.makeText(requireContext(), "Transaction Added", Toast.LENGTH_SHORT).show()
-                requireActivity().onBackPressed()
             }
         }
 
@@ -140,13 +139,6 @@ class TransactionForm : Fragment() {
         super.onStart()
         RequestPermission()
     }
-
-//    override fun onDestroy() {
-//        super.onDestroy()
-//        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.TIRAMISU) {
-//            requireActivity().unregisterReceiver(receiver)
-//        }
-//    }
 
     fun RequestPermission(){
         ActivityCompat.requestPermissions(

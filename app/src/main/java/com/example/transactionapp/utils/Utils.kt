@@ -1,5 +1,6 @@
 package com.example.transactionapp.utils
 
+import android.app.Activity
 import android.content.Context
 import android.content.Intent
 import android.os.Environment
@@ -72,7 +73,6 @@ fun saveExcelFile(transactions: List<Transaction>, type: String, context: Contex
     val filePath = context.getExternalFilesDir(Environment.DIRECTORY_DOCUMENTS).toString()
 
     val file = File("$filePath/$fileName")
-    Log.d("File", context.getExternalFilesDir(Environment.DIRECTORY_DOCUMENTS).toString())
     val outputStream = FileOutputStream(file)
     workbook.write(outputStream)
     workbook.close()
@@ -82,32 +82,24 @@ fun saveExcelFile(transactions: List<Transaction>, type: String, context: Contex
 }
 
 fun sendExcelToEmail(transactions: List<Transaction>, context: Context, typeExcel: String, email: String){
-    try {
-        val fileStore = saveExcelFile(transactions, typeExcel, context)
-        val file = File(fileStore.filePath,fileStore.fileName)
-        val uri = FileProvider.getUriForFile(context, context.packageName+".provider", file)
+    val fileStore = saveExcelFile(transactions, typeExcel, context)
+    val file = File(fileStore.filePath,fileStore.fileName)
+    val uri = FileProvider.getUriForFile(context, context.packageName+".provider", file)
 
-        val emailIntent = Intent(Intent.ACTION_SEND).apply {
-            type = "message/rfc822"
-            putExtra(Intent.EXTRA_EMAIL, arrayOf(email))
-            putExtra(Intent.EXTRA_SUBJECT, "Transaction History")
-            putExtra(
-                Intent.EXTRA_TEXT,
-                "Ini adalah history transaksi anda selama menggunakan Bondoman\n\nTerimakasih sudah menggunakan aplikasi kami"
-            )
-            putExtra(
-                Intent.EXTRA_STREAM,
-                uri
-            )
-        }
-
-
-
-
-
-
-        context.startActivity(Intent.createChooser(emailIntent, "send email"))
-    } catch (e: Exception) {
-        Log.e("Error", e.message.toString())
+    val emailIntent = Intent(Intent.ACTION_SEND).apply {
+        type = "message/rfc822"
+        putExtra(Intent.EXTRA_EMAIL, arrayOf(email))
+        putExtra(Intent.EXTRA_SUBJECT, "Transaction History")
+        putExtra(
+            Intent.EXTRA_TEXT,
+            "Ini adalah history transaksi anda selama menggunakan Bondoman\n\nTerimakasih sudah menggunakan aplikasi kami"
+        )
+        putExtra(
+            Intent.EXTRA_STREAM,
+            uri
+        )
     }
+
+
+    (context as Activity).startActivityForResult(Intent.createChooser(emailIntent, "send email"), 1002)
 }

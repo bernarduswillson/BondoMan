@@ -20,7 +20,7 @@ class BottomSheetExport : BottomSheetDialogFragment() {
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
-    ): View? {
+    ): View {
         val binding = FragmentBottomSheetBinding.inflate(layoutInflater)
         transactionList = mutableListOf()
         db.transaction.observe(requireActivity()){

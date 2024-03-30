@@ -66,7 +66,7 @@ class Scan : Fragment() {
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
-    ): View? {
+    ): View {
 
         binding = FragmentScanBinding.inflate(layoutInflater)
         val billList = mutableListOf<Transaction>()

@@ -6,6 +6,7 @@ import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.Toast
 import androidx.fragment.app.activityViewModels
 import com.example.transactionapp.databinding.FragmentSettingsBinding
 import com.example.transactionapp.ui.viewmodel.transaction.TransactionViewModel
@@ -16,7 +17,7 @@ class Settings : Fragment() {
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
-    ): View? {
+    ): View {
         val binding = FragmentSettingsBinding.inflate(layoutInflater)
         val bottomSheetExport = BottomSheetExport()
         val bottomSheetEmail = BottomSheetEmail()
@@ -40,8 +41,8 @@ class Settings : Fragment() {
         }
 
 
-
-
         return binding.root
     }
+
+
 }
