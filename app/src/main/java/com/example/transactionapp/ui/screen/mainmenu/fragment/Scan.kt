@@ -39,6 +39,7 @@ import com.example.transactionapp.ui.viewmodel.auth.Auth
 import com.example.transactionapp.ui.viewmodel.location.LocationModel
 import com.example.transactionapp.ui.viewmodel.location.LocationViewModel
 import com.example.transactionapp.ui.viewmodel.model.BillResponseSealed
+import com.example.transactionapp.ui.viewmodel.transaction.ScanResult
 import com.example.transactionapp.ui.viewmodel.transaction.TransactionViewModel
 import okhttp3.MediaType
 import okhttp3.MediaType.Companion.toMediaTypeOrNull
@@ -114,32 +115,6 @@ class Scan : Fragment() {
         auth.billResponse.observe(requireActivity(), Observer {billValue ->
             when (val data = billValue) {
                 is BillResponseSealed.Success -> {
-
-                    var locationValue: LocationModel? = null
-                    locationViewModel.location.observe(requireActivity()){ locationLambda ->
-                        locationValue = locationLambda
-                    }
-//
-//                    data.data.items.items.forEach {
-//                        val transaction = Transaction(
-//                            title = it.name,
-//                            nominal = it.price.toLong() * 12000L,
-//                            category = "Expense",
-//                            createdAt = Date(),
-//                            location = locationValue!!.locationName,
-//                            lat = locationValue!!.latitude,
-//                            long = locationValue!!.longitude
-//                        )
-//                        if (!billList.contains(transaction)) {
-//                            billList.add(transaction)
-//                        }
-//
-//                    }
-//
-//                    db.insertBillTransaction(billList)
-//                    db.changeAddStatus(true)
-//                    auth.resetBillResponse()
-
                     var title = ""
                     var nominal = 0L
                     var count = 0
@@ -164,12 +139,18 @@ class Scan : Fragment() {
                     val transactionFormFragment = TransactionForm()
                     transactionFormFragment.arguments = args
 
-                    val fragmentTransaction = parentFragmentManager.beginTransaction()
-                    fragmentTransaction.replace(R.id.navHostFragment, transactionFormFragment)
-                    fragmentTransaction.addToBackStack(null)
-                    fragmentTransaction.commit()
+                    db.setAtomicTransaction(
+                        ScanResult(
+                            title = title,
+                            nominal = nominal
+                        )
+                    )
+
+                    db.changeCameraStatus(true)
+                    auth.resetBillResponse()
                 }
                 is BillResponseSealed.Error -> {
+                    auth.resetBillResponse()
                     Toast.makeText(requireContext(), data.message, Toast.LENGTH_SHORT).show()
                 }
                 else -> {}
@@ -213,7 +194,7 @@ class Scan : Fragment() {
     private fun sendBillToServer(bitmap: Bitmap) {
         val requestFile = bitmap.toString().toRequestBody("image/jpg".toMediaTypeOrNull())
         val body = MultipartBody.Part.createFormData("file", "image.jpg", requestFile)
-        val token = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJuaW0iOiIxMzUyMTAyMSIsImlhdCI6MTcxMTg5NDM2NywiZXhwIjoxNzExODk0NjY3fQ.wNx7DoyxqA8dcpf2bpWHjeBUs2JOqkoLV4XJVFzOm2o"
+        val token = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJuaW0iOiIxMzUyMTAyMSIsImlhdCI6MTcxMTkxMzEzNSwiZXhwIjoxNzExOTEzNDM1fQ.B8Eh2c3AXiHK8D9mthEkmNPHtqoittFdJHeAOZaZWIY"
 
         auth.postBill("Bearer $token", body)
     }

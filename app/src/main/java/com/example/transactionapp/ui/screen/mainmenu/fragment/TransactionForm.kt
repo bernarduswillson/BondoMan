@@ -131,6 +131,11 @@ class TransactionForm : Fragment() {
             }
         }
 
+        db.atomicTransaction.observe(viewLifecycleOwner){
+            binding.titleInput.text = Editable.Factory.getInstance().newEditable(it.title)
+            binding.amountInput.text = Editable.Factory.getInstance().newEditable(it.nominal.toString())
+        }
+
         db.isRandom.observe(viewLifecycleOwner){
             if (it){
                 binding.titleInput.text = Editable.Factory.getInstance().newEditable(getRandomData.getRandomTitle())

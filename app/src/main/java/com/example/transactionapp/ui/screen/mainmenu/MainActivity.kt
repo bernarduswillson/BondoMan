@@ -18,7 +18,6 @@ import androidx.navigation.NavController
 import androidx.navigation.Navigation
 import androidx.navigation.findNavController
 import androidx.navigation.fragment.NavHostFragment
-import androidx.navigation.ui.setupWithNavController
 import com.example.transactionapp.R
 import com.example.transactionapp.databinding.ActivityMainBinding
 import com.example.transactionapp.service.ConnectionStatusService
@@ -71,7 +70,7 @@ class MainActivity : AppCompatActivity() {
 //        fragment.commit()
 //
         binding.fabAddTransaction.setOnClickListener {
-            navController.popBackStack()
+
             navController.navigate(R.id.transactionForm)
             binding.bottomNavigationView.selectedItemId = R.id.empty
         }
@@ -84,22 +83,22 @@ class MainActivity : AppCompatActivity() {
                     db.getAllDate()
                     db.getTransactions("all")
                     db.getCashFlowAndGrowthByMonth(Date())
-                    navController.popBackStack()
+
                     navController.navigate(R.id.transaction)
                     true
                 }
                 R.id.IbScanBtn -> {
-                    navController.popBackStack()
+
                     navController.navigate(R.id.scan)
                     true
                 }
                 R.id.IbSettingsBtn -> {
-                    navController.popBackStack()
+
                     navController.navigate(R.id.settings)
                     true
                 }
                 R.id.IbStatisticsBtn -> {
-                    navController.popBackStack()
+
                     navController.navigate(R.id.statistics)
                     true
                 }
@@ -115,11 +114,19 @@ class MainActivity : AppCompatActivity() {
                 db.getTransactions("all")
                 db.getCashFlowAndGrowthByMonth(Date())
                 db.getStatisticByMonth(Date())
-                navController.popBackStack()
+                
                 navController.navigate(R.id.transaction)
                 db.resetAddTransactionStatus()
                 db.changeAddStatus(false)
                 binding.bottomNavigationView.selectedItemId = R.id.IbTransactionBtn
+            }
+        }
+
+        db.cameraStatus.observe(this){
+            if (it){
+                navController.navigate(R.id.transactionForm)
+                db.changeCameraStatus(false)
+                binding.bottomNavigationView.selectedItemId = R.id.empty
             }
         }
 
