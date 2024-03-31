@@ -14,6 +14,11 @@ import androidx.annotation.RequiresApi
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.app.ActivityCompat
 import androidx.lifecycle.ViewModelProvider
+import androidx.navigation.NavController
+import androidx.navigation.Navigation
+import androidx.navigation.findNavController
+import androidx.navigation.fragment.NavHostFragment
+import androidx.navigation.ui.setupWithNavController
 import com.example.transactionapp.R
 import com.example.transactionapp.databinding.ActivityMainBinding
 import com.example.transactionapp.service.ConnectionStatusService
@@ -44,6 +49,7 @@ class MainActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         val binding = ActivityMainBinding.inflate(layoutInflater)
         setContentView(binding.root)
+        val navController = (supportFragmentManager.findFragmentById(R.id.navHostFragment) as NavHostFragment).navController
 
         startService(Intent(this, ConnectionStatusService::class.java))
         //TODO: dont forget to startservice token
@@ -56,19 +62,17 @@ class MainActivity : AppCompatActivity() {
         db.getCashFlowAndGrowthByMonth(Date())
         db.getStatisticByMonth(Date())
 
-        val frame = R.id.navHostFragment
-
-        var fragment = supportFragmentManager.beginTransaction()
-
-        fragment.replace(frame, Transaction())
-        fragment.addToBackStack(null)
-        fragment.commit()
-
+//        val frame = R.id.navHostFragment
+//
+//        var fragment = supportFragmentManager.beginTransaction()
+//
+//        fragment.replace(frame, Transaction())
+//        fragment.addToBackStack(null)
+//        fragment.commit()
+//
         binding.fabAddTransaction.setOnClickListener {
-            fragment = supportFragmentManager.beginTransaction()
-            fragment.replace(frame, TransactionForm())
-            fragment.addToBackStack(null)
-            fragment.commit()
+            navController.popBackStack()
+            navController.navigate(R.id.transactionForm)
             binding.bottomNavigationView.selectedItemId = R.id.empty
         }
 
@@ -80,31 +84,23 @@ class MainActivity : AppCompatActivity() {
                     db.getAllDate()
                     db.getTransactions("all")
                     db.getCashFlowAndGrowthByMonth(Date())
-                    fragment = supportFragmentManager.beginTransaction()
-                    fragment.replace(frame, Transaction())
-                    fragment.addToBackStack(null)
-                    fragment.commit()
+                    navController.popBackStack()
+                    navController.navigate(R.id.transaction)
                     true
                 }
                 R.id.IbScanBtn -> {
-                    fragment = supportFragmentManager.beginTransaction()
-                    fragment.replace(frame, Scan())
-                    fragment.addToBackStack(null)
-                    fragment.commit()
+                    navController.popBackStack()
+                    navController.navigate(R.id.scan)
                     true
                 }
                 R.id.IbSettingsBtn -> {
-                    fragment = supportFragmentManager.beginTransaction()
-                    fragment.replace(frame, Settings())
-                    fragment.addToBackStack(null)
-                    fragment.commit()
+                    navController.popBackStack()
+                    navController.navigate(R.id.settings)
                     true
                 }
                 R.id.IbStatisticsBtn -> {
-                    fragment = supportFragmentManager.beginTransaction()
-                    fragment.replace(frame, Statistics())
-                    fragment.addToBackStack(null)
-                    fragment.commit()
+                    navController.popBackStack()
+                    navController.navigate(R.id.statistics)
                     true
                 }
                 else -> {
@@ -119,10 +115,8 @@ class MainActivity : AppCompatActivity() {
                 db.getTransactions("all")
                 db.getCashFlowAndGrowthByMonth(Date())
                 db.getStatisticByMonth(Date())
-                fragment = supportFragmentManager.beginTransaction()
-                fragment.replace(frame, Transaction())
-                fragment.addToBackStack(null)
-                fragment.commit()
+                navController.popBackStack()
+                navController.navigate(R.id.transaction)
                 db.resetAddTransactionStatus()
                 db.changeAddStatus(false)
                 binding.bottomNavigationView.selectedItemId = R.id.IbTransactionBtn

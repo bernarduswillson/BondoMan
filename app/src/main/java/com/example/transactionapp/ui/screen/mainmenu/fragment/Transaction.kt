@@ -9,6 +9,8 @@ import android.view.ViewGroup
 import androidx.core.content.ContextCompat
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.activityViewModels
+import androidx.navigation.NavController
+import androidx.navigation.Navigation
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.example.transactionapp.R
@@ -22,7 +24,12 @@ import kotlin.math.abs
 @AndroidEntryPoint
 class Transaction : Fragment() {
     private val db: TransactionViewModel by activityViewModels()
+    private lateinit var navController: NavController
 
+    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+        super.onViewCreated(view, savedInstanceState)
+        navController = Navigation.findNavController(view)
+    }
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
@@ -52,18 +59,14 @@ class Transaction : Fragment() {
         return binding.root
     }
 
+
     private fun onItemClickHandler(id: Int){
         Log.d("TransactionFragment", "onItemClickHandler: $id")
+
 
         val args = Bundle()
         args.putInt(TransactionDetails.ARG_TRANSACTION_ID, id)
 
-        val transactionDetailsFragment = TransactionDetails()
-        transactionDetailsFragment.arguments = args
-
-        val fragmentTransaction = parentFragmentManager.beginTransaction()
-        fragmentTransaction.replace(R.id.navHostFragment, transactionDetailsFragment)
-        fragmentTransaction.addToBackStack(null)
-        fragmentTransaction.commit()
+        navController.navigate(R.id.transactionDetails, args)
     }
 }
