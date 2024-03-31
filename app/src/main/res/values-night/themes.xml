@@ -7,19 +7,22 @@
 
         <!-- Colors -->
         <item name="colorPrimary">@color/N9</item>
-        <item name="colorPrimaryVariant">@color/N8</item>
         <item name="colorPrimaryFixedDim">@color/N6</item>
+        <item name="colorOnPrimaryContainer">@color/N8</item>
 
         <item name="colorSecondary">@color/N1</item>
-        <item name="colorSecondaryVariant">@color/N3</item>
-        <item name="colorOnSecondary">@color/N6</item>
 
         <item name="colorAccent">@color/G5</item>
 
+        <!-- UNUSED COLOR -->
+        <item name="colorPrimaryVariant">@color/N8</item>
+        <item name="colorSecondaryVariant">@color/N3</item>
+        <item name="colorOnSecondary">@color/N6</item>
+        
         <!-- Container -->
         <item name="colorPrimaryContainer">@color/N8</item>
 
         <!-- App -->
-        <item name="android:windowBackground">?attr/colorPrimary</item>
+        <item name="android:windowBackground">@color/N9</item>
     </style>
 </resources>

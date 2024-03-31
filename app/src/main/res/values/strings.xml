@@ -23,4 +23,5 @@
     <string name="statistics_button">Statistics button</string>
     <string name="settings_button">Settings button</string>
     <string name="alt_logo">Bondoman logo</string>
+    <string name="alt_fab">Add transaction</string>
 </resources>
