@@ -4,6 +4,11 @@
     <!-- Header -->
     <string name="title_transactions">Transactions</string>
 
+    <!-- Login -->
+    <string name="email">Email</string>
+    <string name="password">Password</string>
+    <string name="login">Login</string>
+
     <!-- Splash Screen -->
     <string name="bondo">Bondo</string>
     <string name="man">Man</string>
