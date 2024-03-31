@@ -5,17 +5,20 @@
     <string name="title_transactions">Transactions</string>
     <string name="title_new_transaction">New Transaction</string>
     <string name="title_transaction_detail">Transaction Detail</string>
+    <string name="title_settings">Settings</string>
 
-    <!-- Splash Screen -->
+    <!-- Fixed -->
     <string name="bondo">Bondo</string>
     <string name="man">Man</string>
     <string name="version_number">Ver 1.0.0</string>
     <string name="footer">Developed by DGR</string>
+    <string name="save_to_local">Save to local</string>
 
     <!-- Button -->
     <string name="btn_save">Save</string>
     <string name="btn_edit">Edit</string>
     <string name="btn_login">Login</string>
+    <string name="btn_delete">Delete</string>
 
     <!-- Placeholder -->
     <string name="empty_amount">Rp 0</string>
@@ -36,6 +39,8 @@
     <string name="label_category">Category</string>
     <string name="label_amount">Amount (Rp)</string>
     <string name="label_location">Location</string>
+    <string name="label_general">General</string>
+    <string name="label_preferences">Preferences</string>
 
     <!-- Hint -->
     <string name="hint_transaction_title">Transaction title</string>
@@ -50,6 +55,12 @@
     <string name="alt_logo">Bondoman logo</string>
     <string name="alt_fab">Add transaction</string>
     <string name="alt_transaction_icon">transaction_icon</string>
-    <string name="btn_delete">Delete</string>
+    <string name="alt_right_arrow">Right arrow</string>
+    <string name="alt_download_icon">Download icon</string>
+    <string name="alt_share_icon">Share icon</string>
+    <string name="share_via_email">Share via email</string>
+    <string name="randomize_transaction">Randomize transaction</string>
+    <string name="alt_logout_icon">Logout icon</string>
+    <string name="logout">Logout</string>
 
 </resources>
