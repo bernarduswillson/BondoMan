@@ -1,42 +1,42 @@
 <?xml version="1.0" encoding="utf-8"?>
 <androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
-    android:layout_height="90dp"
+    android:layout_height="70dp"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools">
 
     <ImageView
         android:id="@+id/statusTransactionIcon"
-        android:layout_width="50dp"
+        android:layout_width="48dp"
         android:layout_height="0dp"
-        android:src="@drawable/saving_ic"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        android:backgroundTint="@android:color/white"
-        app:layout_constraintTop_toTopOf="parent"/>
+        app:layout_constraintTop_toTopOf="parent"
+        android:src="@drawable/saving_ic"
+        android:contentDescription="@string/alt_transaction_icon" />
 
     <LinearLayout
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginStart="10dp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintStart_toEndOf="@+id/statusTransactionIcon"
         app:layout_constraintTop_toTopOf="parent"
+        android:layout_marginStart="10dp"
         android:orientation="vertical">
         <TextView
             android:id="@+id/transactionObject"
             android:layout_width="wrap_content"
             android:layout_height="27dp"
-            android:text="Kopi"
-            android:fontFamily="@font/poppins_bold"
-            android:textSize="20sp"/>
+            android:text="@string/transaction_title"
+            android:textColor="?attr/colorSecondary"
+            style="@style/Display3"/>
         <TextView
             android:id="@+id/location"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="Sepohon"
-            android:textSize="13sp"
-            android:fontFamily="@font/poppins_regular"/>
+            android:text="@string/transaction_location"
+            android:textColor="?attr/colorSecondaryFixedDim"
+            style="@style/Body3"/>
     </LinearLayout>
 
     <TextView
@@ -46,17 +46,17 @@
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        android:text="Rp 20.000"
-        android:fontFamily="@font/poppins_regular"
-        android:textSize="18sp"/>
+        android:text="@string/empty_amount"
+        android:textColor="@color/R4"
+        style="@style/Body1"/>
 
     <View
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         android:layout_width="match_parent"
-        android:layout_marginHorizontal="10dp"
-        android:background="@color/N6"
+        android:layout_marginHorizontal="5dp"
+        android:background="?attr/colorPrimaryFixedDim"
         android:layout_height="0.5dp"/>
 
 

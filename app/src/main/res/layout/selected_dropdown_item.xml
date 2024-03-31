@@ -2,8 +2,7 @@
 <TextView xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:textColor="@color/N1"
-    android:fontFamily="@font/poppins_regular"
-    android:textSize="16sp">
+    android:textColor="?attr/colorSecondary"
+    style="@style/Body1">
 
 </TextView>

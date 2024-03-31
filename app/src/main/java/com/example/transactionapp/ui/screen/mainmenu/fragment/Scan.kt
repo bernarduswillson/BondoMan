@@ -1,5 +1,6 @@
 package com.example.transactionapp.ui.screen.mainmenu.fragment
 
+import TransactionDetails
 import android.Manifest
 import android.app.Activity
 import android.content.Intent
@@ -38,6 +39,7 @@ import com.example.transactionapp.ui.viewmodel.auth.Auth
 import com.example.transactionapp.ui.viewmodel.location.LocationModel
 import com.example.transactionapp.ui.viewmodel.location.LocationViewModel
 import com.example.transactionapp.ui.viewmodel.model.BillResponseSealed
+import com.example.transactionapp.ui.viewmodel.transaction.ScanResult
 import com.example.transactionapp.ui.viewmodel.transaction.TransactionViewModel
 import okhttp3.MediaType
 import okhttp3.MediaType.Companion.toMediaTypeOrNull
@@ -113,33 +115,42 @@ class Scan : Fragment() {
         auth.billResponse.observe(requireActivity(), Observer {billValue ->
             when (val data = billValue) {
                 is BillResponseSealed.Success -> {
-
-                    var locationValue: LocationModel? = null
-                    locationViewModel.location.observe(requireActivity()){ locationLambda ->
-                        locationValue = locationLambda
-                    }
-
+                    var title = ""
+                    var nominal = 0L
+                    var count = 0
                     data.data.items.items.forEach {
-                        val transaction = Transaction(
-                            title = it.name,
-                            nominal = it.price.toLong() * 12000L,
-                            category = "Expense",
-                            createdAt = Date(),
-                            location = locationValue!!.locationName,
-                            lat = locationValue!!.latitude,
-                            long = locationValue!!.longitude
-                        )
-                        if (!billList.contains(transaction)) {
-                            billList.add(transaction)
+                        if (count < 1) {
+                            title += it.name + ", "
+                        } else {
                         }
-
+                        nominal += it.price.toLong() * 12000L * it.qty
+                        count++
+                    }
+                    if (count > 1) {
+                        title += "etc."
+                    } else {
+                        title = title.dropLast(2)
                     }
 
-                    db.insertBillTransaction(billList)
-                    db.changeAddStatus(true)
+                    val args = Bundle()
+                    args.putString(TransactionForm.ARG_ITEM_NAME, title)
+                    args.putLong(TransactionForm.ARG_ITEM_NOMINAL, nominal)
+
+                    val transactionFormFragment = TransactionForm()
+                    transactionFormFragment.arguments = args
+
+                    db.setAtomicTransaction(
+                        ScanResult(
+                            title = title,
+                            nominal = nominal
+                        )
+                    )
+
+                    db.changeCameraStatus(true)
                     auth.resetBillResponse()
                 }
                 is BillResponseSealed.Error -> {
+                    auth.resetBillResponse()
                     Toast.makeText(requireContext(), data.message, Toast.LENGTH_SHORT).show()
                 }
                 else -> {}
@@ -183,7 +194,7 @@ class Scan : Fragment() {
     private fun sendBillToServer(bitmap: Bitmap) {
         val requestFile = bitmap.toString().toRequestBody("image/jpg".toMediaTypeOrNull())
         val body = MultipartBody.Part.createFormData("file", "image.jpg", requestFile)
-        val token = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJuaW0iOiIxMzUyMTAzMSIsImlhdCI6MTcxMDk5NjAwOCwiZXhwIjoxNzEwOTk2MzA4fQ.hGxTdR92D4iukPp1-Y6mKfky0eS2he2MiIQZx_LLMwk"
+        val token = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJuaW0iOiIxMzUyMTAyMSIsImlhdCI6MTcxMTkxMzEzNSwiZXhwIjoxNzExOTEzNDM1fQ.B8Eh2c3AXiHK8D9mthEkmNPHtqoittFdJHeAOZaZWIY"
 
         auth.postBill("Bearer $token", body)
     }

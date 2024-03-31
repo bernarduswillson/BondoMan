@@ -21,6 +21,11 @@ import java.util.Date
 import java.util.TreeMap
 import javax.inject.Inject
 
+
+data class ScanResult(
+    val title: String = "",
+    val nominal: Long = 0,
+)
 @HiltViewModel
 class TransactionViewModel @Inject constructor(
     private val transactionDatabaseRepoImpl: TransactionDatabaseRepoImpl
@@ -41,10 +46,13 @@ class TransactionViewModel @Inject constructor(
     private val _growth: MutableLiveData<Long> = MutableLiveData()
     private val _isRandom: MutableLiveData<Boolean> = MutableLiveData()
 
+    private val _atomicTransaction: MutableLiveData<ScanResult> = MutableLiveData()
+
     // STATUS
     private val _addTransactionStatus: MutableLiveData<Boolean> = MutableLiveData()
     private val _deleteTransactionStatus: MutableLiveData<Boolean> = MutableLiveData()
     private val _updateTransactionStatus: MutableLiveData<Boolean> = MutableLiveData()
+    private val _cameraStatus: MutableLiveData<Boolean> = MutableLiveData()
 
     val transaction: LiveData<List<Transaction>>
         get() = _transaction
@@ -92,6 +100,12 @@ class TransactionViewModel @Inject constructor(
 
     val isRandom: LiveData<Boolean>
         get() = _isRandom
+
+    val cameraStatus: LiveData<Boolean>
+        get() = _cameraStatus
+
+    val atomicTransaction: LiveData<ScanResult>
+        get() = _atomicTransaction
 
     fun changeIsRandom(status: Boolean){
         _isRandom.postValue(status)
@@ -221,7 +235,8 @@ class TransactionViewModel @Inject constructor(
 
     fun getStatisticByMonth(date: Date){
         viewModelScope.launch {
-            val thisMonth = if (date.month + 1 < 10) "0${date.month + 1}" else (date.month + 1).toString()
+            val thisMonth = if (date.month < 10) "0${date.month}" else (date.month).toString()
+            Log.d("TransactionViewModel", "getStatisticMonthhhh: $thisMonth")
             val response = transactionDatabaseRepoImpl.getTransactionsByMonth(thisMonth)
             val income = mutableListOf<Long>()
             val expense = mutableListOf<Long>()
@@ -247,6 +262,10 @@ class TransactionViewModel @Inject constructor(
                 }
             }
 
+            Log.d("TransactionViewModel", "getStatisticByMonth: $income")
+            Log.d("TransactionViewModel", "getStatisticByMonth: $expense")
+            Log.d("TransactionViewModel", "getStatisticByMonth: $saving")
+
             _listOfIncome.postValue(income)
             _sumOfIncome.postValue(sumIncome)
             _listOfExpense.postValue(expense)
@@ -258,8 +277,8 @@ class TransactionViewModel @Inject constructor(
 
     fun getCashFlowAndGrowthByMonth (date: Date) {
         viewModelScope.launch {
-            val thisMonth = if (date.month + 1 < 10) "0${date.month + 1}" else (date.month + 1).toString()
-            val lastMonth = if (date.month < 10) "0${date.month}" else date.month.toString()
+            val thisMonth = if (date.month < 10) "0${date.month}" else (date.month).toString()
+            val lastMonth = if (date.month - 1 < 10) "0${date.month - 1}" else (date.month - 1).toString()
             val transactionThisMonth = transactionDatabaseRepoImpl.getTransactionsByMonth(thisMonth)
             val transactionLastMonth = transactionDatabaseRepoImpl.getTransactionsByMonth(lastMonth)
 
@@ -320,6 +339,14 @@ class TransactionViewModel @Inject constructor(
 
     fun changeAddStatus(status: Boolean){
         _addTransactionStatus.postValue(status)
+    }
+
+    fun changeCameraStatus(status: Boolean){
+        _cameraStatus.postValue(status)
+    }
+
+    fun setAtomicTransaction(transaction: ScanResult){
+        _atomicTransaction.postValue(transaction)
     }
 
     fun removeObserveAllData(lifecycleOwner: LifecycleOwner){
