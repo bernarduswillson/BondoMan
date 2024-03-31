@@ -52,7 +52,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_gravity="center_horizontal"
-                android:text="@string/your_balance"
+                android:text="@string/label_your_balance"
                 style="@style/Label"/>
         </LinearLayout>
 
@@ -77,7 +77,7 @@
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="match_parent"
-                    android:text="@string/cashflow"
+                    android:text="@string/label_cashflow"
                     style="@style/Label" />
 
                 <TextView
@@ -102,7 +102,7 @@
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="@string/growth"
+                    android:text="@string/label_growth"
                     android:textAlignment="textEnd"
                     style="@style/Label"/>
 

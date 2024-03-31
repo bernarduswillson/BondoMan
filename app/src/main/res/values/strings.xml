@@ -3,11 +3,8 @@
 
     <!-- Header -->
     <string name="title_transactions">Transactions</string>
-
-    <!-- Login -->
-    <string name="email">Email</string>
-    <string name="password">Password</string>
-    <string name="login">Login</string>
+    <string name="title_new_transaction">New Transaction</string>
+    <string name="title_transaction_detail">Transaction Detail</string>
 
     <!-- Splash Screen -->
     <string name="bondo">Bondo</string>
@@ -15,23 +12,44 @@
     <string name="version_number">Ver 1.0.0</string>
     <string name="footer">Developed by DGR</string>
 
-    <!-- Transactions -->
+    <!-- Button -->
+    <string name="btn_save">Save</string>
+    <string name="btn_edit">Edit</string>
+    <string name="btn_login">Login</string>
+
+    <!-- Placeholder -->
     <string name="empty_amount">Rp 0</string>
-    <string name="empty_growth">0 %</string>
-    <string name="your_balance">Your Balance</string>
-    <string name="cashflow">Cashflow</string>
-    <string name="growth">Growth</string>
+    <string name="empty_growth">0 %</string>>
+    <string name="empty_amount_value">0</string>
     <string name="transaction_title">Title</string>
     <string name="transaction_location">Location</string>
+    <string name="getting_location">Getting your location...</string>
+
+    <!-- Label -->
+    <string name="label_email">Email</string>
+    <string name="label_password">Password</string>
+    <string name="label_title">Title</string>
+    <string name="label_your_balance">Your Balance</string>
+    <string name="label_cashflow">Cashflow</string>
+    <string name="label_growth">Growth</string>
+    <string name="label_date">Date</string>
+    <string name="label_category">Category</string>
+    <string name="label_amount">Amount (Rp)</string>
+    <string name="label_location">Location</string>
+
+    <!-- Hint -->
+    <string name="hint_transaction_title">Transaction title</string>
 
     <!-- Alt -->
     <string name="alt_back_button">Back button</string>
-    <string name="transaction_button">Transaction button</string>
-    <string name="scan_button">Scan button</string>
-    <string name="add_transaction_button">Add transaction button</string>
-    <string name="statistics_button">Statistics button</string>
-    <string name="settings_button">Settings button</string>
+    <string name="alt_transaction_button">Transaction button</string>
+    <string name="alt_scan_button">Scan button</string>
+    <string name="alt_add_transaction_button">Add transaction button</string>
+    <string name="alt_statistics_button">Statistics button</string>
+    <string name="alt_settings_button">Settings button</string>
     <string name="alt_logo">Bondoman logo</string>
     <string name="alt_fab">Add transaction</string>
     <string name="alt_transaction_icon">transaction_icon</string>
+    <string name="btn_delete">Delete</string>
+
 </resources>
