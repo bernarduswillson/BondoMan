@@ -12,5 +12,7 @@ data class Transaction(
     val category: String,
     val nominal: Long,
     val location: String,
+    val lat: Double,
+    val long: Double,
     val createdAt: Date
 )

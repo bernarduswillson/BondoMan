@@ -82,7 +82,9 @@ class TransactionViewModel @Inject constructor(
                     category = "Expense",
                     nominal = it.nominal,
                     location = it.location,
-                    createdAt = Date()
+                    createdAt = Date(),
+                    lat = it.lat,
+                    long = it.long
                 )
                 transactionDatabaseRepoImpl.insertTransaction(transaction)
             }
@@ -116,6 +118,7 @@ class TransactionViewModel @Inject constructor(
 
             _transaction.postValue(response)
             response.forEach {
+                Log.d("TransactionViewModel", "getTransactions: ${it}")
                 if(it.category == "Expense"){
                     sum -= it.nominal
                 }

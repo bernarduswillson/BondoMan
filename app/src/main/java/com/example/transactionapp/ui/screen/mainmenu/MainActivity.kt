@@ -23,6 +23,7 @@ import com.example.transactionapp.ui.screen.mainmenu.fragment.Settings
 import com.example.transactionapp.ui.screen.mainmenu.fragment.Statistics
 import com.example.transactionapp.ui.screen.mainmenu.fragment.Transaction
 import com.example.transactionapp.ui.screen.mainmenu.fragment.TransactionForm
+import com.example.transactionapp.ui.viewmodel.location.LocationModel
 import com.example.transactionapp.ui.viewmodel.location.LocationViewModel
 import com.example.transactionapp.ui.viewmodel.transaction.TransactionViewModel
 import com.google.android.gms.location.FusedLocationProviderClient
@@ -185,7 +186,11 @@ class MainActivity : AppCompatActivity() {
         override fun onLocationResult(locationResult: LocationResult) {
             var lastLocation: Location? = locationResult.lastLocation
             if (lastLocation != null) {
-                locationViewModel.setLocation(getCityName(lastLocation.latitude, lastLocation.longitude))
+                locationViewModel.setLocation(LocationModel(
+                    locationName = getCityName(lastLocation.latitude, lastLocation.longitude),
+                    latitude = lastLocation.latitude,
+                    longitude = lastLocation.longitude
+                ))
             }
         }
     }
