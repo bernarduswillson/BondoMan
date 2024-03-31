@@ -110,11 +110,12 @@
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintEnd_toEndOf="parent"
                 android:layout_marginTop="5dp"
-                android:paddingVertical="10dp"
+                android:paddingVertical="0dp"
                 android:paddingHorizontal="7dp"
                 style="@style/Body1"
                 android:background="@drawable/spinner_input_field"
-                android:backgroundTint="?attr/colorPrimaryContainer" />
+                />
+            <!--                android:backgroundTint="?attr/colorPrimaryContainer" -->
 
             <TextView
                 android:id="@+id/amountLabel"

@@ -102,7 +102,7 @@
                 android:textColor="?attr/colorPrimaryFixedDim"
                 style="@style/Label" />
 
-            <Spinner
+            <TextView
                 android:id="@+id/categoryInput"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
@@ -110,10 +110,12 @@
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintEnd_toEndOf="parent"
                 android:layout_marginTop="5dp"
-                android:paddingVertical="10dp"
-                android:paddingHorizontal="7dp"
+                android:padding="7dp"
+                tools:text="Income"
+                android:textColorHint="?attr/colorPrimaryFixedDim"
+                android:textColor="?attr/colorSecondary"
                 style="@style/Body1"
-                android:background="@drawable/spinner_input_field"
+                android:background="@drawable/rounded_input_field"
                 android:backgroundTint="?attr/colorPrimaryContainer" />
 
             <TextView
