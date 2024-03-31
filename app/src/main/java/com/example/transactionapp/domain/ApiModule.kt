@@ -5,15 +5,11 @@ import android.util.Log
 import androidx.room.Room
 import com.example.transactionapp.domain.api.TransactionAPI
 import com.example.transactionapp.domain.api.logger.LoggingInterceptor
-import com.example.transactionapp.domain.api.repo.TransactionAPIRepoImpl
 import com.example.transactionapp.domain.db.TransactionDatabase
 import com.example.transactionapp.domain.db.dao.TransactionDao
 import com.example.transactionapp.domain.db.repo.TransactionDatabaseRepoImpl
-import com.example.transactionapp.service.TokenService
-import com.example.transactionapp.ui.viewmodel.auth.Auth
 import com.squareup.moshi.Moshi
 import com.squareup.moshi.kotlin.reflect.KotlinJsonAdapterFactory
-import dagger.Component
 import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn
@@ -46,6 +42,7 @@ object ApiModule {
 
 
     @Provides
+    @Singleton
     fun provideRetrofit(okHttpClient: OkHttpClient): Retrofit.Builder {
         val moshi = Moshi.Builder()
             .add(KotlinJsonAdapterFactory())
@@ -58,6 +55,7 @@ object ApiModule {
     }
 
     @Provides
+    @Singleton
     fun provideApi(builder: Retrofit.Builder): TransactionAPI {
         return builder
             .build()
@@ -65,6 +63,7 @@ object ApiModule {
     }
 
     @Provides
+    @Singleton
     fun provideOkHttp(loggingInterceptor: HttpLoggingInterceptor): OkHttpClient {
         return OkHttpClient
             .Builder()
@@ -79,20 +78,11 @@ object ApiModule {
     }
 
     @Provides
+    @Singleton
     fun provideHttpLoggingInterceptor(loggingInterceptor: LoggingInterceptor): HttpLoggingInterceptor {
         val httpLoggingInterceptor = HttpLoggingInterceptor(loggingInterceptor)
         httpLoggingInterceptor.level = HttpLoggingInterceptor.Level.BODY
         return httpLoggingInterceptor
 
     }
-
-    @Provides
-    fun provideAuth(transactionAPIRepoImpl: TransactionAPIRepoImpl): Auth {
-        return Auth(transactionAPIRepoImpl)
-    }
-}
-
-@Component(modules = [ApiModule::class])
-interface AppComponent {
-    fun inject(service: TokenService)
 }
