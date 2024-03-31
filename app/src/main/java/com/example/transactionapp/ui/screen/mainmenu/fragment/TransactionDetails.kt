@@ -1,4 +1,3 @@
-package com.example.transactionapp.ui.screen.mainmenu.fragment
 
 import android.app.AlertDialog
 import android.os.Bundle
@@ -81,7 +80,9 @@ class TransactionDetails : Fragment() {
                         category = binding.categoryInput.selectedItem.toString(),
                         nominal = binding.amountInput.text.toString().toLong(),
                         createdAt = db.transactionById.value?.createdAt!!,
-                        location = binding.locationInput.text.toString()
+                        location = binding.locationInput.text.toString(),
+                        lat = db.transactionById.value?.lat!!,
+                        long = db.transactionById.value?.long!!
                     )
                 )
                 db.changeAddStatus(true)
