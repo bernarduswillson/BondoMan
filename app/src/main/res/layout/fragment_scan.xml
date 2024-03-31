@@ -45,56 +45,68 @@
             app:layout_constraintBottom_toTopOf="@id/buttonsLayout" />
 
         <androidx.constraintlayout.widget.ConstraintLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:padding="30dp"
             android:id="@+id/buttonsLayout"
-            app:layout_constraintTop_toBottomOf="@id/previewView"
-            app:layout_constraintStart_toStartOf="parent"
+            android:layout_width="match_parent"
+            android:layout_height="150dp"
+            android:paddingHorizontal="30dp"
+            app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintBottom_toBottomOf="parent">
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/previewView">
 
             <Button
-                android:layout_width="70dp"
-                android:layout_height="70dp"
-                android:id="@+id/retakeButton"
-                android:background="@drawable/camera_button"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintEnd_toStartOf="@id/cameraButton"
-                app:layout_constraintTop_toTopOf="parent"
-                app:layout_constraintBottom_toBottomOf="parent"
-                android:visibility="invisible" />
-
-            <Button
-                android:layout_width="70dp"
-                android:layout_height="70dp"
-                android:id="@+id/galleryButton"
-                android:background="@drawable/camera_button"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintEnd_toStartOf="@id/cameraButton"
-                app:layout_constraintTop_toTopOf="parent"
-                app:layout_constraintBottom_toBottomOf="parent"/>
-
-            <Button
-                android:layout_width="70dp"
-                android:layout_height="70dp"
-                android:id="@+id/cameraButton"
-                android:background="@drawable/camera_button"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintTop_toTopOf="parent"
-                app:layout_constraintBottom_toBottomOf="parent" />
-
-            <Button
-                android:layout_width="70dp"
-                android:layout_height="70dp"
                 android:id="@+id/confirmButton"
-                android:background="@drawable/camera_button"
+                android:layout_width="match_parent"
+                android:layout_height="40dp"
+                android:background="@drawable/rounded_button"
+                android:fontFamily="@font/poppins_bold"
+                android:text="Continue"
+                android:textAllCaps="false"
+                android:textColor="?attr/colorSecondary"
+                android:textSize="15sp"
+                android:layout_marginBottom="10dp"
+                app:layout_constraintVertical_chainStyle="packed"
+                app:layout_constraintBottom_toTopOf="@id/retakeButton"
                 app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintStart_toEndOf="@id/cameraButton"
+                app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toTopOf="parent"
+                android:visibility="invisible"/>
+
+            <Button
+                android:id="@+id/galleryButton"
+                android:layout_width="45dp"
+                android:layout_height="45dp"
+                android:background="@drawable/gallery_ic"
                 app:layout_constraintBottom_toBottomOf="parent"
-                android:visibility="invisible" />
+                app:layout_constraintEnd_toStartOf="@id/cameraButton"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent" />
+
+            <Button
+                android:id="@+id/cameraButton"
+                android:layout_width="70dp"
+                android:layout_height="70dp"
+                android:background="@drawable/camera_button"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent" />
+
+            <Button
+                android:id="@+id/retakeButton"
+                android:layout_width="match_parent"
+                android:layout_height="40dp"
+                android:background="@drawable/rounded_retake_button"
+                android:fontFamily="@font/poppins_bold"
+                android:text="Retake"
+                android:textAllCaps="false"
+                android:textColor="@color/G5"
+                android:textSize="15sp"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/confirmButton"
+                android:visibility="invisible"/>
 
         </androidx.constraintlayout.widget.ConstraintLayout>
 
