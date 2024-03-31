@@ -1,5 +1,6 @@
 package com.example.transactionapp.ui.screen.mainmenu.fragment
 
+import TransactionDetails
 import android.Manifest
 import android.app.Activity
 import android.content.Intent
@@ -118,26 +119,55 @@ class Scan : Fragment() {
                     locationViewModel.location.observe(requireActivity()){ locationLambda ->
                         locationValue = locationLambda
                     }
+//
+//                    data.data.items.items.forEach {
+//                        val transaction = Transaction(
+//                            title = it.name,
+//                            nominal = it.price.toLong() * 12000L,
+//                            category = "Expense",
+//                            createdAt = Date(),
+//                            location = locationValue!!.locationName,
+//                            lat = locationValue!!.latitude,
+//                            long = locationValue!!.longitude
+//                        )
+//                        if (!billList.contains(transaction)) {
+//                            billList.add(transaction)
+//                        }
+//
+//                    }
+//
+//                    db.insertBillTransaction(billList)
+//                    db.changeAddStatus(true)
+//                    auth.resetBillResponse()
 
+                    var title = ""
+                    var nominal = 0L
+                    var count = 0
                     data.data.items.items.forEach {
-                        val transaction = Transaction(
-                            title = it.name,
-                            nominal = it.price.toLong() * 12000L,
-                            category = "Expense",
-                            createdAt = Date(),
-                            location = locationValue!!.locationName,
-                            lat = locationValue!!.latitude,
-                            long = locationValue!!.longitude
-                        )
-                        if (!billList.contains(transaction)) {
-                            billList.add(transaction)
+                        if (count < 1) {
+                            title += it.name + ", "
+                        } else {
                         }
-
+                        nominal += it.price.toLong() * 12000L * it.qty
+                        count++
+                    }
+                    if (count > 1) {
+                        title += "etc."
+                    } else {
+                        title = title.dropLast(2)
                     }
 
-                    db.insertBillTransaction(billList)
-                    db.changeAddStatus(true)
-                    auth.resetBillResponse()
+                    val args = Bundle()
+                    args.putString(TransactionForm.ARG_ITEM_NAME, title)
+                    args.putLong(TransactionForm.ARG_ITEM_NOMINAL, nominal)
+
+                    val transactionFormFragment = TransactionForm()
+                    transactionFormFragment.arguments = args
+
+                    val fragmentTransaction = parentFragmentManager.beginTransaction()
+                    fragmentTransaction.replace(R.id.navHostFragment, transactionFormFragment)
+                    fragmentTransaction.addToBackStack(null)
+                    fragmentTransaction.commit()
                 }
                 is BillResponseSealed.Error -> {
                     Toast.makeText(requireContext(), data.message, Toast.LENGTH_SHORT).show()
@@ -183,7 +213,7 @@ class Scan : Fragment() {
     private fun sendBillToServer(bitmap: Bitmap) {
         val requestFile = bitmap.toString().toRequestBody("image/jpg".toMediaTypeOrNull())
         val body = MultipartBody.Part.createFormData("file", "image.jpg", requestFile)
-        val token = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJuaW0iOiIxMzUyMTAzMSIsImlhdCI6MTcxMDk5NjAwOCwiZXhwIjoxNzEwOTk2MzA4fQ.hGxTdR92D4iukPp1-Y6mKfky0eS2he2MiIQZx_LLMwk"
+        val token = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJuaW0iOiIxMzUyMTAyMSIsImlhdCI6MTcxMTg5NDM2NywiZXhwIjoxNzExODk0NjY3fQ.wNx7DoyxqA8dcpf2bpWHjeBUs2JOqkoLV4XJVFzOm2o"
 
         auth.postBill("Bearer $token", body)
     }

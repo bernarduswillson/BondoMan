@@ -55,6 +55,11 @@ class TransactionForm : Fragment() {
     private val getRandomData = GetRandomData()
     private val locationData = MutableStateFlow<LocationModel?>(null)
 
+    companion object {
+        const val ARG_ITEM_NAME = "item_name"
+        const val ARG_ITEM_NOMINAL = "item_nominal"
+    }
+
     @RequiresApi(Build.VERSION_CODES.S)
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -62,6 +67,13 @@ class TransactionForm : Fragment() {
     ): View {
 
         val binding = FragmentTransactionFormBinding.inflate(layoutInflater)
+
+        if (arguments?.getString(ARG_ITEM_NAME) != null){
+            binding.titleInput.text = Editable.Factory.getInstance().newEditable(arguments?.getString(ARG_ITEM_NAME))
+        }
+        if (arguments?.getLong(ARG_ITEM_NOMINAL) != null){
+            binding.amountInput.text = Editable.Factory.getInstance().newEditable(arguments?.getLong(ARG_ITEM_NOMINAL).toString())
+        }
 
         val categories = arrayOf("Income", "Expense", "Savings")
         val arrayAdp = ArrayAdapter(requireActivity(), R.layout.selected_dropdown_item, categories)
