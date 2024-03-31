@@ -15,6 +15,15 @@
     <string name="version_number">Ver 1.0.0</string>
     <string name="footer">Developed by DGR</string>
 
+    <!-- Transactions -->
+    <string name="empty_amount">Rp 0</string>
+    <string name="empty_growth">0 %</string>
+    <string name="your_balance">Your Balance</string>
+    <string name="cashflow">Cashflow</string>
+    <string name="growth">Growth</string>
+    <string name="transaction_title">Title</string>
+    <string name="transaction_location">Location</string>
+
     <!-- Alt -->
     <string name="alt_back_button">Back button</string>
     <string name="transaction_button">Transaction button</string>
@@ -24,4 +33,5 @@
     <string name="settings_button">Settings button</string>
     <string name="alt_logo">Bondoman logo</string>
     <string name="alt_fab">Add transaction</string>
+    <string name="alt_transaction_icon">transaction_icon</string>
 </resources>
