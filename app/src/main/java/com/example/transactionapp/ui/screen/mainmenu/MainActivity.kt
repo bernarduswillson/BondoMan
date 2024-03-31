@@ -51,9 +51,7 @@ class MainActivity : AppCompatActivity() {
         setContentView(binding.root)
         val navController = (supportFragmentManager.findFragmentById(R.id.navHostFragment) as NavHostFragment).navController
 
-        startService(Intent(this, ConnectionStatusService::class.java))
-        //TODO: dont forget to startservice token
-//        startService(Intent(this, TokenService::class.java))
+        startService(Intent(this, TokenService::class.java))
 
         db = ViewModelProvider(this)[TransactionViewModel::class.java]
         locationViewModel = ViewModelProvider(this)[LocationViewModel::class.java]
@@ -62,21 +60,11 @@ class MainActivity : AppCompatActivity() {
         db.getCashFlowAndGrowthByMonth(Date())
         db.getStatisticByMonth(Date())
 
-//        val frame = R.id.navHostFragment
-//
-//        var fragment = supportFragmentManager.beginTransaction()
-//
-//        fragment.replace(frame, Transaction())
-//        fragment.addToBackStack(null)
-//        fragment.commit()
-//
         binding.fabAddTransaction.setOnClickListener {
             navController.popBackStack()
             navController.navigate(R.id.transactionForm)
             binding.bottomNavigationView.selectedItemId = R.id.empty
         }
-
-        //TODO: Add Animation When Fragment Change
 
         binding.bottomNavigationView.setOnItemSelectedListener { item ->
             when(item.itemId){
@@ -136,6 +124,7 @@ class MainActivity : AppCompatActivity() {
     override fun onDestroy() {
         super.onDestroy()
         db.removeObserveAllData(this)
+        stopService(Intent(this, TokenService::class.java))
     }
 
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {

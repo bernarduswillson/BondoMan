@@ -1,6 +1,7 @@
 package com.example.transactionapp.ui.screen.login
 
 import android.annotation.SuppressLint
+import android.content.Intent
 import android.os.Bundle
 import android.text.InputType
 import android.view.MotionEvent
@@ -10,6 +11,9 @@ import androidx.appcompat.app.AppCompatActivity
 import androidx.lifecycle.ViewModelProvider
 import com.example.transactionapp.databinding.ActivityLoginBinding
 import com.example.transactionapp.domain.api.model.LoginInput
+import com.example.transactionapp.helper.changeEmailSharedPref
+import com.example.transactionapp.helper.changeTokenSharedPref
+import com.example.transactionapp.ui.screen.mainmenu.MainActivity
 import com.example.transactionapp.ui.viewmodel.auth.Auth
 import com.example.transactionapp.ui.viewmodel.model.LoginResponseSealed
 import dagger.hilt.android.AndroidEntryPoint
@@ -18,6 +22,7 @@ import dagger.hilt.android.AndroidEntryPoint
 @AndroidEntryPoint
 class LoginActivity : AppCompatActivity() {
     private lateinit var auth: Auth
+    private lateinit var intent: Intent
     @SuppressLint("ClickableViewAccessibility")
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -40,14 +45,19 @@ class LoginActivity : AppCompatActivity() {
         auth.loginResponse.observe(this) {
             when (val data = it) {
                 is LoginResponseSealed.Success -> {
-                    Toast.makeText(this, data.data.toString(), Toast.LENGTH_SHORT).show()
+
+                    changeEmailSharedPref(this@LoginActivity, binding.editTextEmail.text.toString())
+                    changeTokenSharedPref(this@LoginActivity, data.data.token)
+
+                    intent = Intent(this@LoginActivity, MainActivity::class.java)
+                    startActivity(intent)
+                    finish()
+
                 }
                 is LoginResponseSealed.Error -> {
                     Toast.makeText(this, data.message, Toast.LENGTH_SHORT).show()
                 }
-                is LoginResponseSealed.Loading -> {
-                    Toast.makeText(this, "Loading", Toast.LENGTH_SHORT).show()
-                }
+                is LoginResponseSealed.Loading -> {}
             }
         }
     }
