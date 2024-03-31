@@ -1,8 +1,19 @@
 <resources xmlns:tools="http://schemas.android.com/tools">
     <!-- Base application theme. -->
     <style name="Base.Theme.TransactionApp" parent="Theme.Material3.DayNight.NoActionBar">
-        <!-- Customize your light theme here. -->
-        <!-- <item name="colorPrimary">@color/my_light_primary</item> -->
+        <!-- General -->
+        <item name="elevationOverlayEnabled">false</item>
+        <item name="colorPrimary">@color/N7</item>
+        <item name="colorPrimaryVariant">@color/N6</item>
+        <item name="colorSecondary">@color/N6</item>
+        <item name="colorSecondaryVariant">@color/N7</item>
+        <item name="colorAccent">@color/G5</item>
+
+        <!-- Container -->
+        <item name="colorPrimaryContainer">@color/N8</item>
+
+        <!-- App -->
+        <item name="android:windowBackground">@color/N1</item>
     </style>
 
     <style name="Theme.TransactionApp" parent="Base.Theme.TransactionApp" />

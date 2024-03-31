@@ -1,10 +1,12 @@
 <resources>
     <string name="app_name">BondoMan</string>
 
-    <!-- Toolbar -->
+    <!-- Header -->
     <string name="title_transactions">Transactions</string>
 
     <!-- Splash Screen -->
+    <string name="bondo">Bondo</string>
+    <string name="man">Man</string>
     <string name="version_number">Ver 1.0.0</string>
     <string name="footer">Developed by DGR</string>
 

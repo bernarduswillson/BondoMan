@@ -2,11 +2,26 @@
 <resources>
 
     <!-- Typography -->
+
+    <!-- Headlines -->
+    <style name="Headline1">
+        <item name="android:fontFamily">@font/playfairdisplay_extrabold</item>
+        <item name="android:textSize">34sp</item>
+        <item name="android:lineSpacingExtra">3sp</item>
+    </style>
     <style name="Headline3">
         <item name="android:fontFamily">@font/playfairdisplay_extrabold</item>
         <item name="android:textSize">21sp</item>
         <item name="android:lineSpacingExtra">2sp</item>
     </style>
+
+    <!-- Headlines Light -->
+    <style name="HeadlineLight1">
+        <item name="android:fontFamily">@font/playfairdisplay_regular</item>
+        <item name="android:textSize">34sp</item>
+        <item name="android:lineSpacingExtra">3sp</item>
+    </style>
+
     <style name="Display1">
         <item name="android:fontFamily">@font/poppins_extrabold</item>
         <item name="android:textSize">34sp</item>
