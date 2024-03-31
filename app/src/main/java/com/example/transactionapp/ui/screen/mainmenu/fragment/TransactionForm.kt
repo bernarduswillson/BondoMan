@@ -28,6 +28,7 @@ import com.example.transactionapp.R
 import com.example.transactionapp.databinding.FragmentTransactionFormBinding
 import com.example.transactionapp.domain.db.model.Transaction
 import com.example.transactionapp.helper.GetRandomData
+import com.example.transactionapp.ui.viewmodel.location.LocationModel
 import com.example.transactionapp.ui.viewmodel.location.LocationViewModel
 import com.example.transactionapp.ui.viewmodel.transaction.TransactionViewModel
 import com.example.transactionapp.utils.changeDateTypeToStandardDateLocal
@@ -39,6 +40,7 @@ import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.DelicateCoroutinesApi
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.GlobalScope
+import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
 import java.util.Date
@@ -51,6 +53,7 @@ class TransactionForm : Fragment() {
     private val locationViewModel: LocationViewModel by activityViewModels()
     private lateinit var receiver: BroadcastReceiver
     private val getRandomData = GetRandomData()
+    private val locationData = MutableStateFlow<LocationModel?>(null)
 
     @RequiresApi(Build.VERSION_CODES.S)
     override fun onCreateView(
@@ -84,7 +87,8 @@ class TransactionForm : Fragment() {
         binding.dateInput.text = changeDateTypeToStandardDateLocal(Date())
 
         locationViewModel.location.observe(viewLifecycleOwner){
-            binding.locationInput.text = it
+            binding.locationInput.text = it.locationName
+            locationData.value = it
         }
 
 
@@ -105,7 +109,9 @@ class TransactionForm : Fragment() {
                         category = binding.categoryInput.selectedItem.toString(),
                         nominal = binding.amountInput.text.toString().toLong(),
                         createdAt = Date(),
-                        location = binding.locationInput.text.toString()
+                        location = binding.locationInput.text.toString(),
+                        lat = locationData.value?.latitude?:0.0,
+                        long = locationData.value?.longitude?:0.0,
                     )
                 )
                 db.changeAddStatus(true)
@@ -185,7 +191,11 @@ class TransactionForm : Fragment() {
         override fun onLocationResult(locationResult: LocationResult) {
             var lastLocation: Location? = locationResult.lastLocation
             if (lastLocation != null) {
-                locationViewModel.setLocation(getCityName(lastLocation.latitude, lastLocation.longitude))
+                locationViewModel.setLocation(LocationModel(
+                    locationName = getCityName(lastLocation.latitude, lastLocation.longitude),
+                    latitude = lastLocation.latitude,
+                    longitude = lastLocation.longitude
+                ))
             }
         }
     }

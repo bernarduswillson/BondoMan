@@ -35,6 +35,7 @@ import com.example.transactionapp.databinding.FragmentScanBinding
 import com.example.transactionapp.databinding.FragmentTransactionBinding
 import com.example.transactionapp.domain.db.model.Transaction
 import com.example.transactionapp.ui.viewmodel.auth.Auth
+import com.example.transactionapp.ui.viewmodel.location.LocationModel
 import com.example.transactionapp.ui.viewmodel.location.LocationViewModel
 import com.example.transactionapp.ui.viewmodel.model.BillResponseSealed
 import com.example.transactionapp.ui.viewmodel.transaction.TransactionViewModel
@@ -113,7 +114,7 @@ class Scan : Fragment() {
             when (val data = billValue) {
                 is BillResponseSealed.Success -> {
 
-                    var locationValue = ""
+                    var locationValue: LocationModel? = null
                     locationViewModel.location.observe(requireActivity()){ locationLambda ->
                         locationValue = locationLambda
                     }
@@ -124,7 +125,9 @@ class Scan : Fragment() {
                             nominal = it.price.toLong() * 12000L,
                             category = "Expense",
                             createdAt = Date(),
-                            location = locationValue
+                            location = locationValue!!.locationName,
+                            lat = locationValue!!.latitude,
+                            long = locationValue!!.longitude
                         )
                         if (!billList.contains(transaction)) {
                             billList.add(transaction)
