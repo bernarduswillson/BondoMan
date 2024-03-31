@@ -4,6 +4,10 @@
     <!-- Toolbar -->
     <string name="title_transactions">Transactions</string>
 
+    <!-- Splash Screen -->
+    <string name="version_number">Ver 1.0.0</string>
+    <string name="footer">Developed by DGR</string>
+
     <!-- Alt -->
     <string name="alt_back_button">Back button</string>
     <string name="transaction_button">Transaction button</string>
@@ -11,6 +15,5 @@
     <string name="add_transaction_button">Add transaction button</string>
     <string name="statistics_button">Statistics button</string>
     <string name="settings_button">Settings button</string>
-    <!-- TODO: Remove or change this placeholder text -->
-    <string name="hello_blank_fragment">Hello blank fragment</string>
+    <string name="alt_logo">Bondoman logo</string>
 </resources>
