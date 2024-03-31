@@ -28,7 +28,8 @@ sealed class TokenResponseSealed {
 data class TransactionDateList(
     val date: String,
     val listTransaction: MutableList<TransactionDate>
-)
+) {
+}
 
 data class TransactionDate(
     val id: Int? = null,

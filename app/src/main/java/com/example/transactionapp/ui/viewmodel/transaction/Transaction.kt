@@ -27,6 +27,7 @@ class TransactionViewModel @Inject constructor(
 ): ViewModel() {
     private val _dateAll: MutableLiveData<List<TransactionDateList>> = MutableLiveData()
     private val _transaction: MutableLiveData<List<Transaction>> = MutableLiveData()
+    private val _transactionById: MutableLiveData<Transaction> = MutableLiveData()
     private val _balance: MutableLiveData<Long> = MutableLiveData()
     private val _cashFlow: MutableLiveData<Long> = MutableLiveData()
     private val _growth: MutableLiveData<Long> = MutableLiveData()
@@ -42,6 +43,9 @@ class TransactionViewModel @Inject constructor(
 
     val dateAll: LiveData<List<TransactionDateList>>
         get() = _dateAll
+
+    val transactionById: LiveData<Transaction>
+        get() = _transactionById
 
     val balance: LiveData<Long>
         get() = _balance
@@ -125,6 +129,13 @@ class TransactionViewModel @Inject constructor(
             }
             Log.d("TransactionViewModel", "getTransactions: $sum")
             _balance.postValue(sum)
+        }
+    }
+
+    fun getTransactionById(id: Int){
+        viewModelScope.launch {
+            val response = transactionDatabaseRepoImpl.getTransactionById(id)
+            _transactionById.postValue(response)
         }
     }
 

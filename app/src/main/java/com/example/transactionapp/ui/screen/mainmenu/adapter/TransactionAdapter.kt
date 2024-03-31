@@ -11,9 +11,11 @@ import androidx.core.content.ContextCompat
 import androidx.recyclerview.widget.RecyclerView
 import com.example.transactionapp.R
 import com.example.transactionapp.ui.viewmodel.model.TransactionDateList
+import kotlin.reflect.KFunction1
 
 class TransactionAdapter(
-    private val listTransactionHistory: List<TransactionDateList>
+    private val listTransactionHistory: List<TransactionDateList>,
+    val itemClickHandler: KFunction1<Int, Unit>
 ): RecyclerView.Adapter<TransactionAdapter.TransactionHistoryItem>() {
     inner class TransactionHistoryItem(itemView: View): RecyclerView.ViewHolder(itemView){
         val linearLayout: LinearLayout = itemView.findViewById(R.id.transactionContainer)
@@ -21,7 +23,8 @@ class TransactionAdapter(
     }
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): TransactionHistoryItem {
-        val view: View = LayoutInflater.from(parent.context).inflate(R.layout.transaction_history_list, parent, false)
+        val view: View = LayoutInflater.from(parent.context)
+            .inflate(R.layout.transaction_history_list, parent, false)
         return TransactionHistoryItem(view)
     }
 
@@ -43,6 +46,14 @@ class TransactionAdapter(
             nominal.setTextColor(ContextCompat.getColor(holder.itemView.context, it.colorText))
 
             holder.linearLayout.addView(transactionCard)
+
+            val id = it.id
+            transactionCard.setOnClickListener {
+                Log.d("TransactionAdapter", "Item clicked at position $position")
+                if (id != null) {
+                    itemClickHandler.invoke(id)
+                }
+            }
         }
     }
 }

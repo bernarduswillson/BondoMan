@@ -33,4 +33,7 @@ interface TransactionDao {
 
     @Query("SELECT * FROM transactions WHERE strftime('%m', datetime(createdAt / 1000, 'unixepoch')) = :month")
     suspend fun getTransactionsByMonth(month: String): List<Transaction>
+
+    @Query("SELECT * FROM transactions WHERE id = :id")
+    suspend fun getTransactionById(id: Int): Transaction
 }

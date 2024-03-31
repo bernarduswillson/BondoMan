@@ -58,7 +58,7 @@ class TransactionForm : Fragment() {
         savedInstanceState: Bundle?
     ): View {
 
-        val binding = FragmentTransactionFormBinding.inflate(inflater)
+        val binding = FragmentTransactionFormBinding.inflate(layoutInflater)
 
         val categories = arrayOf("Income", "Expense", "Savings")
         val arrayAdp = ArrayAdapter(requireActivity(), R.layout.selected_dropdown_item, categories)
