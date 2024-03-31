@@ -1,8 +1,0 @@
-<?xml version="1.0" encoding="utf-8"?>
-<selector xmlns:android="http://schemas.android.com/apk/res/android">
-    <!-- Active -->
-    <item android:state_active="true"
-        android:drawable="@drawable/statistic_active_ic" />
-    <!-- Default -->
-    <item android:drawable="@drawable/statistic_inactive_ic" />
-</selector>
