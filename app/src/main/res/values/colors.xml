@@ -1,23 +1,31 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <color name="N9">#131315</color>
-    <color name="G5">#01AB6C</color>
+    <!-- Neutral -->
     <color name="N1">#F6F6F9</color>
-    <color name="N6">#505158</color>
     <color name="N2">#E0E1E4</color>
     <color name="N3">#B1B2BA</color>
     <color name="N4">#868793</color>
-    <color name="N8">#1B1C1F</color>
-    <color name="G7">#00613D</color>
-    <color name="N7">#313236</color>
-    <color name="R4">#EE7777</color>
-    <color name="R3">#F9ADAD</color>
-    <color name="R7">#8E2E2E</color>
-    <color name="G3">#65E7B7</color>
-    <color name="B3">#89B4F4</color>
-    <color name="B7">#123F83</color>
-    <color name="G4">#20C688</color>
-    <color name="B4">#5F97E9</color>
     <color name="N5">#707177</color>
+    <color name="N6">#505158</color>
+    <color name="N7">#313236</color>
+    <color name="N8">#1B1C1F</color>
+    <color name="N9">#131315</color>
+
+    <!-- Green -->
+    <color name="G3">#65E7B7</color>
+    <color name="G4">#20C688</color>
+    <color name="G5">#01AB6C</color>
+    <color name="G7">#00613D</color>
+
+    <!-- Red -->
+    <color name="R3">#F9ADAD</color>
+    <color name="R4">#EE7777</color>
     <color name="R5">#F06666</color>
+    <color name="R6">#C14A4A</color>
+    <color name="R7">#8E2E2E</color>
+
+    <!-- Blue -->
+    <color name="B3">#89B4F4</color>
+    <color name="B4">#5F97E9</color>
+    <color name="B7">#123F83</color>
 </resources>

@@ -19,30 +19,44 @@
         android:id="@+id/coordinateLayout"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
-        app:fabCradleMargin="20dp"
-        android:background="@android:color/transparent"
-        app:fabCradleVerticalOffset="10dp"
-        app:fabCradleRoundedCornerRadius="20dp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent">
+        app:layout_constraintStart_toStartOf="parent"
+        app:fabCradleMargin="20dp"
+        app:fabCradleVerticalOffset="10dp"
+        app:fabCradleRoundedCornerRadius="20dp"
+        android:background="@android:color/transparent">
+
         <com.google.android.material.bottomappbar.BottomAppBar
             android:id="@+id/bottomAppBar"
             android:layout_width="match_parent"
-            android:background="@android:color/transparent"
+            android:layout_height="90dp"
             style="@style/Widget.MaterialComponents.BottomAppBar.Colored"
-            android:layout_height="wrap_content">
+            app:backgroundTint="?attr/colorOnPrimaryContainer"
+            app:addElevationShadow="false"
+            app:hideOnScroll="true"
+            app:contentInsetStart="0dp"
+            app:contentInsetEnd="0dp"
+            app:elevation="0dp"
+            app:layout_insetEdge="none"
+            app:removeEmbeddedFabElevation="true"
+            app:paddingLeftSystemWindowInsets="false"
+            app:paddingRightSystemWindowInsets="false"
+            app:fabAnchorMode="embed">
+
             <com.google.android.material.bottomnavigation.BottomNavigationView
                 android:id="@+id/bottomNavigationView"
                 android:layout_width="match_parent"
+                android:layout_height="match_parent"
                 android:background="@android:color/transparent"
                 android:layout_gravity="center"
-                android:layout_height="60dp"
-                android:layout_marginEnd="15dp"
-                app:itemIconSize="25dp"
-                app:itemIconTint="?attr/colorSecondary"
-                app:itemTextColor="?attr/colorSecondary"
-                app:menu="@menu/button_menu" />
+                app:itemIconSize="32dp"
+                app:itemIconTint="?attr/colorPrimaryFixedDim"
+                app:menu="@menu/button_menu"
+                app:labelVisibilityMode="unlabeled"
+                app:elevation="0dp"
+                app:addElevationShadow="false"
+                app:itemActiveIndicatorStyle="@style/App.Custom.Indicator"/>
         </com.google.android.material.bottomappbar.BottomAppBar>
 
         <com.google.android.material.floatingactionbutton.FloatingActionButton
@@ -52,6 +66,7 @@
             android:background="@android:color/transparent"
             app:layout_anchor="@id/bottomAppBar"
             android:src="@drawable/add_ic"
+            android:contentDescription="@string/alt_fab"
             app:maxImageSize="50dp"
             app:fabCustomSize="60dp"
             app:fabSize="auto"

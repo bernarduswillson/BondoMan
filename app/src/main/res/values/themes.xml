@@ -1,8 +1,32 @@
 <resources xmlns:tools="http://schemas.android.com/tools">
     <!-- Base application theme. -->
-    <style name="Base.Theme.TransactionApp" parent="Theme.Material3.DayNight.NoActionBar">
-        <!-- Customize your light theme here. -->
-        <!-- <item name="colorPrimary">@color/my_light_primary</item> -->
+    <style name="Base.Theme.TransactionApp" parent="Theme.AppCompat.DayNight.NoActionBar">
+        <!-- General -->
+        <item name="elevationOverlayEnabled">false</item>
+
+        <!-- Colors -->
+        <item name="colorPrimary">@color/N1</item>
+        <item name="colorPrimaryFixedDim">@color/N5</item>
+        <item name="colorOnPrimaryContainer">@color/N7</item>
+
+        <item name="colorSecondary">@color/N8</item>
+        <item name="colorSecondaryFixedDim">@color/N4</item>
+
+        <item name="colorAccent">@color/G5</item>
+        <itme name="colorError">@color/R6</itme>
+
+        <item name="colorButtonNormal">@color/N1</item>
+
+        <!-- UNUSED COLOR -->
+        <item name="colorPrimaryVariant">@color/N8</item>
+        <item name="colorSecondaryVariant">@color/N3</item>
+        <item name="colorOnSecondary">@color/N6</item>
+
+        <!-- Container -->
+        <item name="colorPrimaryContainer">@color/N2</item>
+
+        <!-- App -->
+        <item name="android:windowBackground">@color/N1</item>
     </style>
 
     <style name="Theme.TransactionApp" parent="Base.Theme.TransactionApp" />

@@ -25,7 +25,8 @@
         app:layout_constraintBottom_toTopOf="@+id/tvFooter"
         app:layout_constraintStart_toStartOf="parent"
         android:text="@string/version_number"
-        style="@style/Body2"/>
+        style="@style/Body2"
+        android:textColor="?attr/colorSecondary"/>
 
     <TextView
         android:id="@+id/tvFooter"
@@ -37,6 +38,7 @@
         android:layout_marginBottom="15dp"
         android:text="@string/footer"
         android:textAlignment="center"
-        style="@style/Body2"/>
+        style="@style/Body2"
+        android:textColor="?attr/colorSecondary"/>
 
 </androidx.constraintlayout.widget.ConstraintLayout>

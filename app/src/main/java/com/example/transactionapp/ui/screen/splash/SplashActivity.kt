@@ -5,6 +5,7 @@ import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.os.Handler
 import com.example.transactionapp.R
+import com.example.transactionapp.ui.screen.login.LoginActivity
 import com.example.transactionapp.ui.screen.mainmenu.MainActivity
 
 class SplashActivity : AppCompatActivity() {
