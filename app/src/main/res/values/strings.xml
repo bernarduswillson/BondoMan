@@ -13,6 +13,10 @@
     <string name="version_number">Ver 1.0.0</string>
     <string name="footer">Developed by DGR</string>
     <string name="save_to_local">Save to local</string>
+    <string name="share_via_email">Share via email</string>
+    <string name="randomize_transaction">Randomize transaction</string>
+    <string name="logout">Logout</string>
+
 
     <!-- Button -->
     <string name="btn_save">Save</string>
@@ -27,6 +31,7 @@
     <string name="transaction_title">Title</string>
     <string name="transaction_location">Location</string>
     <string name="getting_location">Getting your location...</string>
+    <string name="hint_transaction_title">Transaction title</string>
 
     <!-- Label -->
     <string name="label_email">Email</string>
@@ -42,9 +47,6 @@
     <string name="label_general">General</string>
     <string name="label_preferences">Preferences</string>
 
-    <!-- Hint -->
-    <string name="hint_transaction_title">Transaction title</string>
-
     <!-- Alt -->
     <string name="alt_back_button">Back button</string>
     <string name="alt_transaction_button">Transaction button</string>
@@ -58,9 +60,6 @@
     <string name="alt_right_arrow">Right arrow</string>
     <string name="alt_download_icon">Download icon</string>
     <string name="alt_share_icon">Share icon</string>
-    <string name="share_via_email">Share via email</string>
-    <string name="randomize_transaction">Randomize transaction</string>
     <string name="alt_logout_icon">Logout icon</string>
-    <string name="logout">Logout</string>
 
 </resources>

@@ -14,7 +14,6 @@
         <item name="colorSecondaryFixedDim">@color/N4</item>
 
         <item name="colorAccent">@color/G5</item>
-        <itme name="colorError">@color/R3</itme>
 
         <item name="colorButtonNormal">@color/N1</item>
 
