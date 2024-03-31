@@ -42,4 +42,8 @@ class TransactionDatabaseRepoImpl @Inject constructor(
         transactionDao.getTransactionsByMonth(month)
     }
 
+    override suspend fun getTransactionById(id: Int): Transaction = withContext(Dispatchers.Default){
+        transactionDao.getTransactionById(id)
+    }
+
 }

@@ -12,4 +12,5 @@ interface TransactionDatabaseRepo {
     suspend fun getAllTransactionsAsc(): List<Transaction>
     suspend fun getAllFormattedDates(): List<Date>
     suspend fun getTransactionsByMonth(month: String): List<Transaction>
+    suspend fun getTransactionById(id: Int): Transaction
 }

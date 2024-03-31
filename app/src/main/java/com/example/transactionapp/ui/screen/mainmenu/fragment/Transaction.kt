@@ -1,16 +1,11 @@
 package com.example.transactionapp.ui.screen.mainmenu.fragment
 
-import android.content.BroadcastReceiver
-import android.content.Context
-import android.content.Intent
-import android.content.IntentFilter
-import android.os.Build
 import android.os.Bundle
 import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.LinearLayout
+import android.widget.Toast
 import androidx.core.content.ContextCompat
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.activityViewModels
@@ -34,9 +29,9 @@ class Transaction : Fragment() {
     ): View {
         val binding = FragmentTransactionBinding.inflate(layoutInflater)
 
-        db.dateAll.observe(requireActivity()){
-            Log.d("TransactionFragment", "onCreateView: $it")
-            val transactionAdapter = TransactionAdapter(it)
+        db.dateAll.observe(requireActivity()) { transactionList ->
+            Log.d("TransactionFragment", "onCreateView: $transactionList")
+            val transactionAdapter = TransactionAdapter(transactionList, this::onItemClickHandler)
             val recyclerViewTransaction: RecyclerView = binding.transactionHistoryRecyclerView
             recyclerViewTransaction.layoutManager = LinearLayoutManager(requireContext(), LinearLayoutManager.VERTICAL, false)
             recyclerViewTransaction.adapter = transactionAdapter
@@ -55,5 +50,20 @@ class Transaction : Fragment() {
         }
 
         return binding.root
+    }
+
+    private fun onItemClickHandler(id: Int){
+        Log.d("TransactionFragment", "onItemClickHandler: $id")
+
+        val args = Bundle()
+        args.putInt(TransactionDetails.ARG_TRANSACTION_ID, id)
+
+        val transactionDetailsFragment = TransactionDetails()
+        transactionDetailsFragment.arguments = args
+
+        val fragmentTransaction = parentFragmentManager.beginTransaction()
+        fragmentTransaction.replace(R.id.navHostFragment, transactionDetailsFragment)
+        fragmentTransaction.addToBackStack(null)
+        fragmentTransaction.commit()
     }
 }
