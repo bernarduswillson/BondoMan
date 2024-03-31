@@ -10,6 +10,7 @@ import android.widget.Toast
 import androidx.fragment.app.activityViewModels
 import com.example.transactionapp.databinding.FragmentBottomSheetBinding
 import com.example.transactionapp.domain.db.model.Transaction
+import com.example.transactionapp.helper.getEmailSharedPref
 import com.example.transactionapp.ui.viewmodel.transaction.TransactionViewModel
 import com.example.transactionapp.utils.sendExcelToEmail
 import com.google.android.material.bottomsheet.BottomSheetDialogFragment
@@ -27,14 +28,14 @@ class BottomSheetEmail: BottomSheetDialogFragment() {
             transactionList.addAll(it)
         }
 
-        //TODO: change email to your email
+        val email = getEmailSharedPref(requireContext())
         binding.xlsxButton.setOnClickListener {
-            sendExcelToEmail(transactionList, requireContext(), "xlsx", "fahrianafdholi077@gmail.com")
+            sendExcelToEmail(transactionList, requireContext(), "xlsx", email)
             dismiss()
         }
 
         binding.xlsButton.setOnClickListener {
-            sendExcelToEmail(transactionList, requireContext(), "xls", "fahrianafdholi077@gmail.com")
+            sendExcelToEmail(transactionList, requireContext(), "xls", email)
             dismiss()
         }
 
