@@ -29,6 +29,14 @@ class TransactionViewModel @Inject constructor(
     private val _transaction: MutableLiveData<List<Transaction>> = MutableLiveData()
     private val _transactionById: MutableLiveData<Transaction> = MutableLiveData()
     private val _balance: MutableLiveData<Long> = MutableLiveData()
+
+    private val _listOfIncome: MutableLiveData<List<Long>> = MutableLiveData()
+    private val _sumOfIncome: MutableLiveData<Long> = MutableLiveData()
+    private val _listOfExpense: MutableLiveData<List<Long>> = MutableLiveData()
+    private val _sumOfExpense: MutableLiveData<Long> = MutableLiveData()
+    private val _sumOfSaving: MutableLiveData<Long> = MutableLiveData()
+    private val _listOfSaving: MutableLiveData<List<Long>> = MutableLiveData()
+
     private val _cashFlow: MutableLiveData<Long> = MutableLiveData()
     private val _growth: MutableLiveData<Long> = MutableLiveData()
     private val _isRandom: MutableLiveData<Boolean> = MutableLiveData()
@@ -49,6 +57,23 @@ class TransactionViewModel @Inject constructor(
 
     val balance: LiveData<Long>
         get() = _balance
+
+    val listOfIncome: LiveData<List<Long>>
+        get() = _listOfIncome
+
+    val sumOfIncome: LiveData<Long>
+        get() = _sumOfIncome
+
+    val listOfExpense: LiveData<List<Long>>
+        get() = _listOfExpense
+
+    val sumOfExpense: LiveData<Long>
+        get() = _sumOfExpense
+
+    val listOfSaving: LiveData<List<Long>>
+        get() = _listOfSaving
+    val sumOfSaving: LiveData<Long>
+        get() = _sumOfSaving
 
     val cashFlow: LiveData<Long>
         get() = _cashFlow
@@ -191,6 +216,43 @@ class TransactionViewModel @Inject constructor(
             }
 
             _dateAll.postValue(listData)
+        }
+    }
+
+    fun getStatisticByMonth(date: Date){
+        viewModelScope.launch {
+            val thisMonth = if (date.month + 1 < 10) "0${date.month + 1}" else (date.month + 1).toString()
+            val response = transactionDatabaseRepoImpl.getTransactionsByMonth(thisMonth)
+            val income = mutableListOf<Long>()
+            val expense = mutableListOf<Long>()
+            val saving = mutableListOf<Long>()
+            var sumIncome = 0L
+            var sumExpense = 0L
+            var sumSaving = 0L
+
+            response.forEach {
+                when(it.category){
+                    "Income" -> {
+                        income.add(it.nominal)
+                        sumIncome += it.nominal
+                    }
+                    "Expense" -> {
+                        expense.add(it.nominal)
+                        sumExpense += it.nominal
+                    }
+                    "Savings" -> {
+                        saving.add(it.nominal)
+                        sumSaving += it.nominal
+                    }
+                }
+            }
+
+            _listOfIncome.postValue(income)
+            _sumOfIncome.postValue(sumIncome)
+            _listOfExpense.postValue(expense)
+            _sumOfExpense.postValue(sumExpense)
+            _listOfSaving.postValue(saving)
+            _sumOfSaving.postValue(sumSaving)
         }
     }
 

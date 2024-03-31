@@ -54,6 +54,7 @@ class MainActivity : AppCompatActivity() {
         db.getAllDate()
         db.getTransactions("all")
         db.getCashFlowAndGrowthByMonth(Date())
+        db.getStatisticByMonth(Date())
 
         val frame = R.id.navHostFragment
 
@@ -117,6 +118,7 @@ class MainActivity : AppCompatActivity() {
                 db.getAllDate()
                 db.getTransactions("all")
                 db.getCashFlowAndGrowthByMonth(Date())
+                db.getStatisticByMonth(Date())
                 fragment = supportFragmentManager.beginTransaction()
                 fragment.replace(frame, Transaction())
                 fragment.addToBackStack(null)
