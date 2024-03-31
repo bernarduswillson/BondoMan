@@ -6,6 +6,8 @@ import com.example.transactionapp.domain.api.model.LoginInput
 import com.example.transactionapp.domain.api.model.LoginResponse
 import com.example.transactionapp.domain.api.model.TokenResponse
 import okhttp3.MultipartBody
+import retrofit2.http.Multipart
+import retrofit2.http.POST
 import javax.inject.Inject
 
 class TransactionAPIRepoImpl @Inject constructor(
