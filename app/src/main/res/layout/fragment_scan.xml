@@ -10,25 +10,11 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent" >
 
-        <TextView
-            android:id="@+id/transactionText"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:gravity="center"
-            android:padding="16dp"
-            android:text="Scan"
-            android:textColor="?attr/colorSecondary"
-            android:textSize="20sp"
-            android:fontFamily="@font/playfairdisplay_extrabold"
-            app:layout_constraintTop_toTopOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintEnd_toEndOf="parent" />
-
         <androidx.camera.view.PreviewView
             android:layout_width="match_parent"
             android:layout_height="0dp"
             android:id="@+id/previewView"
-            app:layout_constraintTop_toBottomOf="@id/transactionText"
+            app:layout_constraintTop_toTopOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintBottom_toTopOf="@id/buttonsLayout" />
@@ -39,7 +25,7 @@
             android:id="@+id/overlay"
             android:src="@drawable/transparent_overlay"
             android:scaleType="fitXY"
-            app:layout_constraintTop_toBottomOf="@id/transactionText"
+            app:layout_constraintTop_toTopOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintBottom_toTopOf="@id/buttonsLayout" />
