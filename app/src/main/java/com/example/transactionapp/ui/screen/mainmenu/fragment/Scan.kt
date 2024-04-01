@@ -27,10 +27,11 @@ import androidx.lifecycle.ViewModelProvider
 import com.example.transactionapp.R
 import com.example.transactionapp.databinding.FragmentScanBinding
 import com.example.transactionapp.domain.db.model.Transaction
+import com.example.transactionapp.ui.screen.mainmenu.newTransaction.NewTransactionFragment
 import com.example.transactionapp.ui.viewmodel.auth.Auth
 import com.example.transactionapp.ui.viewmodel.model.BillResponseSealed
-import com.example.transactionapp.ui.viewmodel.transaction.ScanResult
-import com.example.transactionapp.ui.viewmodel.transaction.TransactionViewModel
+import com.example.transactionapp.ui.screen.mainmenu.transaction.ScanResult
+import com.example.transactionapp.ui.screen.mainmenu.transaction.TransactionViewModel
 import okhttp3.MediaType.Companion.toMediaTypeOrNull
 import okhttp3.MultipartBody
 import java.io.File
@@ -113,10 +114,10 @@ class Scan : Fragment(), ImageCaptureCallback {
                     }
 
                     val args = Bundle()
-                    args.putString(TransactionForm.ARG_ITEM_NAME, title)
-                    args.putLong(TransactionForm.ARG_ITEM_NOMINAL, nominal)
+                    args.putString(NewTransactionFragment.ARG_ITEM_NAME, title)
+                    args.putLong(NewTransactionFragment.ARG_ITEM_NOMINAL, nominal)
 
-                    val transactionFormFragment = TransactionForm()
+                    val transactionFormFragment = NewTransactionFragment()
                     transactionFormFragment.arguments = args
 
                     db.setAtomicTransaction(

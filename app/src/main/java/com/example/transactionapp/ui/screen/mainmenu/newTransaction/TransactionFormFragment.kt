@@ -1,17 +1,12 @@
-package com.example.transactionapp.ui.screen.mainmenu.fragment
+package com.example.transactionapp.ui.screen.mainmenu.newTransaction
 
 import LocationAdapter
 import android.content.BroadcastReceiver
 import android.content.Context
 import android.content.Intent
 import android.content.IntentFilter
-import android.content.pm.PackageManager
-import android.location.Geocoder
-import android.location.Location
-import android.location.LocationRequest
 import android.os.Build
 import android.os.Bundle
-import android.os.Looper
 import android.text.Editable
 import android.util.Log
 import androidx.fragment.app.Fragment
@@ -22,33 +17,21 @@ import android.widget.AdapterView
 import android.widget.ArrayAdapter
 import android.widget.Toast
 import androidx.annotation.RequiresApi
-import androidx.core.app.ActivityCompat
 import androidx.fragment.app.activityViewModels
-import androidx.lifecycle.MutableLiveData
 import com.example.transactionapp.R
 import com.example.transactionapp.databinding.FragmentTransactionFormBinding
 import com.example.transactionapp.domain.db.model.Transaction
 import com.example.transactionapp.helper.GetRandomData
 import com.example.transactionapp.ui.viewmodel.location.LocationModel
 import com.example.transactionapp.ui.viewmodel.location.LocationViewModel
-import com.example.transactionapp.ui.viewmodel.transaction.TransactionViewModel
+import com.example.transactionapp.ui.screen.mainmenu.transaction.TransactionViewModel
 import com.example.transactionapp.utils.changeDateTypeToStandardDateLocal
-import com.google.android.gms.location.FusedLocationProviderClient
-import com.google.android.gms.location.LocationCallback
-import com.google.android.gms.location.LocationResult
-import com.google.android.gms.location.LocationServices
 import dagger.hilt.android.AndroidEntryPoint
-import kotlinx.coroutines.DelicateCoroutinesApi
-import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.GlobalScope
 import kotlinx.coroutines.flow.MutableStateFlow
-import kotlinx.coroutines.launch
-import kotlinx.coroutines.withContext
 import java.util.Date
-import java.util.Locale
 
 @AndroidEntryPoint
-class TransactionForm : Fragment() {
+class NewTransactionFragment : Fragment() {
     private val db : TransactionViewModel by activityViewModels()
     private val locationViewModel: LocationViewModel by activityViewModels()
     private lateinit var receiver: BroadcastReceiver
@@ -68,13 +51,18 @@ class TransactionForm : Fragment() {
         savedInstanceState: Bundle?
     ): View {
 
+        // Bind layout using layout binding
         val binding = FragmentTransactionFormBinding.inflate(layoutInflater)
 
         if (arguments?.getString(ARG_ITEM_NAME) != null){
-            binding.titleInput.text = Editable.Factory.getInstance().newEditable(arguments?.getString(ARG_ITEM_NAME))
+            binding.titleInput.text = Editable.Factory.getInstance().newEditable(arguments?.getString(
+                ARG_ITEM_NAME
+            ))
         }
         if (arguments?.getLong(ARG_ITEM_NOMINAL) != null){
-            binding.amountInput.text = Editable.Factory.getInstance().newEditable(arguments?.getLong(ARG_ITEM_NOMINAL).toString())
+            binding.amountInput.text = Editable.Factory.getInstance().newEditable(arguments?.getLong(
+                ARG_ITEM_NOMINAL
+            ).toString())
         }
 
         val categories = arrayOf("Income", "Expense", "Savings")

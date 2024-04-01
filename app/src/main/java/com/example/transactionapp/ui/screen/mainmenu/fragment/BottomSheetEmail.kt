@@ -1,16 +1,13 @@
 package com.example.transactionapp.ui.screen.mainmenu.fragment
 
-import android.app.Activity
-import android.content.Intent
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.Toast
 import androidx.fragment.app.activityViewModels
 import com.example.transactionapp.databinding.FragmentBottomSheetBinding
 import com.example.transactionapp.domain.db.model.Transaction
-import com.example.transactionapp.ui.viewmodel.transaction.TransactionViewModel
+import com.example.transactionapp.ui.screen.mainmenu.transaction.TransactionViewModel
 import com.example.transactionapp.utils.sendExcelToEmail
 import com.google.android.material.bottomsheet.BottomSheetDialogFragment
 

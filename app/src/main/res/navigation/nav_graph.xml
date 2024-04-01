@@ -1,0 +1,47 @@
+<?xml version="1.0" encoding="utf-8"?>
+<navigation xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/navigation"
+    app:startDestination="@id/transactionFragment">
+
+    <fragment
+        android:id="@+id/scan"
+        android:name="com.example.transactionapp.ui.screen.mainmenu.fragment.Scan"
+        android:label="fragment_scan"
+        tools:layout="@layout/fragment_scan" />
+    <fragment
+        android:id="@+id/statistics"
+        android:name="com.example.transactionapp.ui.screen.mainmenu.fragment.Statistics"
+        android:label="fragment_statistics"
+        tools:layout="@layout/fragment_statistics" />
+    <fragment
+        android:id="@+id/settings"
+        android:name="com.example.transactionapp.ui.screen.mainmenu.fragment.Settings"
+        android:label="fragment_settings"
+        tools:layout="@layout/fragment_settings" />
+    <fragment
+        android:id="@+id/transactionForm"
+        android:name="com.example.transactionapp.ui.screen.mainmenu.newTransaction.NewTransactionFragment"
+        android:label="fragment_transaction_details"
+        tools:layout="@layout/fragment_transaction_details" />
+    <fragment
+        android:id="@+id/transactionFragment"
+        android:name="com.example.transactionapp.ui.screen.mainmenu.transaction.TransactionFragment"
+        android:label="fragment_transaction"
+        tools:layout="@layout/fragment_transaction" >
+        <action
+            android:id="@+id/action_transactionFragment_to_transactionDetailsFragment"
+            app:destination="@id/transactionDetailsFragment"
+            app:enterAnim="@anim/slide_in"
+            app:exitAnim="@anim/fade_out" />
+    </fragment>
+    <fragment
+        android:id="@+id/transactionDetailsFragment"
+        android:name="com.example.transactionapp.ui.screen.mainmenu.transactionDetail.TransactionDetailsFragment"
+        android:label="TransactionDetailsFragment" >
+        <argument
+            android:name="transactionId"
+            app:argType="integer" />
+    </fragment>
+</navigation>

@@ -1,40 +1,27 @@
-
+package com.example.transactionapp.ui.screen.mainmenu.transactionDetail
+import LocationAdapter
 import android.app.AlertDialog
 import android.content.Intent
-import android.content.pm.PackageManager
-import android.location.Geocoder
-import android.location.Location
 import android.net.Uri
 import android.os.Build
 import android.os.Bundle
-import android.os.Looper
 import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.AdapterView
-import android.widget.ArrayAdapter
 import android.widget.Toast
 import androidx.annotation.RequiresApi
-import androidx.core.app.ActivityCompat
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.activityViewModels
-import androidx.lifecycle.ViewModelProvider
-import com.example.transactionapp.R
 import com.example.transactionapp.databinding.FragmentTransactionDetailsBinding
 import com.example.transactionapp.domain.db.model.Transaction
 import com.example.transactionapp.ui.viewmodel.location.LocationModel
 import com.example.transactionapp.ui.viewmodel.location.LocationViewModel
-import com.example.transactionapp.ui.viewmodel.transaction.TransactionViewModel
+import com.example.transactionapp.ui.screen.mainmenu.transaction.TransactionViewModel
 import com.example.transactionapp.utils.changeDateTypeToStandardDateLocal
-import com.google.android.gms.location.FusedLocationProviderClient
-import com.google.android.gms.location.LocationCallback
-import com.google.android.gms.location.LocationResult
-import com.google.android.gms.location.LocationServices
 import kotlinx.coroutines.flow.MutableStateFlow
-import java.util.Locale
 
-class TransactionDetails : Fragment() {
+class TransactionDetailsFragment : Fragment() {
 
     private val db : TransactionViewModel by activityViewModels()
     private val locationViewModel: LocationViewModel by activityViewModels()
@@ -51,10 +38,12 @@ class TransactionDetails : Fragment() {
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
+        // Bind layout using layout binding
         val binding = FragmentTransactionDetailsBinding.inflate(layoutInflater)
 
-        val transactionId = requireArguments().getInt(ARG_TRANSACTION_ID)
-
+        // Get an instance of transaction from transaction id argument
+        val transactionId = TransactionDetailsFragmentArgs.fromBundle(requireArguments()).transactionId
+        Log.i("Args", transactionId.toString())
         db.getTransactionById(transactionId)
         db.transactionById.observe(viewLifecycleOwner) {
             binding.titleInput.setText(it.title)

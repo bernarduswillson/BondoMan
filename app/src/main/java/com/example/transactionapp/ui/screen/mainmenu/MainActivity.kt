@@ -16,7 +16,7 @@ import com.example.transactionapp.databinding.ActivityMainBinding
 import com.example.transactionapp.service.ConnectionStatusService
 import com.example.transactionapp.ui.viewmodel.location.LocationViewModel
 import com.example.transactionapp.ui.viewmodel.navigation.NavigationViewModel
-import com.example.transactionapp.ui.viewmodel.transaction.TransactionViewModel
+import com.example.transactionapp.ui.screen.mainmenu.transaction.TransactionViewModel
 import dagger.hilt.android.AndroidEntryPoint
 import java.util.Date
 
@@ -62,7 +62,7 @@ class MainActivity : AppCompatActivity() {
             db.getTransactions("all")
             db.getCashFlowAndGrowthByMonth(Date())
             navigationViewModel.navigate("transaction")
-            navController.navigate(R.id.transaction)
+            navController.navigate(R.id.transactionFragment)
         }
 
         binding.ibScanBtn.setOnClickListener {
@@ -120,8 +120,7 @@ class MainActivity : AppCompatActivity() {
                 db.getTransactions("all")
                 db.getCashFlowAndGrowthByMonth(Date())
                 db.getStatisticByMonth(Date())
-                
-                navController.navigate(R.id.transaction)
+                navController.navigate(R.id.transactionFragment)
                 db.resetAddTransactionStatus()
                 db.changeAddStatus(false)
             }

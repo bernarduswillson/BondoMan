@@ -1,4 +1,4 @@
-package com.example.transactionapp.ui.screen.mainmenu.adapter
+package com.example.transactionapp.ui.screen.mainmenu.transaction
 
 import android.util.Log
 import android.view.LayoutInflater
@@ -50,6 +50,7 @@ class TransactionAdapter(
             val id = it.id
             transactionCard.setOnClickListener {
                 Log.d("TransactionAdapter", "Item clicked at position $position")
+                Log.d("TransactionAdapter", "Item id is ${id}")
                 if (id != null) {
                     itemClickHandler.invoke(id)
                 }

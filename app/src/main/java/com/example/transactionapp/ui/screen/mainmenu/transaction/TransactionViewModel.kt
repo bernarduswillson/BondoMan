@@ -1,4 +1,4 @@
-package com.example.transactionapp.ui.viewmodel.transaction
+package com.example.transactionapp.ui.screen.mainmenu.transaction
 
 import android.util.Log
 import androidx.lifecycle.LifecycleOwner
@@ -7,7 +7,6 @@ import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.example.transactionapp.R
-import com.example.transactionapp.domain.api.model.Items
 import com.example.transactionapp.domain.db.model.Transaction
 import com.example.transactionapp.domain.db.repo.TransactionDatabaseRepoImpl
 import com.example.transactionapp.ui.viewmodel.model.TransactionDate
@@ -15,7 +14,6 @@ import com.example.transactionapp.ui.viewmodel.model.TransactionDateList
 import com.example.transactionapp.utils.changeDateTypeToStandardDateLocal
 import com.example.transactionapp.utils.changeNominalToIDN
 import dagger.hilt.android.lifecycle.HiltViewModel
-import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 import java.util.Date
 import java.util.TreeMap
@@ -30,93 +28,115 @@ data class ScanResult(
 class TransactionViewModel @Inject constructor(
     private val transactionDatabaseRepoImpl: TransactionDatabaseRepoImpl
 ): ViewModel() {
+
+    // All dates in transaction list
     private val _dateAll: MutableLiveData<List<TransactionDateList>> = MutableLiveData()
-    private val _transaction: MutableLiveData<List<Transaction>> = MutableLiveData()
-    private val _transactionById: MutableLiveData<Transaction> = MutableLiveData()
-    private val _balance: MutableLiveData<Long> = MutableLiveData()
-
-    private val _listOfIncome: MutableLiveData<List<Long>> = MutableLiveData()
-    private val _sumOfIncome: MutableLiveData<Long> = MutableLiveData()
-    private val _listOfExpense: MutableLiveData<List<Long>> = MutableLiveData()
-    private val _sumOfExpense: MutableLiveData<Long> = MutableLiveData()
-    private val _sumOfSaving: MutableLiveData<Long> = MutableLiveData()
-    private val _listOfSaving: MutableLiveData<List<Long>> = MutableLiveData()
-
-    private val _cashFlow: MutableLiveData<Long> = MutableLiveData()
-    private val _growth: MutableLiveData<Long> = MutableLiveData()
-    private val _isRandom: MutableLiveData<Boolean> = MutableLiveData()
-
-    private val _atomicTransaction: MutableLiveData<ScanResult> = MutableLiveData()
-
-    // STATUS
-    private val _addTransactionStatus: MutableLiveData<Boolean> = MutableLiveData()
-    private val _deleteTransactionStatus: MutableLiveData<Boolean> = MutableLiveData()
-    private val _updateTransactionStatus: MutableLiveData<Boolean> = MutableLiveData()
-    private val _cameraStatus: MutableLiveData<Boolean> = MutableLiveData()
-
-    val transaction: LiveData<List<Transaction>>
-        get() = _transaction
-
     val dateAll: LiveData<List<TransactionDateList>>
         get() = _dateAll
 
-    val transactionById: LiveData<Transaction>
-        get() = _transactionById
+    // List of transactions
+    private val _transaction: MutableLiveData<List<Transaction>> = MutableLiveData()
+    val transaction: LiveData<List<Transaction>>
+        get() = _transaction
 
-    val balance: LiveData<Long>
-        get() = _balance
-
+    // List of income (StatisticViewModel)
+    private val _listOfIncome: MutableLiveData<List<Long>> = MutableLiveData()
     val listOfIncome: LiveData<List<Long>>
         get() = _listOfIncome
 
-    val sumOfIncome: LiveData<Long>
-        get() = _sumOfIncome
-
+    // List of expense (StatisticViewModel)
+    private val _listOfExpense: MutableLiveData<List<Long>> = MutableLiveData()
     val listOfExpense: LiveData<List<Long>>
         get() = _listOfExpense
 
+    // List of saving
+    private val _listOfSaving: MutableLiveData<List<Long>> = MutableLiveData()
+    val listOfSaving: LiveData<List<Long>>
+        get() = _listOfSaving
+
+    // Total income (StatisticViewModel)
+    private val _sumOfIncome: MutableLiveData<Long> = MutableLiveData()
+    val sumOfIncome: LiveData<Long>
+        get() = _sumOfIncome
+
+    // Total expense (StatisticViewModel)
+    private val _sumOfExpense: MutableLiveData<Long> = MutableLiveData()
     val sumOfExpense: LiveData<Long>
         get() = _sumOfExpense
 
-    val listOfSaving: LiveData<List<Long>>
-        get() = _listOfSaving
+    // Total saving (StatisticViewModel)
+    private val _sumOfSaving: MutableLiveData<Long> = MutableLiveData()
     val sumOfSaving: LiveData<Long>
         get() = _sumOfSaving
 
+    // Balance
+    private val _balance: MutableLiveData<Long> = MutableLiveData()
+    val balance: LiveData<Long>
+        get() = _balance
+
+    // Cashflow
+    private val _cashFlow: MutableLiveData<Long> = MutableLiveData()
     val cashFlow: LiveData<Long>
         get() = _cashFlow
 
+    // Growth
+    private val _growth: MutableLiveData<Long> = MutableLiveData()
     val growth: LiveData<Long>
         get() = _growth
 
-    val addTransactionStatus: LiveData<Boolean>
-        get() = _addTransactionStatus
+    // Transaction detail (TransactionDetailViewModel)
+    private val _transactionById: MutableLiveData<Transaction> = MutableLiveData()
+    val transactionById: LiveData<Transaction>
+        get() = _transactionById
 
-    val deleteTransactionStatus: LiveData<Boolean>
-        get() = _deleteTransactionStatus
-
-    val updateTransactionStatus: LiveData<Boolean>
-        get() = _updateTransactionStatus
-
-    val isRandom: LiveData<Boolean>
-        get() = _isRandom
-
-    val cameraStatus: LiveData<Boolean>
-        get() = _cameraStatus
-
+    // Scan data (ScanViewModel)
+    private val _atomicTransaction: MutableLiveData<ScanResult> = MutableLiveData()
     val atomicTransaction: LiveData<ScanResult>
         get() = _atomicTransaction
 
+    // Randomize transaction data (SettingViewModel)
+    private val _isRandom: MutableLiveData<Boolean> = MutableLiveData()
+    val isRandom: LiveData<Boolean>
+        get() = _isRandom
+
+    // Add transaction state (NewTransactionVideModel)
+    private val _addTransactionStatus: MutableLiveData<Boolean> = MutableLiveData()
+    val addTransactionStatus: LiveData<Boolean>
+        get() = _addTransactionStatus
+
+    // Delete transaction state (DeleteTransactionViewModel)
+    private val _deleteTransactionStatus: MutableLiveData<Boolean> = MutableLiveData()
+    val deleteTransactionStatus: LiveData<Boolean>
+        get() = _deleteTransactionStatus
+
+    // Update transaction state (UpdateTransactionViewModel)
+    private val _updateTransactionStatus: MutableLiveData<Boolean> = MutableLiveData()
+    val updateTransactionStatus: LiveData<Boolean>
+        get() = _updateTransactionStatus
+
+    // Camera state ?? (ScanTransactionViewModel)
+    private val _cameraStatus: MutableLiveData<Boolean> = MutableLiveData()
+    val cameraStatus: LiveData<Boolean>
+        get() = _cameraStatus
+
+    // Navigate to detail state
+    private val _navigateToTransactionDetail: MutableLiveData<Int?> = MutableLiveData()
+    val navigateToTransactionDetail: LiveData<Int?>
+        get() = _navigateToTransactionDetail
+
+    // Set random state (SettingViewModel)
     fun changeIsRandom(status: Boolean){
         _isRandom.postValue(status)
     }
 
+    // Insert new transaction (NewTransactionViewModel)
     fun insertTransaction(transaction: Transaction) {
         viewModelScope.launch {
             transactionDatabaseRepoImpl.insertTransaction(transaction)
         }
     }
 
+    // Insert scanned transaction (ScanViewModel)
     fun insertBillTransaction(items: List<Transaction>){
         viewModelScope.launch {
             items.forEach {
@@ -135,6 +155,7 @@ class TransactionViewModel @Inject constructor(
         }
     }
 
+    // Delete transaction (TransactionDetailViewModel)
     fun deleteTransaction(transaction: Transaction) {
         viewModelScope.launch {
             transactionDatabaseRepoImpl.deleteTransaction(transaction)
@@ -142,6 +163,7 @@ class TransactionViewModel @Inject constructor(
         }
     }
 
+    // Update transaction (TransactionDetailViewModel)
     fun updateTransaction(transaction: Transaction) {
         viewModelScope.launch {
             transactionDatabaseRepoImpl.updateTransaction(transaction)
@@ -149,6 +171,7 @@ class TransactionViewModel @Inject constructor(
         }
     }
 
+    // Get transaction (TransactionDetailViewModel)
     fun getTransactions(type: String) {
         var sum = 0L
         viewModelScope.launch {
@@ -174,6 +197,7 @@ class TransactionViewModel @Inject constructor(
         }
     }
 
+    // Get transaction by id (TransactionDetailViewModel)
     fun getTransactionById(id: Int){
         viewModelScope.launch {
             val response = transactionDatabaseRepoImpl.getTransactionById(id)
@@ -181,6 +205,7 @@ class TransactionViewModel @Inject constructor(
         }
     }
 
+    // Get all date
     fun getAllDate(){
         viewModelScope.launch {
 
@@ -233,6 +258,7 @@ class TransactionViewModel @Inject constructor(
         }
     }
 
+    // Get statistic (StatisticViewModel)
     fun getStatisticByMonth(date: Date){
         viewModelScope.launch {
             val thisMonth = if (date.month + 1 < 10) "0${date.month + 1}" else (date.month + 1).toString()
@@ -275,6 +301,7 @@ class TransactionViewModel @Inject constructor(
         }
     }
 
+    // Get cashflow and growth by month
     fun getCashFlowAndGrowthByMonth (date: Date) {
         viewModelScope.launch {
             val thisMonth = if (date.month + 1 < 10) "0${date.month + 1}" else (date.month + 1).toString()
@@ -324,37 +351,51 @@ class TransactionViewModel @Inject constructor(
         }
     }
 
-
+    // Reset add transaction state (NewTransactionViewModel)
     fun resetAddTransactionStatus(){
         _addTransactionStatus.postValue(false)
     }
 
+    // Reset delete transaction state (TransactionDetailViewModel)
     fun resetDeleteTransactionStatus(){
         _deleteTransactionStatus.postValue(false)
     }
 
+    // Reset update transaction state (TransactionDetailViewModel)
     fun resetUpdateTransactionStatus(){
         _updateTransactionStatus.postValue(false)
     }
 
+    // Change new state (NewTransactionViewModel)
     fun changeAddStatus(status: Boolean){
         _addTransactionStatus.postValue(status)
     }
 
+    // Change camera state (ScanTransactionViewModel)
     fun changeCameraStatus(status: Boolean){
         _cameraStatus.postValue(status)
     }
 
+    // Set scan result (ScanTransactionViewModel)
     fun setAtomicTransaction(transaction: ScanResult){
         _atomicTransaction.postValue(transaction)
     }
 
+    // Remove all observer data
     fun removeObserveAllData(lifecycleOwner: LifecycleOwner){
         dateAll.removeObservers(lifecycleOwner)
         transaction.removeObservers(lifecycleOwner)
         balance.removeObservers(lifecycleOwner)
         cashFlow.removeObservers(lifecycleOwner)
         growth.removeObservers(lifecycleOwner)
+    }
+
+    fun onTransactionClicked(transactionId: Int) {
+        _navigateToTransactionDetail.value = transactionId
+    }
+
+    fun onTransactionDetailNavigated() {
+        _navigateToTransactionDetail.value = null
     }
 
 }

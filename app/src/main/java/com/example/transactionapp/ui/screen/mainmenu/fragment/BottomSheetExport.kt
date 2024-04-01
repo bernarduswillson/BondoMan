@@ -9,7 +9,7 @@ import android.widget.Toast
 import androidx.fragment.app.activityViewModels
 import com.example.transactionapp.databinding.FragmentBottomSheetBinding
 import com.example.transactionapp.domain.db.model.Transaction
-import com.example.transactionapp.ui.viewmodel.transaction.TransactionViewModel
+import com.example.transactionapp.ui.screen.mainmenu.transaction.TransactionViewModel
 import com.example.transactionapp.utils.saveExcelFile
 import com.google.android.material.bottomsheet.BottomSheetDialogFragment
 
