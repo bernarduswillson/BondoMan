@@ -2,7 +2,6 @@ package com.example.transactionapp.ui.screen.mainmenu.transaction
 
 import android.content.pm.ActivityInfo
 import android.os.Bundle
-import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -10,6 +9,7 @@ import androidx.core.content.ContextCompat
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.activityViewModels
 import androidx.lifecycle.Observer
+import androidx.lifecycle.ViewModelProvider
 import androidx.navigation.NavController
 import androidx.navigation.Navigation
 import androidx.navigation.fragment.findNavController
@@ -17,6 +17,7 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.example.transactionapp.R
 import com.example.transactionapp.databinding.FragmentTransactionBinding
+import com.example.transactionapp.ui.viewmodel.navigation.NavigationViewModel
 import com.example.transactionapp.utils.changeNominalToIDN
 import dagger.hilt.android.AndroidEntryPoint
 import kotlin.math.abs
@@ -24,6 +25,7 @@ import kotlin.math.abs
 @AndroidEntryPoint
 class TransactionFragment : Fragment() {
     private val transactionViewModel: TransactionViewModel by activityViewModels()
+    private lateinit var navigationViewModel : NavigationViewModel
     private lateinit var navController: NavController
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
@@ -40,6 +42,9 @@ class TransactionFragment : Fragment() {
 
         // Bind layout using layout binding
         val binding = FragmentTransactionBinding.inflate(layoutInflater)
+
+        // Get ViewModel
+        navigationViewModel = ViewModelProvider(requireActivity())[NavigationViewModel::class.java]
 
         // Observe transaction list
         transactionViewModel.dateAll.observe(requireActivity()) { transactionList ->
@@ -71,6 +76,7 @@ class TransactionFragment : Fragment() {
         transactionViewModel.navigateToTransactionDetail.observe(requireActivity(), Observer { transactionId ->
             transactionId?.let {
                 this.findNavController().navigate(TransactionFragmentDirections.actionTransactionFragmentToTransactionDetailsFragment(transactionId))
+                navigationViewModel.navigate("transactionDetail")
                 transactionViewModel.onTransactionDetailNavigated()
             }
         })

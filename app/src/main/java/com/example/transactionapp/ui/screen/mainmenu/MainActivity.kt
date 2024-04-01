@@ -6,6 +6,7 @@ import android.content.Intent
 import android.content.pm.ActivityInfo
 import android.os.Build
 import android.os.Bundle
+import android.util.Log
 import android.widget.Toast
 import androidx.annotation.RequiresApi
 import androidx.appcompat.app.AppCompatActivity
@@ -22,10 +23,9 @@ import java.util.Date
 
 @AndroidEntryPoint
 class MainActivity : AppCompatActivity() {
-    private lateinit var db : TransactionViewModel
+    private lateinit var transactionViewModel : TransactionViewModel
     private lateinit var locationViewModel: LocationViewModel
-    private lateinit var navigationViewModel : NavigationViewModel
-
+    private lateinit var navigationViewModel: NavigationViewModel
     private lateinit var locationAdapter: LocationAdapter
     private lateinit var cameraAdapter: CameraAdapter
 
@@ -48,19 +48,19 @@ class MainActivity : AppCompatActivity() {
         //startService(Intent(this, TokenService::class.java))
 
         // Initialize ViewModel
-        db = ViewModelProvider(this)[TransactionViewModel::class.java]
-        locationViewModel = ViewModelProvider(this)[LocationViewModel::class.java]
         navigationViewModel = ViewModelProvider(this)[NavigationViewModel::class.java]
-        db.getAllDate()
-        db.getTransactions("all")
-        db.getCashFlowAndGrowthByMonth(Date())
-        db.getStatisticByMonth(Date())
+        transactionViewModel = ViewModelProvider(this)[TransactionViewModel::class.java]
+        locationViewModel = ViewModelProvider(this)[LocationViewModel::class.java]
+        transactionViewModel.getAllDate()
+        transactionViewModel.getTransactions("all")
+        transactionViewModel.getCashFlowAndGrowthByMonth(Date())
+        transactionViewModel.getStatisticByMonth(Date())
 
         // Navigation Button Listener
         binding.ibTransactionBtn.setOnClickListener {
-            db.getAllDate()
-            db.getTransactions("all")
-            db.getCashFlowAndGrowthByMonth(Date())
+            transactionViewModel.getAllDate()
+            transactionViewModel.getTransactions("all")
+            transactionViewModel.getCashFlowAndGrowthByMonth(Date())
             navigationViewModel.navigate("transaction")
             navController.navigate(R.id.transactionFragment)
         }
@@ -91,6 +91,9 @@ class MainActivity : AppCompatActivity() {
             binding.ibScanBtn.setImageResource(R.drawable.scan_inactive_ic)
             binding.ibStatisticsBtn.setImageResource(R.drawable.statistic_inactive_ic)
             binding.ibSettingsBtn.setImageResource(R.drawable.setting_inactive_ic)
+
+            Log.d("NavViewModel", it)
+
             when (it) {
                 "transaction" -> {
                     binding.ibTransactionBtn.setImageResource(R.drawable.transaction_active_ic)
@@ -111,25 +114,29 @@ class MainActivity : AppCompatActivity() {
                     binding.ibSettingsBtn.setImageResource(R.drawable.setting_active_ic)
                     binding.tvHeader.setText(R.string.title_settings)
                 }
+                "transactionDetail" -> {
+                    binding.ibTransactionBtn.setImageResource(R.drawable.transaction_active_ic)
+                    binding.tvHeader.setText(R.string.title_transaction_detail)
+                }
             }
         }
 
-        db.addTransactionStatus.observe(this){
+        transactionViewModel.addTransactionStatus.observe(this){
             if (it){
-                db.getAllDate()
-                db.getTransactions("all")
-                db.getCashFlowAndGrowthByMonth(Date())
-                db.getStatisticByMonth(Date())
+                transactionViewModel.getAllDate()
+                transactionViewModel.getTransactions("all")
+                transactionViewModel.getCashFlowAndGrowthByMonth(Date())
+                transactionViewModel.getStatisticByMonth(Date())
                 navController.navigate(R.id.transactionFragment)
-                db.resetAddTransactionStatus()
-                db.changeAddStatus(false)
+                transactionViewModel.resetAddTransactionStatus()
+                transactionViewModel.changeAddStatus(false)
             }
         }
 
-        db.cameraStatus.observe(this){
+        transactionViewModel.cameraStatus.observe(this){
             if (it){
                 navController.navigate(R.id.transactionForm)
-                db.changeCameraStatus(false)
+                transactionViewModel.changeCameraStatus(false)
             }
         }
 
@@ -138,8 +145,8 @@ class MainActivity : AppCompatActivity() {
     @RequiresApi(Build.VERSION_CODES.S)
     override fun onStart() {
         super.onStart()
-        db = ViewModelProvider(this)[TransactionViewModel::class.java]
-        db.getAllDate()
+        transactionViewModel = ViewModelProvider(this)[TransactionViewModel::class.java]
+        transactionViewModel.getAllDate()
         locationAdapter = LocationAdapter({ this }, locationViewModel)
         locationAdapter.requestLocationUpdates()
 
@@ -149,7 +156,7 @@ class MainActivity : AppCompatActivity() {
 
     override fun onDestroy() {
         super.onDestroy()
-        db.removeObserveAllData(this)
+        transactionViewModel.removeObserveAllData(this)
     }
 
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {

@@ -43,7 +43,6 @@ class TransactionDetailsFragment : Fragment() {
 
         // Get an instance of transaction from transaction id argument
         val transactionId = TransactionDetailsFragmentArgs.fromBundle(requireArguments()).transactionId
-        Log.i("Args", transactionId.toString())
         db.getTransactionById(transactionId)
         db.transactionById.observe(viewLifecycleOwner) {
             binding.titleInput.setText(it.title)
