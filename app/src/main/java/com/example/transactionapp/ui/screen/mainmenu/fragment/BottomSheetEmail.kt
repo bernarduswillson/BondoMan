@@ -25,6 +25,7 @@ class BottomSheetEmail: BottomSheetDialogFragment() {
         val binding = FragmentBottomSheetBinding.inflate(layoutInflater)
         transactionList = mutableListOf()
         db.transaction.observe(requireActivity()){
+            transactionList.clear()
             transactionList.addAll(it)
         }
 

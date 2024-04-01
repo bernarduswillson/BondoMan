@@ -35,6 +35,7 @@ import com.example.transactionapp.R
 import com.example.transactionapp.databinding.FragmentScanBinding
 import com.example.transactionapp.databinding.FragmentTransactionBinding
 import com.example.transactionapp.domain.db.model.Transaction
+import com.example.transactionapp.helper.getTokenSharedPref
 import com.example.transactionapp.ui.viewmodel.auth.Auth
 import com.example.transactionapp.ui.viewmodel.location.LocationModel
 import com.example.transactionapp.ui.viewmodel.location.LocationViewModel
@@ -194,7 +195,7 @@ class Scan : Fragment() {
     private fun sendBillToServer(bitmap: Bitmap) {
         val requestFile = bitmap.toString().toRequestBody("image/jpg".toMediaTypeOrNull())
         val body = MultipartBody.Part.createFormData("file", "image.jpg", requestFile)
-        val token = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJuaW0iOiIxMzUyMTAyMSIsImlhdCI6MTcxMTkxMzEzNSwiZXhwIjoxNzExOTEzNDM1fQ.B8Eh2c3AXiHK8D9mthEkmNPHtqoittFdJHeAOZaZWIY"
+        val token = getTokenSharedPref(requireContext())
 
         auth.postBill("Bearer $token", body)
     }
