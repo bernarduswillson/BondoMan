@@ -4,6 +4,7 @@ import TransactionDetails
 import android.Manifest
 import android.app.Activity
 import android.content.Intent
+import android.content.pm.ActivityInfo
 import android.content.pm.PackageManager
 import android.graphics.Bitmap
 import android.graphics.BitmapFactory
@@ -164,6 +165,12 @@ class Scan : Fragment() {
         val intent = Intent(Intent.ACTION_PICK)
         intent.type = "image/*"
         startActivityForResult(intent, 100)
+    }
+
+    override fun onResume() {
+        super.onResume()
+        // Set the orientation to portrait
+        activity?.requestedOrientation = ActivityInfo.SCREEN_ORIENTATION_PORTRAIT
     }
 
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {

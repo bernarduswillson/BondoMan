@@ -2,7 +2,9 @@ package com.example.transactionapp.ui.screen.mainmenu
 
 import android.app.Activity
 import android.content.Intent
+import android.content.pm.ActivityInfo
 import android.content.pm.PackageManager
+import android.content.res.Configuration
 import android.location.Geocoder
 import android.location.Location
 import android.os.Build
@@ -47,12 +49,16 @@ class MainActivity : AppCompatActivity() {
     private lateinit var db : TransactionViewModel
     private lateinit var locationViewModel: LocationViewModel
     private lateinit var navigationViewModel : NavigationViewModel
+    lateinit var binding: ActivityMainBinding
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
+        // Set the activity to portrait
+        this.requestedOrientation = ActivityInfo.SCREEN_ORIENTATION_PORTRAIT
+
         // Bind layout
-        val binding = ActivityMainBinding.inflate(layoutInflater)
+        binding = ActivityMainBinding.inflate(layoutInflater)
         setContentView(binding.root)
 
         // Initialize nav controller
