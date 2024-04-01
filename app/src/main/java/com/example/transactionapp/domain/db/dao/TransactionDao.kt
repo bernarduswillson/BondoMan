@@ -31,7 +31,7 @@ interface TransactionDao {
     @Query("SELECT createdAt FROM transactions")
     suspend fun getAllFormattedDates(): List<Date>
 
-    @Query("SELECT * FROM transactions WHERE strftime('%m', datetime(createdAt / 1000, 'unixepoch')) = :month")
+    @Query("SELECT * FROM transactions WHERE strftime('%m', datetime(createdAt / 1000, 'unixepoch', 'localtime')) = :month")
     suspend fun getTransactionsByMonth(month: String): List<Transaction>
 
     @Query("SELECT * FROM transactions WHERE id = :id")

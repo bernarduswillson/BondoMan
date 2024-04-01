@@ -293,8 +293,8 @@ class TransactionViewModel @Inject constructor(
             var cashFlow = 0L
             var growth = 0L
 
-            Log.d("TransactionViewModel", "getCashFlowAndGrowthByMonth: $transactionThisMonth")
-            Log.d("TransactionViewModel", "getCashFlowAndGrowthByMonth: $transactionLastMonth")
+            Log.d("TransactionViewModel", "getCashFlowAndGrowthThisMonth: $transactionThisMonth")
+            Log.d("TransactionViewModel", "getCashFlowAndGrowthLastMonth: $transactionLastMonth")
 
             transactionThisMonth.forEach {
                 when(it.category){
