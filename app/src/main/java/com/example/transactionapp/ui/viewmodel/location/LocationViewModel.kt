@@ -5,7 +5,7 @@ import androidx.lifecycle.ViewModel
 
 data class LocationModel(
     val locationName: String,
-    val latitude: Double,
+    var latitude: Double,
     val longitude: Double
 )
 
