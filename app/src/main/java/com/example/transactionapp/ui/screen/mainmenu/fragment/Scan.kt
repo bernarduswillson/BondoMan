@@ -4,6 +4,7 @@ import CameraAdapter
 import ImageCaptureCallback
 import android.app.Activity
 import android.content.Intent
+import android.content.pm.ActivityInfo
 import android.graphics.Bitmap
 import android.graphics.BitmapFactory
 import android.graphics.Matrix
@@ -149,6 +150,12 @@ class Scan : Fragment(), ImageCaptureCallback {
         startActivityForResult(intent, 100)
     }
 
+    override fun onResume() {
+        super.onResume()
+        // Set the orientation to portrait
+        activity?.requestedOrientation = ActivityInfo.SCREEN_ORIENTATION_PORTRAIT
+    }
+
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
         super.onActivityResult(requestCode, resultCode, data)
         if (requestCode == 100 && resultCode == Activity.RESULT_OK) {
@@ -230,9 +237,9 @@ class Scan : Fragment(), ImageCaptureCallback {
         return Bitmap.createBitmap(bitmap, 0, 0, bitmap.width, bitmap.height, matrix, true)
     }
 
-    override fun onDestroy() {
-        super.onDestroy()
-        cameraExecutor.shutdown()
-    }
-
+    // TODO: Fix navigate to scan while in landscape causing app to crash
+//    override fun onDestroy() {
+//        super.onDestroy()
+//        cameraExecutor.shutdown()
+//    }
 }

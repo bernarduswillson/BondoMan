@@ -1,6 +1,7 @@
 package com.example.transactionapp.ui.screen.mainmenu.fragment
 
 import TransactionDetails
+import android.content.pm.ActivityInfo
 import android.os.Bundle
 import android.util.Log
 import android.view.LayoutInflater
@@ -59,6 +60,11 @@ class Transaction : Fragment() {
         return binding.root
     }
 
+    override fun onResume() {
+        super.onResume()
+        // Set the orientation to portrait
+        activity?.requestedOrientation = ActivityInfo.SCREEN_ORIENTATION_PORTRAIT
+    }
 
     private fun onItemClickHandler(id: Int){
         Log.d("TransactionFragment", "onItemClickHandler: $id")

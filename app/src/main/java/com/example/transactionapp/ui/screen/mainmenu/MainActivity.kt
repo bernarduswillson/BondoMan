@@ -3,6 +3,7 @@ package com.example.transactionapp.ui.screen.mainmenu
 import CameraAdapter
 import LocationAdapter
 import android.content.Intent
+import android.content.pm.ActivityInfo
 import android.os.Build
 import android.os.Bundle
 import android.widget.Toast
@@ -14,6 +15,7 @@ import com.example.transactionapp.R
 import com.example.transactionapp.databinding.ActivityMainBinding
 import com.example.transactionapp.service.ConnectionStatusService
 import com.example.transactionapp.ui.viewmodel.location.LocationViewModel
+import com.example.transactionapp.ui.viewmodel.navigation.NavigationViewModel
 import com.example.transactionapp.ui.viewmodel.transaction.TransactionViewModel
 import dagger.hilt.android.AndroidEntryPoint
 import java.util.Date
@@ -22,70 +24,92 @@ import java.util.Date
 class MainActivity : AppCompatActivity() {
     private lateinit var db : TransactionViewModel
     private lateinit var locationViewModel: LocationViewModel
+    private lateinit var navigationViewModel : NavigationViewModel
 
     private lateinit var locationAdapter: LocationAdapter
     private lateinit var cameraAdapter: CameraAdapter
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+
+        // Set the activity to portrait
+        this.requestedOrientation = ActivityInfo.SCREEN_ORIENTATION_PORTRAIT
+
+        // Bind layout
         val binding = ActivityMainBinding.inflate(layoutInflater)
         setContentView(binding.root)
+
+        // Initialize nav controller
         val navController = (supportFragmentManager.findFragmentById(R.id.navHostFragment) as NavHostFragment).navController
 
+        // Start connection service
         startService(Intent(this, ConnectionStatusService::class.java))
         //TODO: dont forget to startservice token
-//        startService(Intent(this, TokenService::class.java))
+        //startService(Intent(this, TokenService::class.java))
 
+        // Initialize ViewModel
         db = ViewModelProvider(this)[TransactionViewModel::class.java]
         locationViewModel = ViewModelProvider(this)[LocationViewModel::class.java]
+        navigationViewModel = ViewModelProvider(this)[NavigationViewModel::class.java]
         db.getAllDate()
         db.getTransactions("all")
         db.getCashFlowAndGrowthByMonth(Date())
         db.getStatisticByMonth(Date())
 
-//        val frame = R.id.navHostFragment
-//
-//        var fragment = supportFragmentManager.beginTransaction()
-//
-//        fragment.replace(frame, Transaction())
-//        fragment.addToBackStack(null)
-//        fragment.commit()
-//
-        binding.fabAddTransaction.setOnClickListener {
-
-            navController.navigate(R.id.transactionForm)
-            binding.bottomNavigationView.selectedItemId = R.id.empty
+        // Navigation Button Listener
+        binding.ibTransactionBtn.setOnClickListener {
+            db.getAllDate()
+            db.getTransactions("all")
+            db.getCashFlowAndGrowthByMonth(Date())
+            navigationViewModel.navigate("transaction")
+            navController.navigate(R.id.transaction)
         }
 
-        //TODO: Add Animation When Fragment Change
+        binding.ibScanBtn.setOnClickListener {
+            navigationViewModel.navigate("scan")
+            navController.navigate(R.id.scan)
+        }
 
-        binding.bottomNavigationView.setOnItemSelectedListener { item ->
-            when(item.itemId){
-                R.id.IbTransactionBtn -> {
-                    db.getAllDate()
-                    db.getTransactions("all")
-                    db.getCashFlowAndGrowthByMonth(Date())
+        binding.ibAddBtn.setOnClickListener {
+            navigationViewModel.navigate("newTransaction")
+            navController.navigate(R.id.transactionForm)
+        }
 
-                    navController.navigate(R.id.transaction)
-                    true
+        binding.ibStatisticsBtn.setOnClickListener {
+            navigationViewModel.navigate("statistics")
+            navController.navigate(R.id.statistics)
+        }
+
+        binding.ibSettingsBtn.setOnClickListener {
+            navigationViewModel.navigate("settings")
+            navController.navigate(R.id.settings)
+        }
+
+        // Navigation components observer
+        navigationViewModel.fragmentName.observe(this) {
+            binding.ibTransactionBtn.setImageResource(R.drawable.transaction_inactive_ic)
+            binding.ibScanBtn.setImageResource(R.drawable.scan_inactive_ic)
+            binding.ibStatisticsBtn.setImageResource(R.drawable.statistic_inactive_ic)
+            binding.ibSettingsBtn.setImageResource(R.drawable.setting_inactive_ic)
+            when (it) {
+                "transaction" -> {
+                    binding.ibTransactionBtn.setImageResource(R.drawable.transaction_active_ic)
+                    binding.tvHeader.setText(R.string.title_transactions)
                 }
-                R.id.IbScanBtn -> {
-
-                    navController.navigate(R.id.scan)
-                    true
+                "scan" -> {
+                    binding.ibScanBtn.setImageResource(R.drawable.scan_active_ic)
+                    binding.tvHeader.setText(R.string.title_scan)
                 }
-                R.id.IbSettingsBtn -> {
-
-                    navController.navigate(R.id.settings)
-                    true
+                "newTransaction" -> {
+                    binding.tvHeader.setText(R.string.title_new_transaction)
                 }
-                R.id.IbStatisticsBtn -> {
-
-                    navController.navigate(R.id.statistics)
-                    true
+                "statistics" -> {
+                    binding.ibStatisticsBtn.setImageResource(R.drawable.statistic_active_ic)
+                    binding.tvHeader.setText(R.string.title_statistics)
                 }
-                else -> {
-                    false
+                "settings" -> {
+                    binding.ibSettingsBtn.setImageResource(R.drawable.setting_active_ic)
+                    binding.tvHeader.setText(R.string.title_settings)
                 }
             }
         }
@@ -100,7 +124,6 @@ class MainActivity : AppCompatActivity() {
                 navController.navigate(R.id.transaction)
                 db.resetAddTransactionStatus()
                 db.changeAddStatus(false)
-                binding.bottomNavigationView.selectedItemId = R.id.IbTransactionBtn
             }
         }
 
@@ -108,7 +131,6 @@ class MainActivity : AppCompatActivity() {
             if (it){
                 navController.navigate(R.id.transactionForm)
                 db.changeCameraStatus(false)
-                binding.bottomNavigationView.selectedItemId = R.id.empty
             }
         }
 

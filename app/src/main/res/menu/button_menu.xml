@@ -4,7 +4,8 @@
         android:iconTintMode="add"
         android:id="@+id/IbTransactionBtn"
         android:enabled="true"
-        android:icon="@drawable/transaction_ic" />
+        android:icon="@drawable/transaction_ic"
+        android:iconTint="@color/R5"/>
     <item android:title="Scan"
         android:id="@+id/IbScanBtn"
         android:enabled="true"
