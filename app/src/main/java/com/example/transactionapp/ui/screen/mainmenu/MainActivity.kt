@@ -2,44 +2,21 @@ package com.example.transactionapp.ui.screen.mainmenu
 
 import CameraAdapter
 import LocationAdapter
-import android.app.Activity
 import android.content.Intent
-import android.content.pm.PackageManager
-import android.location.Geocoder
-import android.location.Location
 import android.os.Build
 import android.os.Bundle
-import android.os.Looper
-import android.util.Log
 import android.widget.Toast
 import androidx.annotation.RequiresApi
 import androidx.appcompat.app.AppCompatActivity
-import androidx.core.app.ActivityCompat
-import androidx.core.content.ContentProviderCompat.requireContext
 import androidx.lifecycle.ViewModelProvider
-import androidx.navigation.NavController
-import androidx.navigation.Navigation
-import androidx.navigation.findNavController
 import androidx.navigation.fragment.NavHostFragment
 import com.example.transactionapp.R
 import com.example.transactionapp.databinding.ActivityMainBinding
 import com.example.transactionapp.service.ConnectionStatusService
-import com.example.transactionapp.service.TokenService
-import com.example.transactionapp.ui.screen.mainmenu.fragment.Scan
-import com.example.transactionapp.ui.screen.mainmenu.fragment.Settings
-import com.example.transactionapp.ui.screen.mainmenu.fragment.Statistics
-import com.example.transactionapp.ui.screen.mainmenu.fragment.Transaction
-import com.example.transactionapp.ui.screen.mainmenu.fragment.TransactionForm
-import com.example.transactionapp.ui.viewmodel.location.LocationModel
 import com.example.transactionapp.ui.viewmodel.location.LocationViewModel
 import com.example.transactionapp.ui.viewmodel.transaction.TransactionViewModel
-import com.google.android.gms.location.FusedLocationProviderClient
-import com.google.android.gms.location.LocationCallback
-import com.google.android.gms.location.LocationResult
-import com.google.android.gms.location.LocationServices
 import dagger.hilt.android.AndroidEntryPoint
 import java.util.Date
-import java.util.Locale
 
 @AndroidEntryPoint
 class MainActivity : AppCompatActivity() {
@@ -144,6 +121,9 @@ class MainActivity : AppCompatActivity() {
         db.getAllDate()
         locationAdapter = LocationAdapter({ this }, locationViewModel)
         locationAdapter.requestLocationUpdates()
+
+        cameraAdapter = CameraAdapter(this, this, previewView = null, imageCaptureCallback = null)
+        cameraAdapter.bindCameraUseCases()
     }
 
     override fun onDestroy() {

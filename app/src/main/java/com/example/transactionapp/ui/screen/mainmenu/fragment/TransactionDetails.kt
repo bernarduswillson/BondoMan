@@ -46,6 +46,7 @@ class TransactionDetails : Fragment() {
         const val ARG_TRANSACTION_ID = "transaction_id"
     }
 
+    @RequiresApi(Build.VERSION_CODES.S)
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
@@ -64,12 +65,19 @@ class TransactionDetails : Fragment() {
 
             binding.amountInput.setText(it.nominal.toString())
 
-            locationViewModel.location.observe(viewLifecycleOwner){
-                binding.locationInput.text = it.locationName
-                locationData.value = it
-            }
+            binding.locationInput.text = it.location
+            locationData.value?.latitude ?: it.lat
+            locationData.value?.longitude ?: it.long
 
-//            binding.locationInput.text = it.location
+            binding.updateButton.setOnClickListener {
+                locationAdapter = LocationAdapter({ requireActivity() }, locationViewModel)
+                locationAdapter.startLocationUpdates()
+
+                locationViewModel.location.observe(viewLifecycleOwner){
+                    binding.locationInput.text = it.locationName
+                    locationData.value = it
+                }
+            }
         }
 
         binding.saveTransactionButton.setOnClickListener {
@@ -89,8 +97,6 @@ class TransactionDetails : Fragment() {
                         nominal = binding.amountInput.text.toString().toLong(),
                         createdAt = db.transactionById.value?.createdAt!!,
                         location = binding.locationInput.text.toString(),
-//                        lat = db.transactionById.value?.lat!!,
-//                        long = db.transactionById.value?.long!!
                         lat = locationData.value?.latitude?:0.0,
                         long = locationData.value?.longitude?:0.0,
                     )
@@ -124,13 +130,6 @@ class TransactionDetails : Fragment() {
         }
 
         return binding.root
-    }
-
-    @RequiresApi(Build.VERSION_CODES.S)
-    override fun onStart() {
-        super.onStart()
-        locationAdapter = LocationAdapter({ requireActivity() }, locationViewModel)
-        locationAdapter.startLocationUpdates()
     }
 
     @RequiresApi(Build.VERSION_CODES.S)

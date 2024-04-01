@@ -2,11 +2,8 @@ package com.example.transactionapp.ui.screen.mainmenu.fragment
 
 import CameraAdapter
 import ImageCaptureCallback
-import TransactionDetails
-import android.Manifest
 import android.app.Activity
 import android.content.Intent
-import android.content.pm.PackageManager
 import android.graphics.Bitmap
 import android.graphics.BitmapFactory
 import android.graphics.Matrix
@@ -15,46 +12,30 @@ import android.media.ExifInterface
 import android.net.Uri
 import android.os.Bundle
 import android.provider.MediaStore
-import android.util.Log
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.Toast
-import androidx.camera.core.CameraSelector
 import androidx.camera.core.ImageCapture
 import androidx.camera.core.ImageCaptureException
-import androidx.camera.core.Preview
-import androidx.camera.lifecycle.ProcessCameraProvider
-import androidx.core.app.ActivityCompat
-import androidx.core.content.ContentProviderCompat.requireContext
 import androidx.core.content.ContextCompat
 import androidx.fragment.app.activityViewModels
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
-import androidx.lifecycle.distinctUntilChanged
 import com.example.transactionapp.R
 import com.example.transactionapp.databinding.FragmentScanBinding
-import com.example.transactionapp.databinding.FragmentTransactionBinding
 import com.example.transactionapp.domain.db.model.Transaction
 import com.example.transactionapp.ui.viewmodel.auth.Auth
-import com.example.transactionapp.ui.viewmodel.location.LocationModel
-import com.example.transactionapp.ui.viewmodel.location.LocationViewModel
 import com.example.transactionapp.ui.viewmodel.model.BillResponseSealed
 import com.example.transactionapp.ui.viewmodel.transaction.ScanResult
 import com.example.transactionapp.ui.viewmodel.transaction.TransactionViewModel
-import okhttp3.MediaType
 import okhttp3.MediaType.Companion.toMediaTypeOrNull
 import okhttp3.MultipartBody
-import okhttp3.RequestBody
-import java.io.ByteArrayOutputStream
 import java.io.File
 import java.util.concurrent.ExecutorService
 import java.util.concurrent.Executors
-import okhttp3.RequestBody.Companion.asRequestBody
 import okhttp3.RequestBody.Companion.toRequestBody
-import java.io.FileOutputStream
-import java.util.Date
 
 class Scan : Fragment(), ImageCaptureCallback {
 
@@ -82,7 +63,7 @@ class Scan : Fragment(), ImageCaptureCallback {
 
         auth = ViewModelProvider(requireActivity())[Auth::class.java]
 
-        cameraAdapter = CameraAdapter(viewLifecycleOwner, this, binding.previewView, this)
+        cameraAdapter = CameraAdapter( requireContext(), viewLifecycleOwner, binding.previewView, this)
         cameraAdapter.startCamera()
 
         binding.cameraButton.setOnClickListener {
