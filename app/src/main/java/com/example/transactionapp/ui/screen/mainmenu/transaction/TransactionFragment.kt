@@ -92,6 +92,7 @@ class TransactionFragment : Fragment() {
     }
 
     fun onTransactionClicked(transactionId: Int) {
+        // Handle transaction click
         transactionViewModel.onTransactionClicked(transactionId)
     }
 }

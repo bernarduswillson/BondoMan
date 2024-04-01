@@ -84,11 +84,6 @@ class TransactionViewModel @Inject constructor(
     val growth: LiveData<Long>
         get() = _growth
 
-    // Transaction detail (TransactionDetailViewModel)
-    private val _transactionById: MutableLiveData<Transaction> = MutableLiveData()
-    val transactionById: LiveData<Transaction>
-        get() = _transactionById
-
     // Scan data (ScanViewModel)
     private val _atomicTransaction: MutableLiveData<ScanResult> = MutableLiveData()
     val atomicTransaction: LiveData<ScanResult>
@@ -103,16 +98,6 @@ class TransactionViewModel @Inject constructor(
     private val _addTransactionStatus: MutableLiveData<Boolean> = MutableLiveData()
     val addTransactionStatus: LiveData<Boolean>
         get() = _addTransactionStatus
-
-    // Delete transaction state (DeleteTransactionViewModel)
-    private val _deleteTransactionStatus: MutableLiveData<Boolean> = MutableLiveData()
-    val deleteTransactionStatus: LiveData<Boolean>
-        get() = _deleteTransactionStatus
-
-    // Update transaction state (UpdateTransactionViewModel)
-    private val _updateTransactionStatus: MutableLiveData<Boolean> = MutableLiveData()
-    val updateTransactionStatus: LiveData<Boolean>
-        get() = _updateTransactionStatus
 
     // Camera state ?? (ScanTransactionViewModel)
     private val _cameraStatus: MutableLiveData<Boolean> = MutableLiveData()
@@ -155,23 +140,7 @@ class TransactionViewModel @Inject constructor(
         }
     }
 
-    // Delete transaction (TransactionDetailViewModel)
-    fun deleteTransaction(transaction: Transaction) {
-        viewModelScope.launch {
-            transactionDatabaseRepoImpl.deleteTransaction(transaction)
-            _deleteTransactionStatus.postValue(true)
-        }
-    }
-
-    // Update transaction (TransactionDetailViewModel)
-    fun updateTransaction(transaction: Transaction) {
-        viewModelScope.launch {
-            transactionDatabaseRepoImpl.updateTransaction(transaction)
-            _updateTransactionStatus.postValue(true)
-        }
-    }
-
-    // Get transaction (TransactionDetailViewModel)
+    // Get transaction
     fun getTransactions(type: String) {
         var sum = 0L
         viewModelScope.launch {
@@ -194,14 +163,6 @@ class TransactionViewModel @Inject constructor(
             }
             Log.d("TransactionViewModel", "getTransactions: $sum")
             _balance.postValue(sum)
-        }
-    }
-
-    // Get transaction by id (TransactionDetailViewModel)
-    fun getTransactionById(id: Int){
-        viewModelScope.launch {
-            val response = transactionDatabaseRepoImpl.getTransactionById(id)
-            _transactionById.postValue(response)
         }
     }
 
@@ -354,16 +315,6 @@ class TransactionViewModel @Inject constructor(
     // Reset add transaction state (NewTransactionViewModel)
     fun resetAddTransactionStatus(){
         _addTransactionStatus.postValue(false)
-    }
-
-    // Reset delete transaction state (TransactionDetailViewModel)
-    fun resetDeleteTransactionStatus(){
-        _deleteTransactionStatus.postValue(false)
-    }
-
-    // Reset update transaction state (TransactionDetailViewModel)
-    fun resetUpdateTransactionStatus(){
-        _updateTransactionStatus.postValue(false)
     }
 
     // Change new state (NewTransactionViewModel)

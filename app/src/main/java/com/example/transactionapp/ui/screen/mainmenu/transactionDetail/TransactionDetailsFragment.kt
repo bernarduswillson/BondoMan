@@ -5,7 +5,6 @@ import android.content.Intent
 import android.net.Uri
 import android.os.Build
 import android.os.Bundle
-import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -17,34 +16,28 @@ import com.example.transactionapp.databinding.FragmentTransactionDetailsBinding
 import com.example.transactionapp.domain.db.model.Transaction
 import com.example.transactionapp.ui.viewmodel.location.LocationModel
 import com.example.transactionapp.ui.viewmodel.location.LocationViewModel
-import com.example.transactionapp.ui.screen.mainmenu.transaction.TransactionViewModel
 import com.example.transactionapp.utils.changeDateTypeToStandardDateLocal
 import kotlinx.coroutines.flow.MutableStateFlow
 
 class TransactionDetailsFragment : Fragment() {
-
-    private val db : TransactionViewModel by activityViewModels()
+    private val transactionDetailViewModel : TransactionDetailViewModel by activityViewModels()
     private val locationViewModel: LocationViewModel by activityViewModels()
     private val locationData = MutableStateFlow<LocationModel?>(null)
-
     private lateinit var locationAdapter: LocationAdapter
-
-    companion object {
-        const val ARG_TRANSACTION_ID = "transaction_id"
-    }
 
     @RequiresApi(Build.VERSION_CODES.S)
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
-    ): View? {
+    ): View {
+
         // Bind layout using layout binding
         val binding = FragmentTransactionDetailsBinding.inflate(layoutInflater)
 
         // Get an instance of transaction from transaction id argument
         val transactionId = TransactionDetailsFragmentArgs.fromBundle(requireArguments()).transactionId
-        db.getTransactionById(transactionId)
-        db.transactionById.observe(viewLifecycleOwner) {
+        transactionDetailViewModel.getTransactionById(transactionId)
+        transactionDetailViewModel.transactionById.observe(viewLifecycleOwner) {
             binding.titleInput.setText(it.title)
 
             binding.dateInput.text = changeDateTypeToStandardDateLocal(it.createdAt)
@@ -68,6 +61,7 @@ class TransactionDetailsFragment : Fragment() {
             }
         }
 
+        // Handle save transaction
         binding.saveTransactionButton.setOnClickListener {
             if (binding.titleInput.text.toString() == ""){
                 return@setOnClickListener
@@ -77,31 +71,32 @@ class TransactionDetailsFragment : Fragment() {
             }
 
             if (binding.titleInput.text.toString() != "" && binding.amountInput.text.toString() != ""){
-                db.updateTransaction(
+                transactionDetailViewModel.updateTransaction(
                     Transaction(
                         id = transactionId,
                         title = binding.titleInput.text.toString(),
                         category = binding.categoryInput.text.toString(),
                         nominal = binding.amountInput.text.toString().toLong(),
-                        createdAt = db.transactionById.value?.createdAt!!,
+                        createdAt = transactionDetailViewModel.transactionById.value?.createdAt!!,
                         location = binding.locationInput.text.toString(),
                         lat = locationData.value?.latitude?:0.0,
                         long = locationData.value?.longitude?:0.0,
                     )
                 )
-                db.changeAddStatus(true)
+                transactionDetailViewModel.changeAddStatus(true)
                 Toast.makeText(requireContext(), "Transaction Updated", Toast.LENGTH_SHORT).show()
                 requireActivity().onBackPressed()
             }
         }
 
+        // Handle delete transaction
         binding.deleteTransactionButton.setOnClickListener {
             val builder: AlertDialog.Builder = AlertDialog.Builder(requireContext())
             builder.setMessage("Are you sure you want to delete this transaction?")
                 .setCancelable(false)
                 .setPositiveButton("Yes") { _, _ ->
-                    db.deleteTransaction(db.transactionById.value!!)
-                    db.changeAddStatus(true)
+                    transactionDetailViewModel.deleteTransaction(transactionDetailViewModel.transactionById.value!!)
+                    transactionDetailViewModel.changeAddStatus(true)
                     Toast.makeText(requireContext(), "Transaction Deleted", Toast.LENGTH_SHORT).show()
                     requireActivity().onBackPressed()
                 }
@@ -113,7 +108,7 @@ class TransactionDetailsFragment : Fragment() {
         }
 
         binding.locationInput.setOnClickListener {
-            val intent = Intent(Intent.ACTION_VIEW, Uri.parse("geo:0,0?q=${db.transactionById.value?.lat},${db.transactionById.value?.long}"))
+            val intent = Intent(Intent.ACTION_VIEW, Uri.parse("geo:0,0?q=${transactionDetailViewModel.transactionById.value?.lat},${transactionDetailViewModel.transactionById.value?.long}"))
             startActivity(intent)
         }
 
