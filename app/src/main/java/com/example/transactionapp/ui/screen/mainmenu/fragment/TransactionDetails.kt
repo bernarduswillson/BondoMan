@@ -19,6 +19,7 @@ import androidx.annotation.RequiresApi
 import androidx.core.app.ActivityCompat
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.activityViewModels
+import androidx.lifecycle.ViewModelProvider
 import com.example.transactionapp.R
 import com.example.transactionapp.databinding.FragmentTransactionDetailsBinding
 import com.example.transactionapp.domain.db.model.Transaction
@@ -36,9 +37,10 @@ import java.util.Locale
 class TransactionDetails : Fragment() {
 
     private val db : TransactionViewModel by activityViewModels()
-    private lateinit var fusedLocationProviderClient: FusedLocationProviderClient
     private val locationViewModel: LocationViewModel by activityViewModels()
     private val locationData = MutableStateFlow<LocationModel?>(null)
+
+    private lateinit var locationAdapter: LocationAdapter
 
     companion object {
         const val ARG_TRANSACTION_ID = "transaction_id"
@@ -125,59 +127,25 @@ class TransactionDetails : Fragment() {
     }
 
     @RequiresApi(Build.VERSION_CODES.S)
+    override fun onStart() {
+        super.onStart()
+        locationAdapter = LocationAdapter({ requireActivity() }, locationViewModel)
+        locationAdapter.startLocationUpdates()
+    }
+
+    @RequiresApi(Build.VERSION_CODES.S)
     override fun onRequestPermissionsResult(
         requestCode: Int,
         permissions: Array<out String>,
         grantResults: IntArray
     ) {
         super.onRequestPermissionsResult(requestCode, permissions, grantResults)
-        if(requestCode == 1010){
-            if(grantResults.isNotEmpty() && grantResults[0] == PackageManager.PERMISSION_GRANTED){
-                NewLocationData()
+        if (requestCode == LocationAdapter.LOCATION_PERMISSION_REQUEST_CODE) {
+            if (locationAdapter.hasLocationPermission()) {
+                locationAdapter.startLocationUpdates()
+            } else {
+                Toast.makeText(requireContext(), "Location permission denied", Toast.LENGTH_SHORT).show()
             }
         }
-    }
-
-    @RequiresApi(Build.VERSION_CODES.S)
-    fun NewLocationData(){
-        var locationRequest = com.google.android.gms.location.LocationRequest()
-        locationRequest.priority = com.google.android.gms.location.LocationRequest.PRIORITY_HIGH_ACCURACY
-        locationRequest.interval = 0
-        locationRequest.fastestInterval = 0
-        locationRequest.numUpdates = 1
-        fusedLocationProviderClient = LocationServices.getFusedLocationProviderClient(requireContext())
-        if (ActivityCompat.checkSelfPermission(requireContext(),android.Manifest.permission.ACCESS_COARSE_LOCATION) == PackageManager.PERMISSION_GRANTED ||
-            ActivityCompat.checkSelfPermission(requireContext(),android.Manifest.permission.ACCESS_FINE_LOCATION) == PackageManager.PERMISSION_GRANTED
-        ) {
-            fusedLocationProviderClient!!.requestLocationUpdates(
-                locationRequest,locationCallback, Looper.myLooper()
-            )
-            return
-        }
-
-    }
-
-    private val locationCallback = object : LocationCallback() {
-        override fun onLocationResult(locationResult: LocationResult) {
-            var lastLocation: Location? = locationResult.lastLocation
-            if (lastLocation != null) {
-                locationViewModel.setLocation(
-                    LocationModel(
-                    locationName = getCityName(lastLocation.latitude, lastLocation.longitude),
-                    latitude = lastLocation.latitude,
-                    longitude = lastLocation.longitude
-                )
-                )
-            }
-        }
-    }
-
-    private fun getCityName(lat: Double,long: Double):String{
-        var cityName = ""
-        val geoCoder = Geocoder(requireContext(), Locale.getDefault())
-        val Address = geoCoder.getFromLocation(lat,long,3)
-
-        cityName = Address!!.get(0).subAdminArea
-        return cityName
     }
 }

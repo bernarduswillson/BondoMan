@@ -1,5 +1,7 @@
 package com.example.transactionapp.ui.screen.mainmenu.fragment
 
+import CameraAdapter
+import ImageCaptureCallback
 import TransactionDetails
 import android.Manifest
 import android.app.Activity
@@ -54,15 +56,16 @@ import okhttp3.RequestBody.Companion.toRequestBody
 import java.io.FileOutputStream
 import java.util.Date
 
-class Scan : Fragment() {
+class Scan : Fragment(), ImageCaptureCallback {
 
     private lateinit var binding: FragmentScanBinding
     private var imageCapture: ImageCapture? = null
     private lateinit var outputDirectory: File
     private val db: TransactionViewModel by activityViewModels()
-    private val locationViewModel: LocationViewModel by activityViewModels()
 
     private lateinit var cameraExecutor: ExecutorService
+
+    private lateinit var cameraAdapter: CameraAdapter
 
     private lateinit var auth: Auth
 
@@ -79,13 +82,8 @@ class Scan : Fragment() {
 
         auth = ViewModelProvider(requireActivity())[Auth::class.java]
 
-        if (allPermissionGranted()) {
-            startCamera()
-        } else {
-            ActivityCompat.requestPermissions(
-                requireActivity(), arrayOf(Manifest.permission.CAMERA), 123
-            )
-        }
+        cameraAdapter = CameraAdapter(viewLifecycleOwner, this, binding.previewView, this)
+        cameraAdapter.startCamera()
 
         binding.cameraButton.setOnClickListener {
             takePhoto()
@@ -160,6 +158,10 @@ class Scan : Fragment() {
         return binding.root
     }
 
+    override fun onImageCaptureInitialized(imageCapture: ImageCapture) {
+        this.imageCapture = imageCapture
+    }
+
     private fun pickFromGallery() {
         val intent = Intent(Intent.ACTION_PICK)
         intent.type = "image/*"
@@ -210,10 +212,12 @@ class Scan : Fragment() {
 
     private fun takePhoto() {
         val imageCapture = imageCapture ?: return
+
         val photoFile = File(
             outputDirectory, System.currentTimeMillis().toString() + ".jpg"
         )
         val outputOptions = ImageCapture.OutputFileOptions.Builder(photoFile).build()
+
         imageCapture.takePicture(
             outputOptions, ContextCompat.getMainExecutor(requireContext()), object : ImageCapture.OnImageSavedCallback {
                 override fun onError(exc: ImageCaptureException) {
@@ -243,47 +247,6 @@ class Scan : Fragment() {
             ExifInterface.ORIENTATION_ROTATE_270 -> matrix.setRotate(270f)
         }
         return Bitmap.createBitmap(bitmap, 0, 0, bitmap.width, bitmap.height, matrix, true)
-    }
-
-    private fun startCamera() {
-        val cameraProviderFuture = ProcessCameraProvider.getInstance(requireContext())
-        cameraProviderFuture.addListener({
-            val cameraProvider: ProcessCameraProvider = cameraProviderFuture.get()
-            val preview = Preview.Builder().build().also {
-                it.setSurfaceProvider(binding.previewView.surfaceProvider)
-            }
-            imageCapture = ImageCapture.Builder().build()
-            val cameraSelector = CameraSelector.DEFAULT_BACK_CAMERA
-            try {
-                cameraProvider.unbindAll()
-                cameraProvider.bindToLifecycle(
-                    this, cameraSelector, preview, imageCapture
-                )
-            } catch (exc: Exception) {
-                Toast.makeText(requireContext(), "Use case binding failed", Toast.LENGTH_SHORT).show()
-            }
-        }, ContextCompat.getMainExecutor(requireContext()))
-    }
-
-    override fun onRequestPermissionsResult(
-        requestCode: Int,
-        permissions: Array<out String>,
-        grantResults: IntArray
-    ) {
-        if (requestCode == 123) {
-            if (allPermissionGranted()) {
-                Toast.makeText(requireContext(), "Permission Granted", Toast.LENGTH_SHORT).show()
-                startCamera()
-            } else {
-                Toast.makeText(requireContext(), "Permission Denied", Toast.LENGTH_SHORT).show()
-            }
-        }
-    }
-
-    private fun allPermissionGranted() = arrayOf(android.Manifest.permission.CAMERA).all {
-        ContextCompat.checkSelfPermission(
-            requireContext(), it
-        ) == PackageManager.PERMISSION_GRANTED
     }
 
     override fun onDestroy() {
