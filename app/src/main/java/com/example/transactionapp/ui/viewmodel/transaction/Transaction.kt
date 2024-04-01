@@ -235,7 +235,7 @@ class TransactionViewModel @Inject constructor(
 
     fun getStatisticByMonth(date: Date){
         viewModelScope.launch {
-            val thisMonth = if (date.month < 10) "0${date.month}" else (date.month).toString()
+            val thisMonth = if (date.month + 1 < 10) "0${date.month + 1}" else (date.month + 1).toString()
             Log.d("TransactionViewModel", "getStatisticMonthhhh: $thisMonth")
             val response = transactionDatabaseRepoImpl.getTransactionsByMonth(thisMonth)
             val income = mutableListOf<Long>()
@@ -277,8 +277,8 @@ class TransactionViewModel @Inject constructor(
 
     fun getCashFlowAndGrowthByMonth (date: Date) {
         viewModelScope.launch {
-            val thisMonth = if (date.month < 10) "0${date.month}" else (date.month).toString()
-            val lastMonth = if (date.month - 1 < 10) "0${date.month - 1}" else (date.month - 1).toString()
+            val thisMonth = if (date.month + 1 < 10) "0${date.month + 1}" else (date.month + 1).toString()
+            val lastMonth = if (date.month < 10) "0${date.month}" else (date.month).toString()
             val transactionThisMonth = transactionDatabaseRepoImpl.getTransactionsByMonth(thisMonth)
             val transactionLastMonth = transactionDatabaseRepoImpl.getTransactionsByMonth(lastMonth)
 
