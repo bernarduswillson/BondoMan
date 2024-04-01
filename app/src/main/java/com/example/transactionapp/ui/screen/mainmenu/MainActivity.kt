@@ -13,6 +13,7 @@ import android.widget.Toast
 import androidx.annotation.RequiresApi
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.app.ActivityCompat
+import androidx.core.graphics.toColor
 import androidx.lifecycle.ViewModelProvider
 import androidx.navigation.NavController
 import androidx.navigation.Navigation
@@ -43,16 +44,18 @@ class MainActivity : AppCompatActivity() {
     private lateinit var fusedLocationProviderClient: FusedLocationProviderClient
     private lateinit var db : TransactionViewModel
     private lateinit var locationViewModel: LocationViewModel
+    private lateinit var currentFragment : String
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         val binding = ActivityMainBinding.inflate(layoutInflater)
         setContentView(binding.root)
         val navController = (supportFragmentManager.findFragmentById(R.id.navHostFragment) as NavHostFragment).navController
+        this.currentFragment = "transaction"
 
         startService(Intent(this, ConnectionStatusService::class.java))
         //TODO: dont forget to startservice token
-//        startService(Intent(this, TokenService::class.java))
+        //startService(Intent(this, TokenService::class.java))
 
         db = ViewModelProvider(this)[TransactionViewModel::class.java]
         locationViewModel = ViewModelProvider(this)[LocationViewModel::class.java]
@@ -61,51 +64,31 @@ class MainActivity : AppCompatActivity() {
         db.getCashFlowAndGrowthByMonth(Date())
         db.getStatisticByMonth(Date())
 
-//        val frame = R.id.navHostFragment
-//
-//        var fragment = supportFragmentManager.beginTransaction()
-//
-//        fragment.replace(frame, Transaction())
-//        fragment.addToBackStack(null)
-//        fragment.commit()
-//
-        binding.fabAddTransaction.setOnClickListener {
-
+        binding.ibAddBtn.setOnClickListener {
             navController.navigate(R.id.transactionForm)
-            binding.bottomNavigationView.selectedItemId = R.id.empty
         }
 
-        //TODO: Add Animation When Fragment Change
+        binding.ibTransactionBtn.setOnClickListener {
+            db.getAllDate()
+            db.getTransactions("all")
+            db.getCashFlowAndGrowthByMonth(Date())
+            this.currentFragment = "transaction"
+            navController.navigate(R.id.transaction)
+        }
 
-        binding.bottomNavigationView.setOnItemSelectedListener { item ->
-            when(item.itemId){
-                R.id.IbTransactionBtn -> {
-                    db.getAllDate()
-                    db.getTransactions("all")
-                    db.getCashFlowAndGrowthByMonth(Date())
+        binding.ibScanBtn.setOnClickListener {
+            this.currentFragment = "scan"
+            navController.navigate(R.id.scan)
+        }
 
-                    navController.navigate(R.id.transaction)
-                    true
-                }
-                R.id.IbScanBtn -> {
+        binding.IbStatisticsBtn.setOnClickListener {
+            this.currentFragment = "statistics"
+            navController.navigate(R.id.statistics)
+        }
 
-                    navController.navigate(R.id.scan)
-                    true
-                }
-                R.id.IbSettingsBtn -> {
-
-                    navController.navigate(R.id.settings)
-                    true
-                }
-                R.id.IbStatisticsBtn -> {
-
-                    navController.navigate(R.id.statistics)
-                    true
-                }
-                else -> {
-                    false
-                }
-            }
+        binding.ibSettingsBtn.setOnClickListener {
+            this.currentFragment = "settings"
+            navController.navigate(R.id.settings)
         }
 
         db.addTransactionStatus.observe(this){
@@ -118,7 +101,6 @@ class MainActivity : AppCompatActivity() {
                 navController.navigate(R.id.transaction)
                 db.resetAddTransactionStatus()
                 db.changeAddStatus(false)
-                binding.bottomNavigationView.selectedItemId = R.id.IbTransactionBtn
             }
         }
 
@@ -126,7 +108,7 @@ class MainActivity : AppCompatActivity() {
             if (it){
                 navController.navigate(R.id.transactionForm)
                 db.changeCameraStatus(false)
-                binding.bottomNavigationView.selectedItemId = R.id.empty
+//                binding.bottomNavigationView.selectedItemId = R.id.empty
             }
         }
 
