@@ -1,5 +1,6 @@
 package com.example.transactionapp.ui.screen.mainmenu.fragment
 
+import LocationAdapter
 import android.content.BroadcastReceiver
 import android.content.Context
 import android.content.Intent
@@ -48,12 +49,13 @@ import java.util.Locale
 
 @AndroidEntryPoint
 class TransactionForm : Fragment() {
-    private lateinit var fusedLocationProviderClient: FusedLocationProviderClient
     private val db : TransactionViewModel by activityViewModels()
     private val locationViewModel: LocationViewModel by activityViewModels()
     private lateinit var receiver: BroadcastReceiver
     private val getRandomData = GetRandomData()
     private val locationData = MutableStateFlow<LocationModel?>(null)
+
+    private lateinit var locationAdapter: LocationAdapter
 
     companion object {
         const val ARG_ITEM_NAME = "item_name"
@@ -158,17 +160,11 @@ class TransactionForm : Fragment() {
         return binding.root
     }
 
+    @RequiresApi(Build.VERSION_CODES.S)
     override fun onStart() {
         super.onStart()
-        RequestPermission()
-    }
-
-    fun RequestPermission(){
-        ActivityCompat.requestPermissions(
-            requireActivity(),
-            arrayOf(android.Manifest.permission.ACCESS_COARSE_LOCATION,android.Manifest.permission.ACCESS_FINE_LOCATION),
-            1010
-        )
+        locationAdapter = LocationAdapter({ requireActivity() }, locationViewModel)
+        locationAdapter.startLocationUpdates()
     }
 
     @RequiresApi(Build.VERSION_CODES.S)
@@ -178,52 +174,12 @@ class TransactionForm : Fragment() {
         grantResults: IntArray
     ) {
         super.onRequestPermissionsResult(requestCode, permissions, grantResults)
-        if(requestCode == 1010){
-            if(grantResults.isNotEmpty() && grantResults[0] == PackageManager.PERMISSION_GRANTED){
-                NewLocationData()
+        if (requestCode == LocationAdapter.LOCATION_PERMISSION_REQUEST_CODE) {
+            if (locationAdapter.hasLocationPermission()) {
+                locationAdapter.startLocationUpdates()
+            } else {
+                Toast.makeText(requireContext(), "Location permission denied", Toast.LENGTH_SHORT).show()
             }
         }
     }
-
-    @RequiresApi(Build.VERSION_CODES.S)
-    fun NewLocationData(){
-        var locationRequest = com.google.android.gms.location.LocationRequest()
-        locationRequest.priority = com.google.android.gms.location.LocationRequest.PRIORITY_HIGH_ACCURACY
-        locationRequest.interval = 0
-        locationRequest.fastestInterval = 0
-        locationRequest.numUpdates = 1
-        fusedLocationProviderClient = LocationServices.getFusedLocationProviderClient(requireActivity())
-        if (ActivityCompat.checkSelfPermission(requireActivity(),android.Manifest.permission.ACCESS_COARSE_LOCATION) == PackageManager.PERMISSION_GRANTED ||
-            ActivityCompat.checkSelfPermission(requireActivity(),android.Manifest.permission.ACCESS_FINE_LOCATION) == PackageManager.PERMISSION_GRANTED
-        ) {
-            fusedLocationProviderClient!!.requestLocationUpdates(
-                locationRequest,locationCallback, Looper.myLooper()
-            )
-            return
-        }
-
-    }
-
-    private val locationCallback = object : LocationCallback() {
-        override fun onLocationResult(locationResult: LocationResult) {
-            var lastLocation: Location? = locationResult.lastLocation
-            if (lastLocation != null) {
-                locationViewModel.setLocation(LocationModel(
-                    locationName = getCityName(lastLocation.latitude, lastLocation.longitude),
-                    latitude = lastLocation.latitude,
-                    longitude = lastLocation.longitude
-                ))
-            }
-        }
-    }
-
-    private fun getCityName(lat: Double,long: Double):String{
-        var cityName = ""
-        val geoCoder = Geocoder(requireActivity(), Locale.getDefault())
-        val Address = geoCoder.getFromLocation(lat,long,3)
-
-        cityName = Address!!.get(0).subAdminArea
-        return cityName
-    }
-
 }

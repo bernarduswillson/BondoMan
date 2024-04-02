@@ -65,9 +65,4 @@
         <item name="android:lineSpacingExtra">3sp</item>
     </style>
 
-    <!-- Navbar -->
-    <style name="App.Custom.Indicator" parent="Widget.Material3.BottomNavigationView.ActiveIndicator">
-        <item name="android:color">@android:color/transparent</item>
-    </style>
-
 </resources>

@@ -1,10 +1,10 @@
 package com.example.transactionapp.ui.screen.mainmenu.fragment
 
-import TransactionDetails
-import android.Manifest
+import CameraAdapter
+import ImageCaptureCallback
 import android.app.Activity
 import android.content.Intent
-import android.content.pm.PackageManager
+import android.content.pm.ActivityInfo
 import android.graphics.Bitmap
 import android.graphics.BitmapFactory
 import android.graphics.Matrix
@@ -13,57 +13,42 @@ import android.media.ExifInterface
 import android.net.Uri
 import android.os.Bundle
 import android.provider.MediaStore
-import android.util.Log
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.Toast
-import androidx.camera.core.CameraSelector
 import androidx.camera.core.ImageCapture
 import androidx.camera.core.ImageCaptureException
-import androidx.camera.core.Preview
-import androidx.camera.lifecycle.ProcessCameraProvider
-import androidx.core.app.ActivityCompat
-import androidx.core.content.ContentProviderCompat.requireContext
 import androidx.core.content.ContextCompat
 import androidx.fragment.app.activityViewModels
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
-import androidx.lifecycle.distinctUntilChanged
 import com.example.transactionapp.R
 import com.example.transactionapp.databinding.FragmentScanBinding
-import com.example.transactionapp.databinding.FragmentTransactionBinding
 import com.example.transactionapp.domain.db.model.Transaction
 import com.example.transactionapp.helper.getTokenSharedPref
 import com.example.transactionapp.ui.viewmodel.auth.Auth
-import com.example.transactionapp.ui.viewmodel.location.LocationModel
-import com.example.transactionapp.ui.viewmodel.location.LocationViewModel
 import com.example.transactionapp.ui.viewmodel.model.BillResponseSealed
 import com.example.transactionapp.ui.viewmodel.transaction.ScanResult
 import com.example.transactionapp.ui.viewmodel.transaction.TransactionViewModel
-import okhttp3.MediaType
 import okhttp3.MediaType.Companion.toMediaTypeOrNull
 import okhttp3.MultipartBody
-import okhttp3.RequestBody
-import java.io.ByteArrayOutputStream
 import java.io.File
 import java.util.concurrent.ExecutorService
 import java.util.concurrent.Executors
-import okhttp3.RequestBody.Companion.asRequestBody
 import okhttp3.RequestBody.Companion.toRequestBody
-import java.io.FileOutputStream
-import java.util.Date
 
-class Scan : Fragment() {
+class Scan : Fragment(), ImageCaptureCallback {
 
     private lateinit var binding: FragmentScanBinding
     private var imageCapture: ImageCapture? = null
     private lateinit var outputDirectory: File
     private val db: TransactionViewModel by activityViewModels()
-    private val locationViewModel: LocationViewModel by activityViewModels()
 
     private lateinit var cameraExecutor: ExecutorService
+
+    private lateinit var cameraAdapter: CameraAdapter
 
     private lateinit var auth: Auth
 
@@ -80,13 +65,8 @@ class Scan : Fragment() {
 
         auth = ViewModelProvider(requireActivity())[Auth::class.java]
 
-        if (allPermissionGranted()) {
-            startCamera()
-        } else {
-            ActivityCompat.requestPermissions(
-                requireActivity(), arrayOf(Manifest.permission.CAMERA), 123
-            )
-        }
+        cameraAdapter = CameraAdapter( requireContext(), viewLifecycleOwner, binding.previewView, this)
+        cameraAdapter.startCamera()
 
         binding.cameraButton.setOnClickListener {
             takePhoto()
@@ -161,10 +141,20 @@ class Scan : Fragment() {
         return binding.root
     }
 
+    override fun onImageCaptureInitialized(imageCapture: ImageCapture) {
+        this.imageCapture = imageCapture
+    }
+
     private fun pickFromGallery() {
         val intent = Intent(Intent.ACTION_PICK)
         intent.type = "image/*"
         startActivityForResult(intent, 100)
+    }
+
+    override fun onResume() {
+        super.onResume()
+        // Set the orientation to portrait
+        activity?.requestedOrientation = ActivityInfo.SCREEN_ORIENTATION_PORTRAIT
     }
 
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
@@ -211,10 +201,12 @@ class Scan : Fragment() {
 
     private fun takePhoto() {
         val imageCapture = imageCapture ?: return
+
         val photoFile = File(
             outputDirectory, System.currentTimeMillis().toString() + ".jpg"
         )
         val outputOptions = ImageCapture.OutputFileOptions.Builder(photoFile).build()
+
         imageCapture.takePicture(
             outputOptions, ContextCompat.getMainExecutor(requireContext()), object : ImageCapture.OnImageSavedCallback {
                 override fun onError(exc: ImageCaptureException) {
@@ -246,50 +238,9 @@ class Scan : Fragment() {
         return Bitmap.createBitmap(bitmap, 0, 0, bitmap.width, bitmap.height, matrix, true)
     }
 
-    private fun startCamera() {
-        val cameraProviderFuture = ProcessCameraProvider.getInstance(requireContext())
-        cameraProviderFuture.addListener({
-            val cameraProvider: ProcessCameraProvider = cameraProviderFuture.get()
-            val preview = Preview.Builder().build().also {
-                it.setSurfaceProvider(binding.previewView.surfaceProvider)
-            }
-            imageCapture = ImageCapture.Builder().build()
-            val cameraSelector = CameraSelector.DEFAULT_BACK_CAMERA
-            try {
-                cameraProvider.unbindAll()
-                cameraProvider.bindToLifecycle(
-                    this, cameraSelector, preview, imageCapture
-                )
-            } catch (exc: Exception) {
-                Toast.makeText(requireContext(), "Use case binding failed", Toast.LENGTH_SHORT).show()
-            }
-        }, ContextCompat.getMainExecutor(requireContext()))
-    }
-
-    override fun onRequestPermissionsResult(
-        requestCode: Int,
-        permissions: Array<out String>,
-        grantResults: IntArray
-    ) {
-        if (requestCode == 123) {
-            if (allPermissionGranted()) {
-                Toast.makeText(requireContext(), "Permission Granted", Toast.LENGTH_SHORT).show()
-                startCamera()
-            } else {
-                Toast.makeText(requireContext(), "Permission Denied", Toast.LENGTH_SHORT).show()
-            }
-        }
-    }
-
-    private fun allPermissionGranted() = arrayOf(android.Manifest.permission.CAMERA).all {
-        ContextCompat.checkSelfPermission(
-            requireContext(), it
-        ) == PackageManager.PERMISSION_GRANTED
-    }
-
-    override fun onDestroy() {
-        super.onDestroy()
-        cameraExecutor.shutdown()
-    }
-
+    // TODO: Fix navigate to scan while in landscape causing app to crash
+//    override fun onDestroy() {
+//        super.onDestroy()
+//        cameraExecutor.shutdown()
+//    }
 }

@@ -42,10 +42,14 @@
         tools:layout="@layout/fragment_transaction" >
         <action
             android:id="@+id/action_transaction_to_scan"
-            app:destination="@id/scan" />
+            app:destination="@id/scan"
+            app:enterAnim="@anim/fade_in"
+            app:exitAnim="@anim/fade_out" />
         <action
             android:id="@+id/action_transaction_to_transactionDetails"
-            app:destination="@id/transactionDetails" />
+            app:destination="@id/transactionDetails"
+            app:enterAnim="@android:anim/fade_in"
+            app:exitAnim="@anim/fade_out" />
     </fragment>
     <fragment
         android:id="@+id/settings"

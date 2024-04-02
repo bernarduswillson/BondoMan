@@ -11,27 +11,13 @@
         android:layout_height="match_parent"
         tools:ignore="MissingClass">
 
-        <TextView
-            android:id="@+id/transactionText"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:gravity="center"
-            android:padding="16dp"
-            android:text="Statistics"
-            android:textColor="?attr/colorSecondary"
-            android:textSize="20sp"
-            android:fontFamily="@font/playfairdisplay_extrabold"
-            app:layout_constraintTop_toTopOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintEnd_toEndOf="parent" />
-
         <ScrollView
             android:layout_width="match_parent"
             android:layout_height="0dp"
             app:layout_constraintBottom_toBottomOf="parent"
             android:layout_marginHorizontal="10dp"
             android:scrollbarSize="0dp"
-            app:layout_constraintTop_toBottomOf="@+id/transactionText">
+            app:layout_constraintTop_toTopOf="parent">
             <androidx.constraintlayout.widget.ConstraintLayout
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"

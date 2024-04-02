@@ -22,24 +22,24 @@
     <androidx.fragment.app.FragmentContainerView
         android:id="@+id/navHostFragment"
         android:name="androidx.navigation.fragment.NavHostFragment"
-        android:layout_width="match_parent"
+        android:layout_width="0dp"
         android:layout_height="0dp"
         app:defaultNavHost="true"
         app:navGraph="@navigation/navigation"
-        app:layout_constraintBottom_toTopOf="@+id/llNavbar"
+        app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/tvHeader" />
+        app:layout_constraintStart_toEndOf="@id/llNavbar"
+        app:layout_constraintTop_toTopOf="parent" />
 
     <LinearLayout
         android:id="@+id/llNavbar"
-        android:layout_width="match_parent"
-        android:layout_height="80dp"
-        app:layout_constraintTop_toBottomOf="@id/navHostFragment"
+        android:layout_width="80dp"
+        android:layout_height="match_parent"
+        app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        android:orientation="horizontal"
+        app:layout_constraintEnd_toStartOf="@id/navHostFragment"
+        android:orientation="vertical"
         android:gravity="center"
         android:background="?attr/colorOnPrimaryContainer">
 
@@ -51,7 +51,7 @@
             android:src="@drawable/transaction_inactive_ic"
             android:contentDescription="@string/alt_transaction_button"
             android:scaleType="fitCenter"
-            android:layout_marginEnd="26dp"/>
+            android:layout_marginBottom="26dp"/>
 
         <ImageButton
             android:id="@+id/ibScanBtn"
@@ -61,7 +61,7 @@
             android:src="@drawable/scan_inactive_ic"
             android:contentDescription="@string/alt_scan_button"
             android:scaleType="fitCenter"
-            android:layout_marginEnd="26dp"/>
+            android:layout_marginBottom="26dp"/>
 
         <ImageButton
             android:id="@+id/ibAddBtn"
@@ -71,7 +71,7 @@
             android:src="@drawable/add_ic"
             android:contentDescription="@string/alt_add_transaction_button"
             android:scaleType="fitCenter"
-            android:layout_marginEnd="26dp" />
+            android:layout_marginBottom="26dp" />
 
         <ImageButton
             android:id="@+id/ibStatisticsBtn"
@@ -81,7 +81,7 @@
             android:src="@drawable/statistic_inactive_ic"
             android:contentDescription="@string/alt_statistics_button"
             android:scaleType="fitCenter"
-            android:layout_marginEnd="26dp"/>
+            android:layout_marginBottom="26dp"/>
 
         <ImageButton
             android:id="@+id/ibSettingsBtn"

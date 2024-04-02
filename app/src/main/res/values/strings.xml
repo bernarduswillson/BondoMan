@@ -5,6 +5,8 @@
     <string name="title_transactions">Transactions</string>
     <string name="title_new_transaction">New Transaction</string>
     <string name="title_transaction_detail">Transaction Detail</string>
+    <string name="title_scan">Scan</string>
+    <string name="title_statistics">Statistics</string>
     <string name="title_settings">Settings</string>
 
     <!-- Fixed -->

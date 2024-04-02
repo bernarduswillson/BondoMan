@@ -162,22 +162,32 @@
 
             <TextView
                 android:id="@+id/locationInput"
+                style="@style/Body1"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
-                app:layout_constraintTop_toBottomOf="@id/locationLabel"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintEnd_toEndOf="parent"
                 android:layout_marginTop="5dp"
-                android:padding="7dp"
-                android:text=""
                 android:background="@drawable/rounded_input_field"
+                android:backgroundTint="?attr/colorPrimaryContainer"
+                android:drawableEnd="@drawable/location_ic"
                 android:hint="@string/getting_location"
                 android:maxLines="1"
-                android:textColorHint="?attr/colorPrimaryFixedDim"
+                android:padding="7dp"
+                android:layout_marginEnd="10dp"
+                android:text=""
                 android:textColor="?attr/colorSecondary"
-                style="@style/Body1"
-                android:backgroundTint="?attr/colorPrimaryContainer"
-                android:drawableEnd="@drawable/location_ic" />
+                android:textColorHint="?attr/colorPrimaryFixedDim"
+                app:layout_constraintEnd_toStartOf="@+id/updateButton"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/locationLabel" />
+
+            <ImageButton
+                android:id="@+id/updateButton"
+                android:layout_width="40dp"
+                android:layout_height="40dp"
+                android:layout_marginTop="5dp"
+                android:background="@drawable/rounded_update_button"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/locationLabel" />
 
             <Button
                 android:id="@+id/saveTransactionButton"
