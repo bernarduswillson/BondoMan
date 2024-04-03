@@ -63,5 +63,8 @@
     <string name="alt_download_icon">Download icon</string>
     <string name="alt_share_icon">Share icon</string>
     <string name="alt_logout_icon">Logout icon</string>
+    <!-- TODO: Remove or change this placeholder text -->
+    <string name="hello_blank_fragment">Hello blank fragment</string>
+    <string name="alt_profile_picture">Profile picture</string>
 
 </resources>
