@@ -5,6 +5,7 @@ plugins {
     id("org.jetbrains.kotlin.android")
     id("com.google.devtools.ksp")
     id("dagger.hilt.android.plugin")
+    id("androidx.navigation.safeargs")
 }
 
 android {
