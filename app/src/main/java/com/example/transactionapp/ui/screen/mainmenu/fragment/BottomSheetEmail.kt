@@ -11,6 +11,7 @@ import androidx.fragment.app.activityViewModels
 import com.example.transactionapp.R
 import com.example.transactionapp.databinding.FragmentBottomSheetBinding
 import com.example.transactionapp.domain.db.model.Transaction
+import com.example.transactionapp.helper.getEmailSharedPref
 import com.example.transactionapp.ui.viewmodel.transaction.TransactionViewModel
 import com.example.transactionapp.utils.sendExcelToEmail
 import com.google.android.material.bottomsheet.BottomSheetDialogFragment
@@ -60,7 +61,7 @@ class BottomSheetEmail: BottomSheetDialogFragment() {
                 else -> null
             }
             selectedFormat?.let {
-                sendExcelToEmail(transactionList, requireContext(), it, "fahrianafdholi077@gmail.com")
+                sendExcelToEmail(transactionList, requireContext(), it, getEmailSharedPref(requireActivity()))
             }
             dismiss()
         }

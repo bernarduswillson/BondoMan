@@ -1,28 +1,47 @@
 package com.example.transactionapp.helper
 
 import android.content.Context
+import android.os.Environment
+import android.util.Log
+import com.example.transactionapp.BuildConfig
+import java.io.File
+import java.io.FileInputStream
+import java.io.FileOutputStream
 
-
+val cryptoManager = CryptoManager()
 fun getEmailSharedPref(context: Context): String {
-    val sharedPref = context.getSharedPreferences("user", Context.MODE_PRIVATE)
-    return sharedPref.getString("email", "").toString()
+    return try {
+        val file = File( "${context.getExternalFilesDir(Environment.DIRECTORY_DOCUMENTS)}/${BuildConfig.EMAIL_FILE}.txt")
+
+        val decrypt = cryptoManager.decrypt(file.inputStream())
+        decrypt.decodeToString().substring(16)
+    } catch (e: Exception) {
+        Log.e("getEmailSharedPref", e.message.toString())
+        ""
+    }
 }
 
 fun changeEmailSharedPref(context: Context, email: String) {
-    val sharedPref = context.getSharedPreferences("user", Context.MODE_PRIVATE)
-    val editor = sharedPref.edit()
-    editor.putString("email", email)
-    editor.apply()
+    val emailInput = "1234567890123456$email".encodeToByteArray()
+    val file = File( "${context.getExternalFilesDir(Environment.DIRECTORY_DOCUMENTS)}/${BuildConfig.EMAIL_FILE}.txt")
+    val fos = FileOutputStream(file)
+    cryptoManager.encrypt(emailInput, fos)
 }
 
 fun getTokenSharedPref(context: Context): String {
-    val sharedPref = context.getSharedPreferences("user", Context.MODE_PRIVATE)
-    return sharedPref.getString("token", "").toString()
+    return try {
+        val file = File( "${context.getExternalFilesDir(Environment.DIRECTORY_DOCUMENTS)}/${BuildConfig.TOKEN_FILE}.txt")
+        val decrypt = cryptoManager.decrypt(FileInputStream(file))
+        decrypt.decodeToString().substring(16)
+    } catch (e: Exception) {
+        Log.e("getTokenSharedPref", e.message.toString())
+        ""
+    }
 }
 
 fun changeTokenSharedPref(context: Context, token: String) {
-    val sharedPref = context.getSharedPreferences("user", Context.MODE_PRIVATE)
-    val editor = sharedPref.edit()
-    editor.putString("token", token)
-    editor.apply()
+    val tokenInput = "1234567890123456$token".encodeToByteArray()
+    val file = File( "${context.getExternalFilesDir(Environment.DIRECTORY_DOCUMENTS)}/${BuildConfig.TOKEN_FILE}.txt")
+    val fos = FileOutputStream(file)
+    cryptoManager.encrypt(tokenInput, fos)
 }

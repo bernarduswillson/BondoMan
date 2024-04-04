@@ -3,6 +3,7 @@ package com.example.transactionapp.domain
 import android.content.Context
 import android.util.Log
 import androidx.room.Room
+import com.example.transactionapp.BuildConfig
 import com.example.transactionapp.domain.api.TransactionAPI
 import com.example.transactionapp.domain.api.logger.LoggingInterceptor
 import com.example.transactionapp.domain.api.repo.TransactionAPIRepoImpl
@@ -50,9 +51,9 @@ object ApiModule {
         val moshi = Moshi.Builder()
             .add(KotlinJsonAdapterFactory())
             .build()
-        Log.d("ApiModule", "Base URL: https://pbd-backend-2024.vercel.app/")
+        Log.d("ApiModule", "Base URL: ${BuildConfig.BASE_URL}")
         return Retrofit.Builder()
-            .baseUrl("https://pbd-backend-2024.vercel.app/")
+            .baseUrl(BuildConfig.BASE_URL)
             .client(okHttpClient)
             .addConverterFactory(MoshiConverterFactory.create(moshi))
     }

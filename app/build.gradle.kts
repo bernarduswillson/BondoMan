@@ -1,3 +1,5 @@
+import java.util.Properties
+
 plugins {
     id("com.android.application")
     id("org.jetbrains.kotlin.android")
@@ -17,6 +19,14 @@ android {
         versionName = "1.0"
 
         testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
+
+        val properties = Properties()
+        properties.load(rootProject.file("local.properties").inputStream())
+
+        buildConfigField("String", "BASE_URL", "\"${properties.getProperty("BASE_URL")}\"")
+        buildConfigField("String", "KEY", "\"${properties.getProperty("KEY")}\"")
+        buildConfigField("String", "EMAIL_FILE", "\"${properties.getProperty("EMAIL_FILE")}\"")
+        buildConfigField("String", "TOKEN_FILE", "\"${properties.getProperty("TOKEN_FILE")}\"")
     }
 
     dataBinding {
@@ -41,6 +51,7 @@ android {
     }
     buildFeatures {
         viewBinding = true
+        buildConfig = true
     }
 }
 

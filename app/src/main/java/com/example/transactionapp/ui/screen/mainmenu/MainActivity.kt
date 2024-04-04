@@ -14,6 +14,7 @@ import androidx.navigation.fragment.NavHostFragment
 import com.example.transactionapp.R
 import com.example.transactionapp.databinding.ActivityMainBinding
 import com.example.transactionapp.service.ConnectionStatusService
+import com.example.transactionapp.service.TokenService
 import com.example.transactionapp.ui.viewmodel.location.LocationViewModel
 import com.example.transactionapp.ui.viewmodel.navigation.NavigationViewModel
 import com.example.transactionapp.ui.viewmodel.transaction.TransactionViewModel
@@ -44,8 +45,7 @@ class MainActivity : AppCompatActivity() {
 
         // Start connection service
         startService(Intent(this, ConnectionStatusService::class.java))
-        //TODO: dont forget to startservice token
-        //startService(Intent(this, TokenService::class.java))
+        startService(Intent(this, TokenService::class.java))
 
         // Initialize ViewModel
         db = ViewModelProvider(this)[TransactionViewModel::class.java]
@@ -155,8 +155,10 @@ class MainActivity : AppCompatActivity() {
 
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
         super.onActivityResult(requestCode, resultCode, data)
-        if (requestCode == 1002) {
+        if (requestCode == 1002 && resultCode == RESULT_OK) {
             Toast.makeText(this, "Email sent", Toast.LENGTH_SHORT).show()
+        }else{
+            Toast.makeText(this, "Email not sent", Toast.LENGTH_SHORT).show()
         }
     }
 
