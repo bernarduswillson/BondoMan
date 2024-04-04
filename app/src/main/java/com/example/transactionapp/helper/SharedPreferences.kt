@@ -32,7 +32,7 @@ fun getTokenSharedPref(context: Context): String {
     return try {
         val file = File( "${context.getExternalFilesDir(Environment.DIRECTORY_DOCUMENTS)}/${BuildConfig.TOKEN_FILE}.txt")
         val decrypt = cryptoManager.decrypt(FileInputStream(file))
-        decrypt.decodeToString().substring(16)
+        "ey${decrypt.decodeToString().substringAfter("ey")}"
     } catch (e: Exception) {
         Log.e("getTokenSharedPref", e.message.toString())
         ""
