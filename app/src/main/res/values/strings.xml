@@ -25,6 +25,8 @@
     <string name="btn_edit">Edit</string>
     <string name="btn_login">Login</string>
     <string name="btn_delete">Delete</string>
+    <string name="btn_enable_twibbon">Enable Twibbon</string>
+    <string name="btn_disable_twibbon">Disable Twibbon</string>
 
     <!-- Placeholder -->
     <string name="empty_amount">Rp 0</string>
@@ -63,5 +65,7 @@
     <string name="alt_download_icon">Download icon</string>
     <string name="alt_share_icon">Share icon</string>
     <string name="alt_logout_icon">Logout icon</string>
+    <string name="alt_profile_picture">Profile picture</string>
+    <string name="alt_twibbon">Twibbon</string>
 
 </resources>

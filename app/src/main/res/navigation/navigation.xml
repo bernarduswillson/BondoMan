@@ -59,6 +59,11 @@
         <action
             android:id="@+id/action_settings_to_statistics"
             app:destination="@id/statistics" />
+        <action
+            android:id="@+id/action_settings_to_editProfile"
+            app:destination="@id/editProfile"
+            app:enterAnim="@anim/slide_in"
+            app:exitAnim="@anim/fade_out" />
     </fragment>
     <fragment
         android:id="@+id/transactionForm"
@@ -80,4 +85,9 @@
             android:id="@+id/action_transactionDetails_to_transaction"
             app:destination="@id/transaction" />
     </fragment>
+    <fragment
+        android:id="@+id/editProfile"
+        android:name="com.example.transactionapp.ui.screen.mainmenu.fragment.EditProfile"
+        android:label="fragment_edit_profile"
+        tools:layout="@layout/fragment_edit_profile" />
 </navigation>
