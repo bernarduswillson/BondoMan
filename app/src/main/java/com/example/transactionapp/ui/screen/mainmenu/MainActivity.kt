@@ -143,9 +143,6 @@ class MainActivity : AppCompatActivity() {
         db.getAllDate()
         locationAdapter = LocationAdapter({ this }, locationViewModel)
         locationAdapter.requestLocationUpdates()
-
-        cameraAdapter = CameraAdapter(this, this, previewView = null, imageCaptureCallback = null)
-        cameraAdapter.bindCameraUseCases()
     }
 
     override fun onDestroy() {
