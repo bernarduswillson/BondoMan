@@ -1,0 +1,93 @@
+<?xml version="1.0" encoding="utf-8"?>
+<navigation xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/navigation"
+    app:startDestination="@id/transaction">
+
+    <fragment
+        android:id="@+id/scan"
+        android:name="com.example.transactionapp.ui.screen.mainmenu.fragment.Scan"
+        android:label="fragment_scan"
+        tools:layout="@layout/fragment_scan" >
+        <action
+            android:id="@+id/action_scan_to_statistics"
+            app:destination="@id/statistics" />
+        <action
+            android:id="@+id/action_scan_to_transaction"
+            app:destination="@id/transaction" />
+        <action
+            android:id="@+id/action_scan_to_transactionForm"
+            app:destination="@id/transactionForm" />
+    </fragment>
+    <fragment
+        android:id="@+id/statistics"
+        android:name="com.example.transactionapp.ui.screen.mainmenu.fragment.Statistics"
+        android:label="fragment_statistics"
+        tools:layout="@layout/fragment_statistics" >
+        <action
+            android:id="@+id/action_statistics_to_settings"
+            app:destination="@id/settings" />
+        <action
+            android:id="@+id/action_statistics_to_scan"
+            app:destination="@id/scan" />
+        <action
+            android:id="@+id/action_statistics_to_transactionForm"
+            app:destination="@id/transactionForm" />
+    </fragment>
+    <fragment
+        android:id="@+id/transaction"
+        android:name="com.example.transactionapp.ui.screen.mainmenu.fragment.Transaction"
+        android:label="fragment_transaction"
+        tools:layout="@layout/fragment_transaction" >
+        <action
+            android:id="@+id/action_transaction_to_scan"
+            app:destination="@id/scan"
+            app:enterAnim="@anim/fade_in"
+            app:exitAnim="@anim/fade_out" />
+        <action
+            android:id="@+id/action_transaction_to_transactionDetails"
+            app:destination="@id/transactionDetails"
+            app:enterAnim="@android:anim/fade_in"
+            app:exitAnim="@anim/fade_out" />
+    </fragment>
+    <fragment
+        android:id="@+id/settings"
+        android:name="com.example.transactionapp.ui.screen.mainmenu.fragment.Settings"
+        android:label="fragment_settings"
+        tools:layout="@layout/fragment_settings" >
+        <action
+            android:id="@+id/action_settings_to_statistics"
+            app:destination="@id/statistics" />
+        <action
+            android:id="@+id/action_settings_to_editProfile"
+            app:destination="@id/editProfile"
+            app:enterAnim="@anim/slide_in"
+            app:exitAnim="@anim/fade_out" />
+    </fragment>
+    <fragment
+        android:id="@+id/transactionForm"
+        android:name="com.example.transactionapp.ui.screen.mainmenu.fragment.TransactionForm"
+        android:label="fragment_transaction_details"
+        tools:layout="@layout/fragment_transaction_details" >
+        <action
+            android:id="@+id/action_transactionForm_to_scan"
+            app:destination="@id/scan" />
+        <action
+            android:id="@+id/action_transactionForm_to_statistics"
+            app:destination="@id/statistics" />
+    </fragment>
+    <fragment
+        android:id="@+id/transactionDetails"
+        android:name="TransactionDetails"
+        android:label="TransactionDetails" >
+        <action
+            android:id="@+id/action_transactionDetails_to_transaction"
+            app:destination="@id/transaction" />
+    </fragment>
+    <fragment
+        android:id="@+id/editProfile"
+        android:name="com.example.transactionapp.ui.screen.mainmenu.fragment.EditProfile"
+        android:label="fragment_edit_profile"
+        tools:layout="@layout/fragment_edit_profile" />
+</navigation>

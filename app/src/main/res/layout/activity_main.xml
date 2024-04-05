@@ -4,26 +4,94 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".ui.screen.MainActivity">
-
-    <Button
-        android:id="@+id/login_button"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="Login"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
+    tools:context=".ui.screen.mainmenu.MainActivity">
 
     <TextView
-        android:id="@+id/status_text"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="random"
-        app:layout_constraintBottom_toBottomOf="parent"
+        android:id="@+id/tvHeader"
+        android:layout_width="match_parent"
+        android:layout_height="60dp"
+        app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/login_button" />
+        app:layout_constraintBottom_toTopOf="@id/navHostFragment"
+        android:gravity="center"
+        tools:text="Transactions"
+        android:textColor="?attr/colorSecondary"
+        style="@style/Headline3"/>
+
+    <androidx.fragment.app.FragmentContainerView
+        android:id="@+id/navHostFragment"
+        android:name="androidx.navigation.fragment.NavHostFragment"
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        app:defaultNavHost="true"
+        app:navGraph="@navigation/navigation"
+        app:layout_constraintBottom_toTopOf="@+id/llNavbar"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/tvHeader" />
+
+    <LinearLayout
+        android:id="@+id/llNavbar"
+        android:layout_width="match_parent"
+        android:layout_height="80dp"
+        app:layout_constraintTop_toBottomOf="@id/navHostFragment"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        android:orientation="horizontal"
+        android:gravity="center"
+        android:background="?attr/colorOnPrimaryContainer">
+
+        <ImageButton
+            android:id="@+id/ibTransactionBtn"
+            android:layout_width="42dp"
+            android:layout_height="42dp"
+            android:background="@android:color/transparent"
+            android:src="@drawable/transaction_inactive_ic"
+            android:contentDescription="@string/alt_transaction_button"
+            android:scaleType="fitCenter"
+            android:layout_marginEnd="26dp"/>
+
+        <ImageButton
+            android:id="@+id/ibScanBtn"
+            android:layout_width="42dp"
+            android:layout_height="42dp"
+            android:background="@android:color/transparent"
+            android:src="@drawable/scan_inactive_ic"
+            android:contentDescription="@string/alt_scan_button"
+            android:scaleType="fitCenter"
+            android:layout_marginEnd="26dp"/>
+
+        <ImageButton
+            android:id="@+id/ibAddBtn"
+            android:layout_width="60dp"
+            android:layout_height="60dp"
+            android:background="@android:color/transparent"
+            android:src="@drawable/add_ic"
+            android:contentDescription="@string/alt_add_transaction_button"
+            android:scaleType="fitCenter"
+            android:layout_marginEnd="26dp" />
+
+        <ImageButton
+            android:id="@+id/ibStatisticsBtn"
+            android:layout_width="42dp"
+            android:layout_height="42dp"
+            android:background="@android:color/transparent"
+            android:src="@drawable/statistic_inactive_ic"
+            android:contentDescription="@string/alt_statistics_button"
+            android:scaleType="fitCenter"
+            android:layout_marginEnd="26dp"/>
+
+        <ImageButton
+            android:id="@+id/ibSettingsBtn"
+            android:layout_width="42dp"
+            android:layout_height="42dp"
+            android:background="@android:color/transparent"
+            android:src="@drawable/setting_inactive_ic"
+            android:contentDescription="@string/alt_settings_button"
+            android:scaleType="fitCenter"/>
+
+    </LinearLayout>
 
 </androidx.constraintlayout.widget.ConstraintLayout>

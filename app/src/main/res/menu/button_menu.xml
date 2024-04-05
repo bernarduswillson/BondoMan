@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android">
+    <item android:title="Transaction"
+        android:iconTintMode="add"
+        android:id="@+id/IbTransactionBtn"
+        android:enabled="true"
+        android:icon="@drawable/transaction_ic"
+        android:iconTint="@color/R5"/>
+    <item android:title="Scan"
+        android:id="@+id/IbScanBtn"
+        android:enabled="true"
+        android:icon="@drawable/ic_scan_button" />
+    <item android:title=""
+        android:id="@+id/empty"/>
+    <item android:title="Statistics"
+        android:id="@+id/IbStatisticsBtn"
+        android:enabled="true"
+        android:icon="@drawable/ic_statistics_button" />
+    <item android:title="Settings"
+        android:id="@+id/IbSettingsBtn"
+        android:enabled="true"
+        android:icon="@drawable/ic_settings_button" />
+</menu>

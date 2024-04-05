@@ -1,0 +1,76 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+    <!-- Headlines -->
+    <style name="Headline1">
+        <item name="android:fontFamily">@font/playfairdisplay_extrabold</item>
+        <item name="android:textSize">34sp</item>
+        <item name="android:lineSpacingExtra">3sp</item>
+    </style>
+    <style name="Headline3">
+        <item name="android:fontFamily">@font/playfairdisplay_extrabold</item>
+        <item name="android:textSize">21sp</item>
+        <item name="android:lineSpacingExtra">2sp</item>
+    </style>
+
+    <!-- Headlines Light -->
+    <style name="HeadlineLight1">
+        <item name="android:fontFamily">@font/playfairdisplay_regular</item>
+        <item name="android:textSize">34sp</item>
+        <item name="android:lineSpacingExtra">3sp</item>
+    </style>
+
+    <!-- Display -->
+    <style name="Display1">
+        <item name="android:fontFamily">@font/poppins_extrabold</item>
+        <item name="android:textSize">34sp</item>
+        <item name="android:lineSpacingExtra">3sp</item>
+    </style>
+    <style name="Display2">
+        <item name="android:fontFamily">@font/poppins_bold</item>
+        <item name="android:textSize">21sp</item>
+        <item name="android:lineSpacingExtra">2sp</item>
+    </style>
+    <style name="Display3">
+        <item name="android:fontFamily">@font/poppins_bold</item>
+        <item name="android:textSize">16sp</item>
+        <item name="android:lineSpacingExtra">3sp</item>
+    </style>
+
+    <!-- Body -->
+    <style name="Body1">
+        <item name="android:fontFamily">@font/poppins_regular</item>
+        <item name="android:textSize">16sp</item>
+        <item name="android:lineSpacingExtra">3sp</item>
+    </style>
+    <style name="Body2">
+        <item name="android:fontFamily">@font/poppins_regular</item>
+        <item name="android:textSize">14sp</item>
+        <item name="android:lineSpacingExtra">3sp</item>
+    </style>
+    <style name="Body3">
+        <item name="android:fontFamily">@font/poppins_regular</item>
+        <item name="android:textSize">10sp</item>
+        <item name="android:lineSpacingExtra">1sp</item>
+    </style>
+
+    <!-- Label -->
+    <style name="Label">
+        <item name="android:fontFamily">@font/playfairdisplay_regular</item>
+        <item name="android:textSize">14sp</item>
+        <item name="android:lineSpacingExtra">3sp</item>
+    </style>
+
+    <!-- Button -->
+    <style name="Button">
+        <item name="android:fontFamily">@font/poppins_bold</item>
+        <item name="android:textSize">16sp</item>
+        <item name="android:lineSpacingExtra">3sp</item>
+    </style>
+    
+    <!-- Rounded Square Image -->
+    <style name="RoundedSquare">
+        <item name="cornerSize">10%</item>
+    </style>
+
+</resources>

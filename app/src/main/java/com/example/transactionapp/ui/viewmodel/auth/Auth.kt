@@ -1,5 +1,6 @@
 package com.example.transactionapp.ui.viewmodel.auth
 
+import android.util.Log
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
@@ -13,6 +14,9 @@ import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 import okhttp3.MultipartBody
+import retrofit2.HttpException
+import retrofit2.http.Multipart
+import retrofit2.http.Part
 import javax.inject.Inject
 
 @HiltViewModel
@@ -21,13 +25,13 @@ class Auth @Inject constructor(
 ): ViewModel(){
 
     private val _loginResponse = MutableLiveData<LoginResponseSealed>()
-    private val _billResponse = MutableLiveData<BillResponseSealed>()
+    private val _billResponse = MutableLiveData<BillResponseSealed?>()
     private val _tokenResponse = MutableLiveData<TokenResponseSealed>()
 
     val loginResponse: LiveData<LoginResponseSealed>
         get() = _loginResponse
 
-    val billResponse: LiveData<BillResponseSealed>
+    val billResponse: LiveData<BillResponseSealed?>
         get() = _billResponse
 
     val tokenResponse: LiveData<TokenResponseSealed>
@@ -65,7 +69,13 @@ class Auth @Inject constructor(
                 _tokenResponse.postValue(TokenResponseSealed.Success(response))
             } catch (e: Exception) {
                 _tokenResponse.postValue(TokenResponseSealed.Error(e.message.toString()))
+            } catch (e: HttpException){
+                _tokenResponse.postValue(TokenResponseSealed.Error(e.message.toString()))
             }
         }
+    }
+
+    fun resetBillResponse(){
+        _billResponse.postValue(null)
     }
 }
