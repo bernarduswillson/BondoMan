@@ -121,6 +121,7 @@ class MainActivity : AppCompatActivity() {
                 db.getStatisticByMonth(Date())
                 
                 navController.navigate(R.id.transaction)
+                navigationViewModel.navigate("transaction")
                 db.resetAddTransactionStatus()
                 db.changeAddStatus(false)
             }
