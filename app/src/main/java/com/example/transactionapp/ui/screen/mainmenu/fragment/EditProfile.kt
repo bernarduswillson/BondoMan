@@ -4,7 +4,9 @@ import CameraAdapter
 import ImageCaptureCallback
 import android.graphics.Bitmap
 import android.graphics.BitmapFactory
+import android.graphics.Canvas
 import android.graphics.Matrix
+import android.graphics.RectF
 import android.media.ExifInterface
 import android.os.Bundle
 import androidx.fragment.app.Fragment
@@ -101,13 +103,38 @@ class EditProfile : Fragment(), ImageCaptureCallback {
                     val exif = ExifInterface(photoFile.absolutePath)
                     val orientation = exif.getAttributeInt(ExifInterface.TAG_ORIENTATION, ExifInterface.ORIENTATION_NORMAL)
                     val rotatedBitmap = rotateBitmap(bitmap, orientation)
-                    binding.cpCameraPreview.setImageBitmap(rotatedBitmap)
+                    scaleCenterCrop(rotatedBitmap)
                     binding.cpCameraPreview.visibility = View.VISIBLE
 
                     binding.previewView.visibility = View.GONE
                 }
             }
         )
+    }
+
+    fun scaleCenterCrop(source: Bitmap) {
+        val sourceWidth = source.width
+        val sourceHeight = source.height
+        val targetWidth = 350
+        val targetHeight = 350
+
+        val xScale = targetWidth.toFloat() / sourceWidth
+        val yScale = targetHeight.toFloat() / sourceHeight
+        val scale = Math.max(xScale, yScale)
+
+        val scaledWidth = scale * sourceWidth
+        val scaledHeight = scale * sourceHeight
+
+        val left = (targetWidth - scaledWidth) / 2
+        val top = (targetHeight - scaledHeight) / 2
+
+        val targetRect = RectF(left, top, left + scaledWidth, top + scaledHeight)
+
+        val dest = Bitmap.createBitmap(targetWidth, targetHeight, source.config)
+        val canvas = Canvas(dest)
+        canvas.drawBitmap(source, null, targetRect, null)
+
+        binding.cpCameraPreview.setImageBitmap(dest)
     }
 
     private fun rotateBitmap(bitmap: Bitmap, orientation: Int): Bitmap {
