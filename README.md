@@ -1,7 +1,7 @@
 <!-- LOGO -->
 <br />
 <div align="center">
-  <img src="public/algo.png" alt="Logo" width="80" height="80">
+  <image src="assets%2Fic_bondoman_logo.png" alt="Logo" width="120" height="120">
 
   <h3 align="center">BondoMan</h3>
 
@@ -38,7 +38,7 @@
 <!-- ABOUT THE PROJECT -->
 ## About The Project
 
-![Bondoman Preview][bondoman-preview]
+<image src="assets%2Fbondoman-preview.jpg" alt="Logo" width="250">
 
 Tubes 1 of Tubes 1 of Platform-Based Application Development (IF2211). A financial management app to track income, expense, and saving transactions. 
 <br/>
@@ -184,21 +184,52 @@ and the application will response like this:
 
 ## How To Use
 ### 1. Login
+<image src="assets%2Fhtu-splash_screen.jpg" width="250">
+<image src="assets%2Fhtu-login.jpg" width="250">
+<image src="assets%2Fhtu-transaction_list.jpg" width="250">
+<br />
+
 ### 2. View transaction list
+<image src="assets%2Fhtu-transaction_list.jpg" width="250">
+<br />
+
 ### 3. Add new transaction
+<image src="assets%2Fhtu-transaction_list.jpg" width="250">
+<image src="assets%2Fhtu-new_transaction.jpg" width="250">
+<image src="assets%2Fhtu-new_transaction_submit.jpg" width="250">
+<br />
+
 ### 4. View transaction detail
+<image src="assets%2Fhtu-new_transaction_submit.jpg" width="250">
+<image src="assets%2Fhtu-transaction_detail.jpg" width="250">
+<image src="assets%2Fhtu-map.jpg" width="250">
+<br />
+
 ### 5. Edit transaction detail
+<image src="assets%2Fhtu-new_transaction_submit.jpg" width="250">
+<image src="assets%2Fhtu-edit_transaction.jpg" width="250">
+<image src="assets%2Fhtu-edit_submitted.jpg" width="250">
+<br />
+
 ### 6. Delete transaction
+<image src="assets%2Fhtu-edit_submitted.jpg" width="250">
+<image src="assets%2Fhtu-delete_confirm.jpg" width="250">
+<image src="assets%2Fhtu-delete_success.jpg" width="250">
+<br />
+
 ### 7. Scan bill
+<image src="assets%2Fhtu-scan.jpg" width="250">
+<image src="assets%2Fhtu-scan_sucess.jpg" width="250">
+<br />
+
 ### 8. View statistics
-### 9. Edit Profile
-### 10. Export to local
-### 11. Share via GMail
-### 12. Randomize
-### 13. Logout
-### 14. No internet alert
-<br/>
-<br/>
+<image src="assets%2Fhtu-statistics.jpg" width="250">
+<br />
+
+### 9. Settings
+<image src="assets%2Fhtu-settings.jpg" width="250">
+<br />
+<br />
 
 ## Author
 
@@ -402,5 +433,4 @@ and the application will response like this:
 
 <!-- MARKDOWN LINKS & IMAGES -->
 <!-- https://www.markdownguide.org/basic-syntax/#reference-style-links -->
-[bondoman-preview]: public/application-preview.png
 [Kotlin]: https://img.shields.io/badge/kotlin-%237F52FF.svg?style=for-the-badge&logo=kotlin&logoColor=white
