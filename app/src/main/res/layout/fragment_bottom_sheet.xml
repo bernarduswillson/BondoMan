@@ -6,7 +6,7 @@
     android:layout_height="wrap_content"
     android:paddingBottom="16dp"
     android:paddingTop="5dp"
-    android:background="?attr/colorPrimaryContainer"
+    android:background="@color/N8"
     android:layout_gravity="center_horizontal">
 
     <LinearLayout

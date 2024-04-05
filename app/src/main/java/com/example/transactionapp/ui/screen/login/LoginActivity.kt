@@ -14,6 +14,7 @@ import com.example.transactionapp.databinding.ActivityLoginBinding
 import com.example.transactionapp.domain.api.model.LoginInput
 import com.example.transactionapp.helper.changeEmailSharedPref
 import com.example.transactionapp.helper.changeTokenSharedPref
+import com.example.transactionapp.service.TokenService
 import com.example.transactionapp.ui.screen.connection.LostConnectionActivity
 import com.example.transactionapp.ui.screen.mainmenu.MainActivity
 import com.example.transactionapp.ui.viewmodel.auth.Auth
@@ -68,5 +69,10 @@ class LoginActivity : AppCompatActivity() {
                 is LoginResponseSealed.Loading -> {}
             }
         }
+    }
+
+    override fun onDestroy() {
+        super.onDestroy()
+        stopService(Intent(this, TokenService::class.java))
     }
 }

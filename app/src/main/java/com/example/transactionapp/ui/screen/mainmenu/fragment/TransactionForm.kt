@@ -31,6 +31,7 @@ import com.example.transactionapp.domain.db.model.Transaction
 import com.example.transactionapp.helper.GetRandomData
 import com.example.transactionapp.ui.viewmodel.location.LocationModel
 import com.example.transactionapp.ui.viewmodel.location.LocationViewModel
+import com.example.transactionapp.ui.viewmodel.transaction.ScanResult
 import com.example.transactionapp.ui.viewmodel.transaction.TransactionViewModel
 import com.example.transactionapp.utils.changeDateTypeToStandardDateLocal
 import com.google.android.gms.location.FusedLocationProviderClient
@@ -128,6 +129,7 @@ class TransactionForm : Fragment() {
                         long = locationData.value?.longitude?:0.0,
                     )
                 )
+                db.setAtomicTransaction(ScanResult())
                 db.changeAddStatus(true)
                 Toast.makeText(requireContext(), "Transaction Added", Toast.LENGTH_SHORT).show()
             }

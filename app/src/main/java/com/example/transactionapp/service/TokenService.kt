@@ -8,6 +8,7 @@ import com.example.transactionapp.helper.getTokenSharedPref
 import com.example.transactionapp.ui.screen.login.LoginActivity
 import com.example.transactionapp.ui.viewmodel.auth.Auth
 import com.example.transactionapp.ui.viewmodel.model.TokenResponseSealed
+import com.example.transactionapp.utils.isInternetAvailable
 import kotlinx.coroutines.GlobalScope
 import kotlinx.coroutines.launch
 import javax.inject.Inject
@@ -29,8 +30,13 @@ class TokenService: LifecycleService(){
             when(it){
                 is TokenResponseSealed.Success -> {
                     expiredTime = it.data.exp - System.currentTimeMillis()/1000
+                    val intent = Intent(this, LoginActivity::class.java)
+                    intent.flags = Intent.FLAG_ACTIVITY_NEW_TASK
                     GlobalScope.launch {
                         Thread.sleep(expiredTime*1000 + 1000)
+                        if (isInternetAvailable(this@TokenService)) {
+                            startActivity(intent)
+                        }
                         auth.validateToken("Bearer $token")
                     }
                 }

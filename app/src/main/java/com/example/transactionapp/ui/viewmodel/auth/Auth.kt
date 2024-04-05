@@ -14,6 +14,7 @@ import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 import okhttp3.MultipartBody
+import retrofit2.HttpException
 import retrofit2.http.Multipart
 import retrofit2.http.Part
 import javax.inject.Inject
@@ -67,6 +68,8 @@ class Auth @Inject constructor(
                 val response = transactionAPIRepoImpl.validateToken(token)
                 _tokenResponse.postValue(TokenResponseSealed.Success(response))
             } catch (e: Exception) {
+                _tokenResponse.postValue(TokenResponseSealed.Error(e.message.toString()))
+            } catch (e: HttpException){
                 _tokenResponse.postValue(TokenResponseSealed.Error(e.message.toString()))
             }
         }
