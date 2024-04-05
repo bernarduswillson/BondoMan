@@ -64,7 +64,7 @@ class LoginActivity : AppCompatActivity() {
 
                 }
                 is LoginResponseSealed.Error -> {
-                    Toast.makeText(this, data.message, Toast.LENGTH_SHORT).show()
+                    Toast.makeText(this, "Account not found", Toast.LENGTH_SHORT).show()
                 }
                 is LoginResponseSealed.Loading -> {}
             }
