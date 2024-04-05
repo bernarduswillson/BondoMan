@@ -9,6 +9,15 @@
         android:layout_height="match_parent">
 
         <!-- TODO: Replace ImageView with teuing naon, help Bew -->
+        <androidx.camera.view.PreviewView
+            android:layout_width="350dp"
+            android:layout_height="350dp"
+            android:id="@+id/previewView"
+            app:layout_constraintTop_toTopOf="@id/ivTwibbon"
+            app:layout_constraintBottom_toBottomOf="@id/ivTwibbon"
+            app:layout_constraintStart_toStartOf="@id/ivTwibbon"
+            app:layout_constraintEnd_toEndOf="@id/ivTwibbon"/>
+
         <ImageView
             android:id="@+id/cpCameraPreview"
             android:layout_width="350dp"
@@ -18,16 +27,9 @@
             app:layout_constraintStart_toStartOf="@id/ivTwibbon"
             app:layout_constraintEnd_toEndOf="@id/ivTwibbon"
             android:src="@drawable/default_profile"
-            android:visibility="invisible" />
-
-        <androidx.camera.view.PreviewView
-            android:layout_width="350dp"
-            android:layout_height="350dp"
-            android:id="@+id/previewView"
-            app:layout_constraintTop_toTopOf="@id/ivTwibbon"
-            app:layout_constraintBottom_toBottomOf="@id/ivTwibbon"
-            app:layout_constraintStart_toStartOf="@id/ivTwibbon"
-            app:layout_constraintEnd_toEndOf="@id/ivTwibbon"/>
+            android:visibility="invisible"
+            android:scaleType="fitCenter"
+            android:adjustViewBounds="true"/>
 
         <ImageView
             android:id="@+id/ivTwibbon"
