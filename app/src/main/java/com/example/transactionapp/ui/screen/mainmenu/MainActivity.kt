@@ -28,7 +28,6 @@ class MainActivity : AppCompatActivity() {
     private lateinit var navigationViewModel : NavigationViewModel
 
     private lateinit var locationAdapter: LocationAdapter
-    private lateinit var cameraAdapter: CameraAdapter
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -148,6 +147,7 @@ class MainActivity : AppCompatActivity() {
     override fun onDestroy() {
         super.onDestroy()
         db.removeObserveAllData(this)
+        stopService(Intent(this, TokenService::class.java))
     }
 
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {

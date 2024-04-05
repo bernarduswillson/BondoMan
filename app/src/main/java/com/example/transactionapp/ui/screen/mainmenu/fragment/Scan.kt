@@ -28,10 +28,12 @@ import com.example.transactionapp.R
 import com.example.transactionapp.databinding.FragmentScanBinding
 import com.example.transactionapp.domain.db.model.Transaction
 import com.example.transactionapp.helper.getTokenSharedPref
+import com.example.transactionapp.ui.screen.connection.LostConnectionActivity
 import com.example.transactionapp.ui.viewmodel.auth.Auth
 import com.example.transactionapp.ui.viewmodel.model.BillResponseSealed
 import com.example.transactionapp.ui.viewmodel.transaction.ScanResult
 import com.example.transactionapp.ui.viewmodel.transaction.TransactionViewModel
+import com.example.transactionapp.utils.isInternetAvailable
 import okhttp3.MediaType.Companion.toMediaTypeOrNull
 import okhttp3.MultipartBody
 import java.io.File
@@ -86,6 +88,11 @@ class Scan : Fragment(), ImageCaptureCallback {
 
         binding.confirmButton.setOnClickListener {
             val bitmap = (binding.overlay.drawable as? BitmapDrawable)?.bitmap
+            if (!isInternetAvailable(requireContext())) {
+                val intent = Intent(requireContext(), LostConnectionActivity::class.java)
+                startActivity(intent)
+                return@setOnClickListener
+            }
             if (bitmap != null) {
                 sendBillToServer(bitmap)
             } else {

@@ -4,6 +4,7 @@ import android.annotation.SuppressLint
 import android.content.Intent
 import android.os.Bundle
 import android.text.InputType
+import android.util.Log
 import android.view.MotionEvent
 import android.view.View.OnTouchListener
 import android.widget.Toast
@@ -13,9 +14,11 @@ import com.example.transactionapp.databinding.ActivityLoginBinding
 import com.example.transactionapp.domain.api.model.LoginInput
 import com.example.transactionapp.helper.changeEmailSharedPref
 import com.example.transactionapp.helper.changeTokenSharedPref
+import com.example.transactionapp.ui.screen.connection.LostConnectionActivity
 import com.example.transactionapp.ui.screen.mainmenu.MainActivity
 import com.example.transactionapp.ui.viewmodel.auth.Auth
 import com.example.transactionapp.ui.viewmodel.model.LoginResponseSealed
+import com.example.transactionapp.utils.isInternetAvailable
 import dagger.hilt.android.AndroidEntryPoint
 
 
@@ -33,6 +36,11 @@ class LoginActivity : AppCompatActivity() {
         binding.loginButton.setOnClickListener {
             val email = binding.editTextEmail.text.toString()
             val password = binding.editTextPassword.text.toString()
+            if (!isInternetAvailable(this)) {
+                val intent = Intent(this, LostConnectionActivity::class.java)
+                startActivity(intent)
+                return@setOnClickListener
+            }
             if (email.isEmpty() || password.isEmpty()) {
                 Toast.makeText( this, "Please fill required fields", Toast.LENGTH_SHORT).show()
                 return@setOnClickListener
